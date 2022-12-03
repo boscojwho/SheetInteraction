@@ -1,18 +1,18 @@
 //
-//  ViewController.swift
+//  TableViewController.swift
 //  TestModal
 //
-//  Created by BozBook Air on 2022-11-21.
+//  Created by BozBook Air on 2022-12-02.
 //
 
 import UIKit
 
-class ViewController: UIViewController {
-
+class TableViewController: UITableViewController {
+    
     @IBAction func showModal(_ sender: Any) {
         let nc = storyboard!.instantiateViewController(withIdentifier: "navCon")
         nc.modalPresentationStyle = .pageSheet
-//        nc.isModalInPresentation = true
+        nc.isModalInPresentation = false
         nc.sheetPresentationController?.delegate = self
         let small = UISheetPresentationController.Detent.custom(identifier: .init(rawValue: "small")) { context in
             return 120
@@ -30,17 +30,53 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+
+        tableView.delegate = self
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let origin = view.convert(view.frame.origin, to: view.window!)
+        print(#function, "y: \(origin.y)")
 
-
+    }
 }
 
+extension TableViewController {
+    
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        print(#function)
+    }
+    
+    override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        print(#function)
+    }
+        
+    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        print(#function)
+    }
 
-extension ViewController: UISheetPresentationControllerDelegate {
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print(#function)
+    }
+    
+    override func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        print(#function)
+    }
+    
+    override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        print(#function)
+    }
+    
+    override func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        print(#function)
+    }
+}
+
+extension TableViewController: UISheetPresentationControllerDelegate {
     
     func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
-        return false
+        return true
     }
     
     func presentationController(_ presentationController: UIPresentationController, prepare adaptivePresentationController: UIPresentationController) {
