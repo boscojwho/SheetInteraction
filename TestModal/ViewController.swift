@@ -80,7 +80,7 @@ extension UISheetPresentationController.Detent {
 
 extension UIViewController {
     
-    func showModalSheet(animated: Bool) {
+    func showModalSheet(animated: Bool, completion: (() -> Void)? = nil) {
         let vc = storyboard!.instantiateViewController(withIdentifier: "TableViewController")
         let nc = UINavigationController(rootViewController: vc)
 
@@ -95,7 +95,7 @@ extension UIViewController {
         /// Set undimmed to allow pass-through interaction on presenting view controller.
         nc.sheetPresentationController?.largestUndimmedDetentIdentifier = .init(rawValue: "large")
         
-        present(nc, animated: true)
+        present(nc, animated: true, completion: completion)
     }
 }
 
@@ -105,14 +105,14 @@ class ViewController: UIViewController {
         super.viewDidAppear(animated)
         
         if presentedViewController == nil {
-            showModalSheet(animated: false)
+            showModalSheet(animated: false) {
+                self.showStruts()
+            }
         }
-        
-        showStruts()
     }
     
     private func showStruts() {
-        if let window = view.window, let sheetPresentationController {
+        if let window = view.window, let sheetPresentationController = presentedViewController?.sheetPresentationController {
             let topSheetInsets = sheetPresentationController.topSheetInsets
             let bottomSheetInsets = sheetPresentationController.bottomSheetInsets
             
