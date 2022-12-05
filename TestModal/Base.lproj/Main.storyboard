@@ -21,15 +21,6 @@
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <standardMapConfiguration key="preferredConfiguration"/>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I5d-oA-cu0">
-                                <rect key="frame" x="159" y="409" width="75" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Button"/>
-                                <connections>
-                                    <action selector="showModal:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pz8-kY-xgC"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -65,6 +56,9 @@
                                             <rect key="frame" x="0.0" y="0.0" width="353" height="43.666667938232422"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="rup-mx-Xt3" kind="show" id="5qd-1Q-rW5"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="5Dt-Ni-D6a">
                                         <rect key="frame" x="20" y="61.666667938232422" width="353" height="43.666667938232422"/>
@@ -91,6 +85,17 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Modal" id="TRf-QK-ipV">
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="l8w-ZS-hZx">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="1Yo-x0-gEI">
+                                <rect key="frame" x="16" y="10.666666666666664" width="87" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="gray" title="Done"/>
+                                <connections>
+                                    <action selector="dismiss:" destination="a6z-rd-75m" eventType="touchUpInside" id="H5h-ep-gSS"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="OEB-9j-m9F">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="jpg-wO-lgH">
                                 <rect key="frame" x="290" y="10.666666666666664" width="87" height="35"/>
@@ -107,6 +112,36 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GZr-Hx-TBO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2044" y="25"/>
+        </scene>
+        <!--Detail-->
+        <scene sceneID="Fgi-0Z-SG1">
+            <objects>
+                <viewController storyboardIdentifier="DetailViewController" id="rup-mx-Xt3" customClass="DetailViewController" customModule="TestModal" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="6pC-Uw-uZ9">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="783"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="roH-tQ-hSd">
+                                <rect key="frame" x="170" y="402" width="53" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Info"/>
+                                <connections>
+                                    <action selector="showInfo:" destination="rup-mx-Xt3" eventType="touchUpInside" id="bsJ-80-Gzr"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="1sh-Ur-RWV"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="roH-tQ-hSd" firstAttribute="centerX" secondItem="1sh-Ur-RWV" secondAttribute="centerX" id="MGX-6D-y3K"/>
+                            <constraint firstItem="roH-tQ-hSd" firstAttribute="centerY" secondItem="1sh-Ur-RWV" secondAttribute="centerY" id="Quq-Q6-gDA"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Detail" id="IvL-bh-foI"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kch-6Y-ou6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2961" y="25"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="2OA-qb-4DW">
