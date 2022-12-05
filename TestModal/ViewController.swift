@@ -9,7 +9,9 @@ import UIKit
 
 extension UISheetPresentationController.Detent.Identifier {
     static let _small: Self = .init("small")
+    static let _medSmall: Self = .init("medSmall")
     static let _medium: Self = .init("medium")
+    static let _medLarge: Self = .init("medLarge")
     static let _large: Self = .init("large")
     static let _full: Self = .init("full")
 }
@@ -45,9 +47,21 @@ extension UISheetPresentationController.Detent {
         }
     }
     
+    class func _medSmall() -> UISheetPresentationController.Detent {
+        .custom(identifier: ._medSmall) { context in
+            context.maximumDetentValue * 0.33
+        }
+    }
+    
     class func _medium() -> UISheetPresentationController.Detent {
         .custom(identifier: ._medium) { context in
             context.maximumDetentValue * 0.5
+        }
+    }
+    
+    class func _medLarge() -> UISheetPresentationController.Detent {
+        .custom(identifier: ._medLarge) { context in
+            context.maximumDetentValue * 0.67
         }
     }
     
@@ -75,7 +89,7 @@ extension UIViewController {
 //        nc.isModalInPresentation = true
         nc.sheetPresentationController?.delegate = vc as? UISheetPresentationControllerDelegate
         nc.sheetPresentationController?.detents = [
-            ._small(), .medium(), ._large(), ._full()
+            ._small(), ._medSmall(), ._medium(), ._medLarge(), ._large(), ._full()
         ]
         /// Set undimmed to allow pass-through interaction on presenting view controller.
         nc.sheetPresentationController?.largestUndimmedDetentIdentifier = .init(rawValue: "large")
@@ -117,12 +131,27 @@ class ViewController: UIViewController {
             bottomInset.translatesAutoresizingMaskIntoConstraints = false
             window.addSubview(bottomInset)
             
-            ///
-            let y = (window.frame.height/2) - window.safeAreaInsets.bottom //+ window.safeAreaInsets.top - window.safeAreaInsets.bottom
+            let maxDetentValue = sheetPresentationController.maximumDetentValue()
+            let detentMultiplier = 0.5
+            let y = (maxDetentValue * (1 - detentMultiplier)) + topSheetInsets.top
             let mediumDetent = UIView.init(frame: .init(origin: .init(x: 0, y: y), size: .init(width: window.frame.width, height: 1)))
             mediumDetent.backgroundColor = .orange
             mediumDetent.translatesAutoresizingMaskIntoConstraints = false
             window.addSubview(mediumDetent)
+            
+            let medLargeDetentMultiplier = 0.67
+            let y2 = (maxDetentValue * (1 - medLargeDetentMultiplier)) + topSheetInsets.top
+            let medLargeDetent = UIView.init(frame: .init(origin: .init(x: 0, y: y2), size: .init(width: window.frame.width, height: 1)))
+            medLargeDetent.backgroundColor = .black
+            medLargeDetent.translatesAutoresizingMaskIntoConstraints = false
+            window.addSubview(medLargeDetent)
+            
+            let medSmallDetentMultiplier = 0.33
+            let y3 = (maxDetentValue * (1 - medSmallDetentMultiplier)) + topSheetInsets.top
+            let medSmallDetent = UIView.init(frame: .init(origin: .init(x: 0, y: y3), size: .init(width: window.frame.width, height: 1)))
+            medSmallDetent.backgroundColor = .cyan
+            medSmallDetent.translatesAutoresizingMaskIntoConstraints = false
+            window.addSubview(medSmallDetent)
         }
     }
 }

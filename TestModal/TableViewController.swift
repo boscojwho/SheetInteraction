@@ -53,6 +53,13 @@ extension UISheetPresentationController {
     var topSheetInsets: UIEdgeInsets {
         .init(top: topSheetTopInset, left: 0, bottom: sheetBottomInset, right: 0)
     }
+    
+    func maximumDetentValue() -> CGFloat {
+        guard let window = UIApplication.shared.keyWindow else {
+            return 0
+        }
+        return window.frame.height - (topSheetInsets.top + topSheetInsets.bottom)
+    }
 }
 
 extension UINavigationController {
