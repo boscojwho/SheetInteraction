@@ -14,7 +14,7 @@ extension UISheetPresentationController {
     private static let bottomSheetPeekThroughHeight: CGFloat = 10.0
     
     private var bottomSheetTopInset: CGFloat {
-        guard let window = UIApplication.shared.delegate?.window! else {
+        guard let window = UIApplication.shared.delegate?.window ?? nil else {
             return 0
         }
         if window.safeAreaInsets.bottom == 0 {
@@ -27,7 +27,7 @@ extension UISheetPresentationController {
     }
 
     private var topSheetTopInset: CGFloat {
-        guard let window = UIApplication.shared.delegate?.window! else {
+        guard let window = UIApplication.shared.delegate?.window ?? nil else {
             return 0
         }
         if window.safeAreaInsets.bottom == 0 {
@@ -38,7 +38,7 @@ extension UISheetPresentationController {
     }
     
     private var sheetBottomInset: CGFloat {
-        guard let window = UIApplication.shared.delegate?.window! else {
+        guard let window = UIApplication.shared.delegate?.window ?? nil else {
             return 0
         }
         return window.safeAreaInsets.bottom
