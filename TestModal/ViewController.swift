@@ -87,6 +87,7 @@ extension UIViewController {
         nc.modalPresentationStyle = .pageSheet
         /// Use delegate to prevent interactive dismissal while also allowing user interaction outside view controller bounds. [2022.12]
 //        nc.isModalInPresentation = true
+        nc.sheetPresentationController?.prefersEdgeAttachedInCompactHeight = true
         nc.sheetPresentationController?.delegate = vc as? UISheetPresentationControllerDelegate
         nc.sheetPresentationController?.detents = [
             ._small(), ._medSmall(), ._medium(), ._medLarge(), ._large(), ._full()
@@ -133,6 +134,7 @@ class ViewController: UIViewController {
             
             let maxDetentValue = sheetPresentationController.maximumDetentValue()
             let detentMultiplier = 0.5
+            /// 1 - detentMultiplier to get the yOrigin. We need to add top insets because origin starts from top-left at 0 value, and maximumDetentValue excludes top inset value.
             let y = (maxDetentValue * (1 - detentMultiplier)) + topSheetInsets.top
             let mediumDetent = UIView.init(frame: .init(origin: .init(x: 0, y: y), size: .init(width: window.frame.width, height: 1)))
             mediumDetent.backgroundColor = .orange
