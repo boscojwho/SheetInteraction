@@ -10,10 +10,12 @@ import UIKit
 extension UISheetPresentationController {
     
     /// The vertical space required to display the bottom sheet in "minimized" state when the top sheet is displayed in full height.
-    /// This **does not** vary based on device.
     private var bottomSheetPeekThroughHeight: CGFloat {
         switch traitCollection.userInterfaceIdiom {
         case .phone:
+            if traitCollection.verticalSizeClass == .compact {
+                return 8.0
+            }
             return 10.0
         case .pad:
             return 20.0
