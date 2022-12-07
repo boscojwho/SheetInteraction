@@ -29,7 +29,8 @@ struct SheetInteractionInfo {
     let closest: Change
     /// - Parameter approachingDetent: This is `nil` if user interaction is stationary. Sheet may or may not end up resting at this detent, depending on sheet interaction velocity.
     let approaching: Change
-    /// For example: when moving from `small` to `medium`, preceding detent is `small`. Once sheet moves to `medium`, preceding will change to `medium`, even when user is actively interacting with sheet stack.
+    #warning("Rename var to `approachingFrom`?")
+    /// The nearest detent a sheet's top edge is approaching *from*. For example: when moving from `small` to `medium`, preceding detent is `small`. Once sheet moves to `medium`, preceding will change to `medium`, even when user is actively interacting with sheet stack.
     let preceding: Change
     
     /// Interactive animation progress from preceding detent to approaching detent.
