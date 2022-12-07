@@ -32,6 +32,9 @@ extension SheetNavigationController: SheetInteractionDelegate {
               "\n\tpreceding: \(info.preceding.detent.rawValue )",
               "\n\tprecedingDistance: \(info.preceding.distance )")
         print("* * *")
+        if let delegate = topViewController as? SheetInteractionDelegate {
+            delegate.sheetInteractionChanged(info: info)
+        }
     }
     
     func sheetInteractionEnded(targetDetent: SheetInteractionInfo.Change) {
@@ -39,6 +42,9 @@ extension SheetNavigationController: SheetInteractionDelegate {
               "\n\ttarget: \(targetDetent.detent.rawValue)",
               "\n\tdistance: \(targetDetent.distance)")
         print("* * *")
+        if let delegate = topViewController as? SheetInteractionDelegate {
+            delegate.sheetInteractionEnded(targetDetent: targetDetent)
+        }
     }    
 }
 

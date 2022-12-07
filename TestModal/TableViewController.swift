@@ -221,3 +221,18 @@ extension TableViewController: UISheetPresentationControllerDelegate {
         print(sheetPresentationController.selectedDetentIdentifier ?? sheetPresentationController.detents.first!)
     }
 }
+
+extension TableViewController: SheetInteractionDelegate {
+    
+    func sheetInteractionChanged(info: SheetInteractionInfo) {
+        if let delegate = presentingViewController as? SheetInteractionDelegate {
+            delegate.sheetInteractionChanged(info: info)
+        }
+    }
+    
+    func sheetInteractionEnded(targetDetent: SheetInteractionInfo.Change) {
+        if let delegate = presentingViewController as? SheetInteractionDelegate {
+            delegate.sheetInteractionEnded(targetDetent: targetDetent)
+        }
+    }
+}

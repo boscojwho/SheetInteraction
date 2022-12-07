@@ -50,7 +50,7 @@ extension UISheetPresentationController.Detent {
         case ._medLarge:
             return maximumDetentValue * 0.67
         case ._large:
-            return maximumDetentValue * 0.98
+            return maximumDetentValue * 0.95
         case ._full:
             return maximumDetentValue
         default:
@@ -86,7 +86,7 @@ extension UISheetPresentationController.Detent {
     
     class func _large() -> UISheetPresentationController.Detent {
         .custom(identifier: ._large) { context in
-            context.maximumDetentValue * 0.98
+            context.maximumDetentValue * 0.95
         }
     }
     
@@ -109,7 +109,7 @@ extension UIViewController {
         nc.sheetPresentationController?.prefersEdgeAttachedInCompactHeight = true
         nc.sheetPresentationController?.delegate = vc as? UISheetPresentationControllerDelegate
         nc.sheetPresentationController?.detents = [
-            ._small(), ._medSmall(), ._medium(), ._medLarge(), ._full()
+            ._small(), ._medSmall(), ._medium(), ._medLarge(), ._large(), ._full()
         ]
         /// Set undimmed to allow pass-through interaction on presenting view controller.
         nc.sheetPresentationController?.largestUndimmedDetentIdentifier = .init(rawValue: "large")
@@ -119,6 +119,15 @@ extension UIViewController {
 }
 
 class ViewController: UIViewController {
+    
+    @IBOutlet weak var debugLabel: UILabel!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        debugLabel.backgroundColor = .white
+        debugLabel.layer.cornerRadius = 4
+        debugLabel.layer.masksToBounds = true
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -179,6 +188,25 @@ class ViewController: UIViewController {
             smallDetent.backgroundColor = .systemPink
             smallDetent.translatesAutoresizingMaskIntoConstraints = false
             window.addSubview(smallDetent)
+            
+            let largeDetentMultiplier = 0.95
+            let y5 = (maxDetentValue * (1 - largeDetentMultiplier)) + topSheetInsets.top
+            let largeDetent = UIView.init(frame: .init(origin: .init(x: 0, y: y5), size: .init(width: window.frame.width, height: 1)))
+            largeDetent.backgroundColor = .systemBrown
+            largeDetent.translatesAutoresizingMaskIntoConstraints = false
+            window.addSubview(largeDetent)
         }
+    }
+}
+
+extension ViewController: SheetInteractionDelegate {
+    
+    func sheetInteractionChanged(info: SheetInteractionInfo) {
+        debugLabel.text = "Detent: \(info.approaching.detent.rawValue), %: \(info.percentageComplete)"
+    }
+    
+    func sheetInteractionEnded(targetDetent: SheetInteractionInfo.Change) {
+        debugLabel.text = "Detent: \(targetDetent.detent.rawValue), %: 1.0"
+
     }
 }

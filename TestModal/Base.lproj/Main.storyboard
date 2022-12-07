@@ -21,17 +21,28 @@
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <standardMapConfiguration key="preferredConfiguration"/>
                             </mapView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detent: -, %: -" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BZ0-KL-jOg">
+                                <rect key="frame" x="142" y="59" width="109" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="BZ0-KL-jOg" secondAttribute="trailing" constant="20" id="5GN-wz-SIl"/>
                             <constraint firstItem="NiO-y6-3MV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="CYd-tL-PQa"/>
+                            <constraint firstItem="BZ0-KL-jOg" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Ygv-ZO-zQx"/>
                             <constraint firstItem="NiO-y6-3MV" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="bRq-rW-g30"/>
                             <constraint firstAttribute="bottom" secondItem="NiO-y6-3MV" secondAttribute="bottom" id="cTL-H4-lgp"/>
+                            <constraint firstItem="BZ0-KL-jOg" firstAttribute="centerX" secondItem="NiO-y6-3MV" secondAttribute="centerX" id="eMT-hy-66v"/>
                             <constraint firstItem="NiO-y6-3MV" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="hMS-X5-OFs"/>
+                            <constraint firstItem="BZ0-KL-jOg" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="tcI-zL-BSM"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="debugLabel" destination="BZ0-KL-jOg" id="FWN-VS-vSq"/>
                         <segue destination="eIs-ux-GIk" kind="presentation" id="boO-XL-apl"/>
                     </connections>
                 </viewController>
