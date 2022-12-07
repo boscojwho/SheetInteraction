@@ -166,7 +166,6 @@ extension TableViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         print(#function)
-        print(sheetPresentationController?.selectedDetentIdentifier?.rawValue ?? "n/a")
     }
     
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {

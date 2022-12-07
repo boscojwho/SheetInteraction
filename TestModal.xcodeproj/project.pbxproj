@@ -17,6 +17,7 @@
 		E422B26A293D8F35009A0802 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B269293D8F35009A0802 /* DetailViewController.swift */; };
 		E422B26C293EE0EA009A0802 /* SheetNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B26B293EE0EA009A0802 /* SheetNavigationController.swift */; };
 		E422B26E29402BE5009A0802 /* PanDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B26D29402BE5009A0802 /* PanDirection.swift */; };
+		E422B270294041CD009A0802 /* SheetInteraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B26F294041CD009A0802 /* SheetInteraction.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		E422B269293D8F35009A0802 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		E422B26B293EE0EA009A0802 /* SheetNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetNavigationController.swift; sourceTree = "<group>"; };
 		E422B26D29402BE5009A0802 /* PanDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanDirection.swift; sourceTree = "<group>"; };
+		E422B26F294041CD009A0802 /* SheetInteraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetInteraction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 				E422B269293D8F35009A0802 /* DetailViewController.swift */,
 				E422B26B293EE0EA009A0802 /* SheetNavigationController.swift */,
 				E422B26D29402BE5009A0802 /* PanDirection.swift */,
+				E422B26F294041CD009A0802 /* SheetInteraction.swift */,
 				E41EBDA7292C79F800FB3402 /* Main.storyboard */,
 				E41EBDAA292C79F900FB3402 /* Assets.xcassets */,
 				E41EBDAC292C79F900FB3402 /* LaunchScreen.storyboard */,
@@ -151,6 +154,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E41EBDA6292C79F800FB3402 /* ViewController.swift in Sources */,
+				E422B270294041CD009A0802 /* SheetInteraction.swift in Sources */,
 				E422B26C293EE0EA009A0802 /* SheetNavigationController.swift in Sources */,
 				E41EBDA2292C79F800FB3402 /* AppDelegate.swift in Sources */,
 				E422B26E29402BE5009A0802 /* PanDirection.swift in Sources */,
