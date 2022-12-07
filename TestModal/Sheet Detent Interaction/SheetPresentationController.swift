@@ -11,18 +11,36 @@ extension UISheetPresentationController {
     
     /// The vertical space required to display the bottom sheet in "minimized" state when the top sheet is displayed in full height.
     /// This **does not** vary based on device.
-    private static let bottomSheetPeekThroughHeight: CGFloat = 10.0
+    private var bottomSheetPeekThroughHeight: CGFloat {
+        switch traitCollection.userInterfaceIdiom {
+        case .phone:
+            return 10.0
+        case .pad:
+            return 20.0
+        default:
+            return 10.0
+        }
+    }
     
     private var bottomSheetTopInset: CGFloat {
         guard let window = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first else {
             return 0
         }
+        /// Assume home-button device.
         if window.safeAreaInsets.bottom == 0 {
             /// This additional inset is likely a visual design consideration made by Apple, and is not present on home indicator devices. [2022.12]
             let additionalTopInset: CGFloat = 10
             return window.safeAreaInsets.top + additionalTopInset
         } else {
-            return window.safeAreaInsets.top
+            switch traitCollection.userInterfaceIdiom {
+            case .phone:
+                return window.safeAreaInsets.top
+            case .pad:
+                let bottomSheetTopEdgeInset: CGFloat = 10
+                return window.safeAreaInsets.top + bottomSheetTopEdgeInset
+            default:
+                return window.safeAreaInsets.top
+            }
         }
     }
     
@@ -30,10 +48,11 @@ extension UISheetPresentationController {
         guard let window = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first else {
             return 0
         }
+        /// Assume home-button device.
         if window.safeAreaInsets.bottom == 0 {
-            return bottomSheetTopInset + UISheetPresentationController.bottomSheetPeekThroughHeight
+            return bottomSheetTopInset + bottomSheetPeekThroughHeight
         } else {
-            return window.safeAreaInsets.top + UISheetPresentationController.bottomSheetPeekThroughHeight
+            return window.safeAreaInsets.top + bottomSheetPeekThroughHeight
         }
     }
     
