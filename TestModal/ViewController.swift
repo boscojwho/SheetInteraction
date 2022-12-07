@@ -39,25 +39,6 @@ extension UISheetPresentationController.Detent.Identifier {
  */
 extension UISheetPresentationController.Detent {
     
-    class func height(identifier: Identifier, maximumDetentValue: CGFloat) -> CGFloat? {
-        switch identifier {
-        case ._small:
-            return 56
-        case ._medSmall:
-            return maximumDetentValue * 0.33
-        case ._medium:
-            return maximumDetentValue * 0.5
-        case ._medLarge:
-            return maximumDetentValue * 0.67
-        case ._large:
-            return maximumDetentValue * 0.95
-        case ._full:
-            return maximumDetentValue
-        default:
-            return nil
-        }
-    }
-    
     class func _small() -> UISheetPresentationController.Detent {
         .custom(identifier: ._small) { context in
             /// This should not be 0, as the resolutionContext.maximumDetentValue does not appear to account for visual presentation.

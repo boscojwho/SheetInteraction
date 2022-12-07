@@ -7,6 +7,15 @@
 
 import UIKit
 
+class Context: NSObject, UISheetPresentationControllerDetentResolutionContext {
+    let containerTraitCollection: UITraitCollection
+    let maximumDetentValue: CGFloat
+    init(containerTraitCollection: UITraitCollection, maximumDetentValue: CGFloat) {
+        self.containerTraitCollection = containerTraitCollection
+        self.maximumDetentValue = maximumDetentValue
+    }
+}
+
 /// Emit sheet interaction events.
 protocol SheetInteractionDelegate: AnyObject {
     func sheetInteractionChanged(info: SheetInteractionInfo)
@@ -85,7 +94,9 @@ final class SheetInteraction {
             let detents = sheet.detents
             let heights = detents.compactMap {
                 let identifier = $0.identifier
-                let detentHeight = UISheetPresentationController.Detent.height(identifier: identifier, maximumDetentValue: sheet.maximumDetentValue())!
+                let detent = sheet.detents.first { $0.identifier == identifier }!
+                let context = Context.init(containerTraitCollection: sheet.traitCollection, maximumDetentValue: sheet.maximumDetentValue())
+                let detentHeight = detent.resolvedValue(in: context)!
                 /// Exclude sheet height outside safe area (bottom edge attached).
                 let sheetHeight = frame.height - sheet.topSheetInsets.bottom
                 let distance = sheetHeight - detentHeight
@@ -137,8 +148,10 @@ final class SheetInteraction {
             /// But on overscroll at bottom, sheet height stays at the smallest detent's value + safeAreaInset.bottom.
             /// We will need to use sheet.origin to calculate overscroll values.
             let percentageApproaching: CGFloat = {
-                let precedingHeight = UISheetPresentationController.Detent.height(identifier: preceding.0, maximumDetentValue: sheet.maximumDetentValue())!
-                let approachingHeight = UISheetPresentationController.Detent.height(identifier: approaching.0, maximumDetentValue: sheet.maximumDetentValue())!
+                let precedingDetent = sheet.detents.first { $0.identifier == preceding.0 }!
+                let precedingHeight = precedingDetent.resolvedValue(in: Context(containerTraitCollection: sheet.traitCollection, maximumDetentValue: sheet.maximumDetentValue()))!
+                let approachingDetent = sheet.detents.first { $0.identifier == approaching.0 }!
+                let approachingHeight = approachingDetent.resolvedValue(in: Context(containerTraitCollection: sheet.traitCollection, maximumDetentValue: sheet.maximumDetentValue()))!
                 let d = abs(precedingHeight - approachingHeight)
                 let percentage = 1 - (approachingDistance / d)
                 return percentage
@@ -159,8 +172,9 @@ final class SheetInteraction {
                 percentageComplete: percentageApproaching)
             delegate?.sheetInteractionChanged(info: changeInfo)
         case .ended, .cancelled, .failed:
-            let targetDetent = sheet.selectedDetentIdentifier ?? sheet.detents.first!.identifier
-            guard let detentHeight = UISheetPresentationController.Detent.height(identifier: targetDetent, maximumDetentValue: sheet.maximumDetentValue()) else {
+            let targetDetentIdentifier = sheet.selectedDetentIdentifier ?? sheet.detents.first!.identifier
+            let targetDetent = sheet.detents.first { $0.identifier == targetDetentIdentifier }
+            guard let detentHeight = targetDetent?.resolvedValue(in: Context(containerTraitCollection: sheet.traitCollection, maximumDetentValue: sheet.maximumDetentValue())) else {
                 return
             }
             let sheetHeight = sheetHeightOnPreviousChange
@@ -168,7 +182,7 @@ final class SheetInteraction {
             print("total percentage: \(totalPercentage)")
             let targetDistance = abs(sheetHeight - detentHeight)
             delegate?.sheetInteractionEnded(targetDetent: .init(
-                detent: targetDetent, distance: targetDistance))
+                detent: targetDetentIdentifier, distance: targetDistance))
         default:
             break
         }
