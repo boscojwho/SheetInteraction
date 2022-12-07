@@ -24,6 +24,21 @@ protocol SheetInteractionDelegate: AnyObject {
         targetDistance: CGFloat)
 }
 
+struct SheetInteractionInfo {
+
+    struct Change {
+        let detent: UISheetPresentationController.Detent.Identifier
+        let distance: CGFloat
+    }
+    
+    let closest: Change
+    let approaching: Change
+    let preceding: Change
+    
+    /// Interactive animation progress from preceding detent to approaching detent.
+    let percentageComplete: CGFloat
+}
+
 /// - NOTE: Ensure *interactionGesture* recognizes simultaneously with all other gestures in `sheetView`.
 final class SheetInteraction {
     
@@ -59,7 +74,11 @@ final class SheetInteraction {
         case .began:
             break
         case .changed:
-            let direction = pan.direction
+            let directions = pan.directions
+            guard directions.isStationary == false else {
+                print("stationary...: \(pan.velocity(in: pan.view))")
+                return
+            }
             let frame = sheetView.convert(sheetView.frame, from: window)
             let detents = sheet.detents
             let heights = detents.compactMap {
@@ -79,27 +98,26 @@ final class SheetInteraction {
             let detentsBelow = heights.filter { $0.2 > 0 }
             /// This may or may not be the same as `closest`.
             let approaching = {
-                switch direction {
-                case .up:
+                if directions.contains(.up) {
                     /// Sheet is moving up.
                     return detentsAbove.first
-                case .down:
+                } else if directions.contains(.down) {
                     return detentsBelow.last
-                default:
-                    return nil
+                } else {
+                    fatalError()
                 }
             }()
             let approachingDetent = approaching?.0
             let approachingDistance = approaching?.1
             /// Moving away from preceding detent, which may or may not be the detent at which sheet interaction began.
             let preceding = {
-                switch direction {
-                case .up:
+                if directions.contains(.up) {
+                    /// Sheet is moving up.
                     return detentsBelow.last
-                case .down:
+                } else if directions.contains(.down) {
                     return detentsAbove.first
-                default:
-                    return nil
+                } else {
+                    fatalError()
                 }
             }()
             let precedingDetent = preceding?.0
@@ -122,6 +140,15 @@ final class SheetInteraction {
                 return 1 - (approachingDistance / d)
             }()
             print("percentage: \(percentageApproaching ?? -1)")
+            
+//            let changeInfo = SheetInteractionInfo(
+//                closest: .init(
+//                    detent: closest.0, distance: closest.1),
+//                approaching: .init(
+//                    detent: approachingDetent, distance: approachingDistance),
+//                preceding: .init(
+//                    detent: precedingDetent, distance: precedingDistance),
+//                percentageComplete: percentageApproaching)
             
             delegate?.sheetInteractionChanged(closestDetent: closest.0, closestDistance: closest.1, approachingDetent: approachingDetent, approachingDistance: approachingDistance, precedingDetent: precedingDetent, precedingDistance: precedingDistance)
         case .ended, .cancelled, .failed:

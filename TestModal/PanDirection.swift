@@ -9,49 +9,59 @@ import UIKit
 
 extension UIPanGestureRecognizer {
     
-    enum Direction: String {
-        case up, down
-        case left, right
-        case stationary
+    struct Directions: OptionSet {
+        let rawValue: Int
         
-        var isVertical: Bool {
-            switch self {
-            case .up, .down:
-                return true
-            case .left, .right:
-                return false
-            case .stationary:
-                return false
-            }
+        static let stationary = Directions(rawValue: 1 << 0)
+        static let up = Directions(rawValue: 1 << 1)
+        static let down = Directions(rawValue: 1 << 2)
+        static let left = Directions(rawValue: 1 << 3)
+        static let right = Directions(rawValue: 1 << 4)
+        
+        static let all: [Directions] = [.stationary, .up, .down, .left, .right]
+        
+        var hasVerticalComponent: Bool {
+            contains(.up) || contains(.down)
         }
         
-        var isHorizontal: Bool {
-            switch self {
-            case .up, .down:
-                return false
-            case .left, .right:
-                return true
-            case .stationary:
-                return false
+        var hasHorizontalComponent: Bool {
+            contains(.left) || contains(.right)
+        }
+        
+        var isStationary: Bool {
+            contains(.stationary)
+        }
+        
+        var debugDescription: String {
+            guard contains(.stationary) == false else {
+                return "stationary"
             }
+            var desc = ""
+            if contains(.up) {
+                desc += "up, "
+            }
+            if contains(.down) {
+                desc += "down, "
+            }
+            if contains(.left) {
+                desc += "left, "
+            }
+            if contains(.right) {
+                desc += "right, "
+            }
+            return desc
         }
     }
     
-    var direction: Direction {
+    var directions: Directions {
         let velocity = self.velocity(in: view)
-        let isVertical = abs(velocity.y) > abs(velocity.x)
-        
-        switch (isVertical, velocity.x, velocity.y) {
-        case (true, _, let y) where y < 0:
-            return .up
-        case (true, _, let y) where y > 0:
-            return .down
-        case (false, let x, _) where x > 0:
-            return .right
-        case (false, let x, _) where x < 0:
-            return .left
-        default:
+        let y = velocity.y
+        let x = velocity.x
+        if x == 0 && y == 0 {
             return .stationary
         }
+        let yComponent: Directions = y > 0 ? .down : .up
+        let xComponent: Directions = x > 0 ? .right : .left
+        return [xComponent, yComponent]
     }
 }
