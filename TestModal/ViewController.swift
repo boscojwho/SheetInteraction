@@ -145,7 +145,7 @@ class ViewController: UIViewController {
             sheetTopInset.translatesAutoresizingMaskIntoConstraints = false
             window.addSubview(sheetTopInset)
             
-            /// This will not be visible, as should be the case.
+            /// This will not be visible on home button devices, as should be the case.
             let bottomInset = UIView.init(frame: .init(origin: .init(x: 0, y: window.frame.height-topSheetInsets.bottom), size: .init(width: window.frame.width, height: 1)))
             bottomInset.backgroundColor = .green
             bottomInset.translatesAutoresizingMaskIntoConstraints = false
@@ -173,6 +173,12 @@ class ViewController: UIViewController {
             medSmallDetent.backgroundColor = .cyan
             medSmallDetent.translatesAutoresizingMaskIntoConstraints = false
             window.addSubview(medSmallDetent)
+            
+            let y4 = window.frame.height - 56 - topSheetInsets.bottom
+            let smallDetent = UIView.init(frame: .init(origin: .init(x: 0, y: y4), size: .init(width: window.frame.width, height: 1)))
+            smallDetent.backgroundColor = .systemPink
+            smallDetent.translatesAutoresizingMaskIntoConstraints = false
+            window.addSubview(smallDetent)
         }
     }
 }

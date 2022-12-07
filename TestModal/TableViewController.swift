@@ -54,6 +54,7 @@ extension UISheetPresentationController {
         .init(top: topSheetTopInset, left: 0, bottom: sheetBottomInset, right: 0)
     }
     
+    /// The height available to the top sheet in a sheet stack (i.e. height within window's safe area).
     func maximumDetentValue() -> CGFloat {
         guard let window = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first else {
             return 0

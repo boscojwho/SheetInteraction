@@ -23,15 +23,23 @@ class SheetNavigationController: UINavigationController {
 
 extension SheetNavigationController: SheetInteractionDelegate {
     
-    func sheetInteractionChanged(closestDetent: UISheetPresentationController.Detent.Identifier, closestDistance: CGFloat, approachingDetent: UISheetPresentationController.Detent.Identifier?, approachingDistance: CGFloat?, precedingDetent: UISheetPresentationController.Detent.Identifier?, precedingDistance: CGFloat?) {
-        print(#function, "\n\tclosest: \(closestDetent.rawValue)", "\n\tclosestDistance: \(closestDistance)", "\n\tapproaching: \(approachingDetent?.rawValue ?? "stationary")", "\n\tapproachingDistance: \(approachingDistance ?? -1)", "\n\tpreceding: \(precedingDetent?.rawValue ?? "stationary")", "\n\tprecedingDistance: \(precedingDistance ?? -1)")
+    func sheetInteractionChanged(info: SheetInteractionInfo) {
+        print(#function,
+              "\n\tclosest: \(info.closest.detent.rawValue)",
+              "\n\tclosestDistance: \(info.closest.distance)",
+              "\n\tapproaching: \(info.approaching.detent.rawValue )",
+              "\n\tapproachingDistance: \(info.approaching.distance )",
+              "\n\tpreceding: \(info.preceding.detent.rawValue )",
+              "\n\tprecedingDistance: \(info.preceding.distance )")
         print("* * *")
     }
     
-    func sheetInteractionEnded(targetDetent: UISheetPresentationController.Detent.Identifier, targetDistance: CGFloat) {
-        print(#function, "\n\ttarget: \(targetDetent)", "\n\tdistance: \(targetDistance)")
+    func sheetInteractionEnded(targetDetent: SheetInteractionInfo.Change) {
+        print(#function,
+              "\n\ttarget: \(targetDetent.detent.rawValue)",
+              "\n\tdistance: \(targetDetent.distance)")
         print("* * *")
-    }
+    }    
 }
 
 extension SheetNavigationController: UIGestureRecognizerDelegate {
