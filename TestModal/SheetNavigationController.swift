@@ -16,7 +16,7 @@ class SheetNavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         /// Detent observer gesture doesn't need to be exclusive.
-        sheetInteraction.detentPanGesture.delegate = self
+        sheetInteraction.sheetInteractionGesture.delegate = self
         sheetInteraction.delegate = self
     }
 }
