@@ -111,9 +111,20 @@ final class SheetInteraction {
             print("sheetHeight: ", sheetHeight)
             sheetHeightOnPreviousChange = sheetHeight
             
+            /// Percentage to approachingDetent, where 1 is closest to approachingDetent.
+            let percentageApproaching: CGFloat? = {
+                guard let preceding, let approaching, let approachingDistance else {
+                    return nil
+                }
+                let precedingHeight = UISheetPresentationController.Detent.height(identifier: preceding.0, maximumDetentValue: sheet.maximumDetentValue())!
+                let approachingHeight = UISheetPresentationController.Detent.height(identifier: approaching.0, maximumDetentValue: sheet.maximumDetentValue())!
+                let d = abs(precedingHeight - approachingHeight)
+                return 1 - (approachingDistance / d)
+            }()
+            print("percentage: \(percentageApproaching ?? -1)")
+            
             delegate?.sheetInteractionChanged(closestDetent: closest.0, closestDistance: closest.1, approachingDetent: approachingDetent, approachingDistance: approachingDistance, precedingDetent: precedingDetent, precedingDistance: precedingDistance)
         case .ended, .cancelled, .failed:
-            let frame = sheetView.convert(sheetView.frame, from: window)
             let targetDetent = sheet.selectedDetentIdentifier ?? sheet.detents.first!.identifier
             guard let detentHeight = UISheetPresentationController.Detent.height(identifier: targetDetent, maximumDetentValue: sheet.maximumDetentValue()) else {
                 return
