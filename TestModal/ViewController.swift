@@ -101,7 +101,7 @@ extension UIViewController {
     
     func showModalSheet(animated: Bool, completion: (() -> Void)? = nil) {
         let vc = storyboard!.instantiateViewController(withIdentifier: "TableViewController")
-        let nc = UINavigationController(rootViewController: vc)
+        let nc = SheetNavigationController(rootViewController: vc)
 
         nc.modalPresentationStyle = .pageSheet
         /// Use delegate to prevent interactive dismissal while also allowing user interaction outside view controller bounds. [2022.12]
@@ -109,7 +109,7 @@ extension UIViewController {
         nc.sheetPresentationController?.prefersEdgeAttachedInCompactHeight = true
         nc.sheetPresentationController?.delegate = vc as? UISheetPresentationControllerDelegate
         nc.sheetPresentationController?.detents = [
-            ._small(), ._medSmall(), ._medium(), ._medLarge(), ._large(), ._full()
+            ._small(), ._medSmall(), ._medium(), ._medLarge(), ._full()
         ]
         /// Set undimmed to allow pass-through interaction on presenting view controller.
         nc.sheetPresentationController?.largestUndimmedDetentIdentifier = .init(rawValue: "large")

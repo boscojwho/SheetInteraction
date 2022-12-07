@@ -94,17 +94,8 @@ class TableViewController: UIViewController {
         presentingViewController?.dismiss(animated: true)
     }
     
-    @objc func handlePan(pan: UIPanGestureRecognizer) {
-        print(#function, "state: \(pan.state)")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let gesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(pan:)))
-        gesture.name = "detent"
-        gesture.delegate = self
-        navigationController?.view.addGestureRecognizer(gesture)
         
         if let vcIndex = navigationController?.viewControllers.firstIndex(of: self) {
             let ncIndex = navigationController?.levelInModalHierarchy() ?? 0
@@ -125,7 +116,7 @@ class TableViewController: UIViewController {
             ///  - Can't use touch events in here or in navigation controller because those get cancelled.
             
             let frame = sheetView.convert(sheetView.frame, to: window)
-            print(#function, "origin: \(frame.origin)", "size: \(frame.size)")
+//            print(#function, "origin: \(frame.origin)", "size: \(frame.size)")
             if frame.height < sheetPresentationController.topSheetInsets.bottom + 100 {
                 UIView.animate(withDuration: 0.3) {
                     self.tableView.alpha = 0
@@ -228,12 +219,5 @@ extension TableViewController: UISheetPresentationControllerDelegate {
     
     func sheetPresentationControllerDidChangeSelectedDetentIdentifier(_ sheetPresentationController: UISheetPresentationController) {
         print(sheetPresentationController.selectedDetentIdentifier ?? sheetPresentationController.detents.first!)
-    }
-}
-
-extension TableViewController: UIGestureRecognizerDelegate {
-    
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
     }
 }
