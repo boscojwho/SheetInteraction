@@ -23,12 +23,14 @@ class SheetNavigationController: UINavigationController {
 
 extension SheetNavigationController: SheetInteractionDelegate {
     
-    func sheetInteractionChanged(closestDetent: UISheetPresentationController.Detent.Identifier, approachingDetent: UISheetPresentationController.Detent.Identifier?) {
-        print(#function, "closest: \(closestDetent)", "approaching: \(approachingDetent ?? .init("stationary"))")
+    func sheetInteractionChanged(closestDetent: UISheetPresentationController.Detent.Identifier, closestDistance: CGFloat, approachingDetent: UISheetPresentationController.Detent.Identifier?, approachingDistance: CGFloat?, precedingDetent: UISheetPresentationController.Detent.Identifier?, precedingDistance: CGFloat?) {
+        print(#function, "\n\tclosest: \(closestDetent.rawValue)", "\n\tclosestDistance: \(closestDistance)", "\n\tapproaching: \(approachingDetent?.rawValue ?? "stationary")", "\n\tapproachingDistance: \(approachingDistance ?? -1)", "\n\tpreceding: \(precedingDetent?.rawValue ?? "stationary")", "\n\tprecedingDistance: \(precedingDistance ?? -1)")
+        print("* * *")
     }
     
-    func sheetInteractionEnded(targetDetent: UISheetPresentationController.Detent.Identifier) {
-        print(#function, "target: \(targetDetent)")
+    func sheetInteractionEnded(targetDetent: UISheetPresentationController.Detent.Identifier, targetDistance: CGFloat) {
+        print(#function, "\n\ttarget: \(targetDetent)", "\n\tdistance: \(targetDistance)")
+        print("* * *")
     }
 }
 
