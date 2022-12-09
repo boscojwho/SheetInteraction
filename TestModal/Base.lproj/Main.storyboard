@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NiO-y6-3MV">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NiO-y6-3MV">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <standardMapConfiguration key="preferredConfiguration"/>
                             </mapView>
@@ -32,9 +32,9 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="BZ0-KL-jOg" secondAttribute="trailing" constant="20" id="5GN-wz-SIl"/>
-                            <constraint firstItem="NiO-y6-3MV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="CYd-tL-PQa"/>
+                            <constraint firstAttribute="trailing" secondItem="NiO-y6-3MV" secondAttribute="trailing" id="EWE-VT-PMI"/>
                             <constraint firstItem="BZ0-KL-jOg" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Ygv-ZO-zQx"/>
-                            <constraint firstItem="NiO-y6-3MV" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="bRq-rW-g30"/>
+                            <constraint firstItem="NiO-y6-3MV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="ary-gO-OIJ"/>
                             <constraint firstAttribute="bottom" secondItem="NiO-y6-3MV" secondAttribute="bottom" id="cTL-H4-lgp"/>
                             <constraint firstItem="BZ0-KL-jOg" firstAttribute="centerX" secondItem="NiO-y6-3MV" secondAttribute="centerX" id="eMT-hy-66v"/>
                             <constraint firstItem="NiO-y6-3MV" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="hMS-X5-OFs"/>
@@ -48,7 +48,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="125.95419847328243" y="24.647887323943664"/>
+            <point key="canvasLocation" x="125.35211267605635" y="23.664122137404579"/>
         </scene>
         <!--Modal-->
         <scene sceneID="AyQ-PY-jdi">
@@ -95,8 +95,8 @@
                     </view>
                     <navigationItem key="navigationItem" title="Modal" id="byh-UN-vAo">
                         <barButtonItem key="leftBarButtonItem" id="oy5-On-7ja">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="CEU-k4-5a0">
-                                <rect key="frame" x="16" y="10.666666666666664" width="87" height="35"/>
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="CEU-k4-5a0">
+                                <rect key="frame" x="16" y="11" width="87" height="34.333333333333336"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="gray" title="Done"/>
@@ -106,8 +106,8 @@
                             </button>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" id="vfo-C6-ZXV">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="6aK-vj-W4b">
-                                <rect key="frame" x="290" y="10.666666666666664" width="87" height="35"/>
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="6aK-vj-W4b">
+                                <rect key="frame" x="290" y="11" width="87" height="34.333333333333336"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Details"/>
