@@ -18,10 +18,10 @@ class Context: NSObject, UISheetPresentationControllerDetentResolutionContext {
 
 /// Emit sheet interaction events.
 protocol SheetInteractionDelegate: AnyObject {
-    func sheetInteractionChanged(info: SheetInteractionInfo)
+    func sheetInteractionChanged(sheet: SheetInteraction, info: SheetInteractionInfo)
     
     /// - Parameter targetDetent: Sheet is either animating (or animated) to its target detent after user interaction has ended.
-    func sheetInteractionEnded(targetDetent: SheetInteractionInfo.Change)
+    func sheetInteractionEnded(sheet: SheetInteraction, targetDetent: SheetInteractionInfo.Change)
 }
 
 /// Info relating to a sheet interaction event.
@@ -170,7 +170,7 @@ final class SheetInteraction {
                 preceding: .init(
                     detent: precedingDetent, distance: precedingDistance),
                 percentageComplete: percentageApproaching)
-            delegate?.sheetInteractionChanged(info: changeInfo)
+            delegate?.sheetInteractionChanged(sheet: self, info: changeInfo)
         case .ended, .cancelled, .failed:
             let targetDetentIdentifier = sheet.selectedDetentIdentifier ?? sheet.detents.first!.identifier
             let targetDetent = sheet.detents.first { $0.identifier == targetDetentIdentifier }
@@ -181,7 +181,7 @@ final class SheetInteraction {
             let totalPercentage = sheetHeight/sheet.maximumDetentValue()
             print("total percentage: \(totalPercentage)")
             let targetDistance = abs(sheetHeight - detentHeight)
-            delegate?.sheetInteractionEnded(targetDetent: .init(
+            delegate?.sheetInteractionEnded(sheet: self, targetDetent: .init(
                 detent: targetDetentIdentifier, distance: targetDistance))
         default:
             break

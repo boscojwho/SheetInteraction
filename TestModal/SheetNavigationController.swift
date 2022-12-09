@@ -23,7 +23,7 @@ class SheetNavigationController: UINavigationController {
 
 extension SheetNavigationController: SheetInteractionDelegate {
     
-    func sheetInteractionChanged(info: SheetInteractionInfo) {
+    func sheetInteractionChanged(sheet: SheetInteraction, info: SheetInteractionInfo) {
         print(#function,
               "\n\tclosest: \(info.closest.detent.rawValue)",
               "\n\tclosestDistance: \(info.closest.distance)",
@@ -33,17 +33,17 @@ extension SheetNavigationController: SheetInteractionDelegate {
               "\n\tprecedingDistance: \(info.preceding.distance )")
         print("* * *")
         if let delegate = topViewController as? SheetInteractionDelegate {
-            delegate.sheetInteractionChanged(info: info)
+            delegate.sheetInteractionChanged(sheet: sheet, info: info)
         }
     }
     
-    func sheetInteractionEnded(targetDetent: SheetInteractionInfo.Change) {
+    func sheetInteractionEnded(sheet: SheetInteraction, targetDetent: SheetInteractionInfo.Change) {
         print(#function,
               "\n\ttarget: \(targetDetent.detent.rawValue)",
               "\n\tdistance: \(targetDetent.distance)")
         print("* * *")
         if let delegate = topViewController as? SheetInteractionDelegate {
-            delegate.sheetInteractionEnded(targetDetent: targetDetent)
+            delegate.sheetInteractionEnded(sheet: sheet, targetDetent: targetDetent)
         }
     }    
 }

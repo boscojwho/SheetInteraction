@@ -7,23 +7,6 @@
 
 import UIKit
 
-extension UINavigationController {
-    
-    func isRootModal() -> Bool {
-        return levelInModalHierarchy() == 0
-    }
-    
-    func levelInModalHierarchy() -> Int {
-        var level = 0
-        var presenting = presentingViewController
-        while presenting is UINavigationController {
-            presenting = presenting?.presentingViewController
-            level += 1
-        }
-        return level
-    }
-}
-
 class TableViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
@@ -54,26 +37,33 @@ class TableViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        /// This method doesn't allow us to determine when sheet interaction begins, changes, or ends.
+        /// We also cannot disambiguate between sheet interaction events and other events that trigger layout.
         /// Ensure we use view that contains navigation bar, if sheet stack is embedded in a navigation controller.
+        /*
         if let sheetPresentationController, let window = view.window, let sheetView = navigationController?.view {
             ///  Use both view origin and size to determine detent state.
             ///  Determine whch direction sheet is moving?
             ///  - Can't use touch events in here or in navigation controller because those get cancelled.
-            
-            let frame = sheetView.convert(sheetView.frame, to: window)
+//            let frame = sheetView.convert(sheetView.frame, to: window)
 //            print(#function, "origin: \(frame.origin)", "size: \(frame.size)")
-            if frame.height < sheetPresentationController.topSheetInsets.bottom + 100 {
-                UIView.animate(withDuration: 0.3) {
-                    self.tableView.alpha = 0
-                }
-            } else {
-                UIView.animate(withDuration: 0.3) {
-                    self.tableView.alpha = 1
-                }
-            }
+//            if frame.height < sheetPresentationController.topSheetInsets.bottom + 100 {
+//                UIView.animate(withDuration: 0.3) {
+//                    self.tableView.alpha = 0
+//                }
+//            } else {
+//                UIView.animate(withDuration: 0.3) {
+//                    self.tableView.alpha = 1
+//                }
+//            }
         }
+         */
     }
-    
+}
+
+/*
+extension TableViewController {
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         print(#function)
         super.touchesBegan(touches, with: event)
@@ -94,7 +84,9 @@ class TableViewController: UIViewController {
         super.touchesCancelled(touches, with: event)
     }
 }
+ */
 
+/*
 extension TableViewController: UIScrollViewDelegate {
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -125,15 +117,24 @@ extension TableViewController: UIScrollViewDelegate {
         print(#function)
     }
 }
+ */
 
 extension TableViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 5
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "Section \(section)"
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -168,15 +169,15 @@ extension TableViewController: UISheetPresentationControllerDelegate {
 
 extension TableViewController: SheetInteractionDelegate {
     
-    func sheetInteractionChanged(info: SheetInteractionInfo) {
+    func sheetInteractionChanged(sheet: SheetInteraction, info: SheetInteractionInfo) {
         if let delegate = presentingViewController as? SheetInteractionDelegate {
-            delegate.sheetInteractionChanged(info: info)
+            delegate.sheetInteractionChanged(sheet: sheet, info: info)
         }
     }
     
-    func sheetInteractionEnded(targetDetent: SheetInteractionInfo.Change) {
+    func sheetInteractionEnded(sheet: SheetInteraction, targetDetent: SheetInteractionInfo.Change) {
         if let delegate = presentingViewController as? SheetInteractionDelegate {
-            delegate.sheetInteractionEnded(targetDetent: targetDetent)
+            delegate.sheetInteractionEnded(sheet: sheet, targetDetent: targetDetent)
         }
     }
 }

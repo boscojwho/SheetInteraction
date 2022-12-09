@@ -20,6 +20,7 @@
 		E422B26C293EE0EA009A0802 /* SheetNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B26B293EE0EA009A0802 /* SheetNavigationController.swift */; };
 		E422B26E29402BE5009A0802 /* PanDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B26D29402BE5009A0802 /* PanDirection.swift */; };
 		E422B270294041CD009A0802 /* SheetInteraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B26F294041CD009A0802 /* SheetInteraction.swift */; };
+		E4C721B62942C839007AB243 /* NavigationController+Modal.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C721B52942C839007AB243 /* NavigationController+Modal.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		E422B26B293EE0EA009A0802 /* SheetNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetNavigationController.swift; sourceTree = "<group>"; };
 		E422B26D29402BE5009A0802 /* PanDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanDirection.swift; sourceTree = "<group>"; };
 		E422B26F294041CD009A0802 /* SheetInteraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetInteraction.swift; sourceTree = "<group>"; };
+		E4C721B52942C839007AB243 /* NavigationController+Modal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationController+Modal.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 				E41EBDA5292C79F800FB3402 /* ViewController.swift */,
 				E422B267293AFE48009A0802 /* TableViewController.swift */,
 				E422B269293D8F35009A0802 /* DetailViewController.swift */,
+				E4C721B52942C839007AB243 /* NavigationController+Modal.swift */,
 				E422B26B293EE0EA009A0802 /* SheetNavigationController.swift */,
 				E48B7AC02940A7CC0022D7E3 /* Sheet Detent Interaction */,
 				E41EBDA7292C79F800FB3402 /* Main.storyboard */,
@@ -170,6 +173,7 @@
 				E41273A22940AD1200AE1D4A /* Detents.swift in Sources */,
 				E41EBDA6292C79F800FB3402 /* ViewController.swift in Sources */,
 				E422B270294041CD009A0802 /* SheetInteraction.swift in Sources */,
+				E4C721B62942C839007AB243 /* NavigationController+Modal.swift in Sources */,
 				E41273A42940AD7E00AE1D4A /* SheetPresentationController.swift in Sources */,
 				E422B26C293EE0EA009A0802 /* SheetNavigationController.swift in Sources */,
 				E41EBDA2292C79F800FB3402 /* AppDelegate.swift in Sources */,

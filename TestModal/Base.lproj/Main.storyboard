@@ -43,7 +43,7 @@
                     </view>
                     <connections>
                         <outlet property="debugLabel" destination="BZ0-KL-jOg" id="FWN-VS-vSq"/>
-                        <segue destination="eIs-ux-GIk" kind="presentation" id="boO-XL-apl"/>
+                        <segue destination="eIs-ux-GIk" kind="presentation" identifier="showSheetNavigationController" id="boO-XL-apl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -94,7 +94,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Modal" id="byh-UN-vAo">
-                        <barButtonItem key="leftBarButtonItem" style="plain" id="oy5-On-7ja">
+                        <barButtonItem key="leftBarButtonItem" id="oy5-On-7ja">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="CEU-k4-5a0">
                                 <rect key="frame" x="16" y="10.666666666666664" width="87" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -105,7 +105,7 @@
                                 </connections>
                             </button>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="vfo-C6-ZXV">
+                        <barButtonItem key="rightBarButtonItem" id="vfo-C6-ZXV">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="6aK-vj-W4b">
                                 <rect key="frame" x="290" y="10.666666666666664" width="87" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

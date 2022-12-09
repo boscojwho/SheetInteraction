@@ -111,12 +111,11 @@ class ViewController: UIViewController {
 
 extension ViewController: SheetInteractionDelegate {
     
-    func sheetInteractionChanged(info: SheetInteractionInfo) {
+    func sheetInteractionChanged(sheet: SheetInteraction, info: SheetInteractionInfo) {
         debugLabel.text = "Detent: \(info.approaching.detent.rawValue), %: \(info.percentageComplete)"
     }
     
-    func sheetInteractionEnded(targetDetent: SheetInteractionInfo.Change) {
+    func sheetInteractionEnded(sheet: SheetInteraction, targetDetent: SheetInteractionInfo.Change) {
         debugLabel.text = "Detent: \(targetDetent.detent.rawValue), %: 1.0"
-
     }
 }
