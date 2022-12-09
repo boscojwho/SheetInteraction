@@ -231,6 +231,7 @@ extension TableViewController: SheetInteractionDelegate {
         
         activeDetent = info.approaching.detent
         
+        #warning("Add `percentageApproaching` and `percentagePreceding`?")
         if info.approaching.detent == ._small {
             segmentedControl.alpha = 1 - info.percentageComplete
         }
