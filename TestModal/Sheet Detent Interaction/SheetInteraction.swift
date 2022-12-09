@@ -62,6 +62,10 @@ final class SheetInteraction {
         sheetView.addGestureRecognizer(sheetInteractionGesture)
     }
     
+    var currentDirections: UIPanGestureRecognizer.Directions {
+        sheetInteractionGesture.directions
+    }
+    
     /// The gesture used to track sheet interaction and detent state.
     /// This gesture must be configured to recognize simultaneously with all other gestures in `sheetView`.
     private(set) lazy var sheetInteractionGesture: UIPanGestureRecognizer = {

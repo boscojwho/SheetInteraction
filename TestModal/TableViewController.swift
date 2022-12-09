@@ -9,6 +9,19 @@ import UIKit
 
 class TableViewController: UIViewController {
     
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
+    private var activeDetent: UISheetPresentationController.Detent.Identifier = ._small {
+        didSet {
+            guard oldValue != activeDetent else {
+                return
+            }
+            tableView.performBatchUpdates {
+                tableView.reloadSections(.init(integersIn: 0..<4), with: .automatic)
+            }
+        }
+    }
+    
     @IBOutlet weak var tableView: UITableView!
     
     @IBAction func showModal(_ sender: Any) {
@@ -137,6 +150,48 @@ extension TableViewController: UITableViewDataSource {
         return UITableView.automaticDimension
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch indexPath.section {
+        case 4:
+            switch activeDetent {
+            case ._full:
+                return 30
+            default:
+                return 0
+            }
+        case 3:
+            switch activeDetent {
+            case ._full, ._large:
+                return 30
+            default:
+                return 0
+            }
+        case 2:
+            switch activeDetent {
+            case ._full, ._large, ._medLarge:
+                return 30
+            default:
+                return 0
+            }
+        case 1:
+            switch activeDetent {
+            case ._full, ._large, ._medLarge, ._medium:
+                return 30
+            default:
+                return 0
+            }
+        case 0:
+            switch activeDetent {
+            case ._full, ._large, ._medLarge, ._medium, ._medSmall:
+                return 30
+            default:
+                return 0
+            }
+        default:
+            return 0
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
     }
@@ -172,6 +227,15 @@ extension TableViewController: SheetInteractionDelegate {
     func sheetInteractionChanged(sheet: SheetInteraction, info: SheetInteractionInfo) {
         if let delegate = presentingViewController as? SheetInteractionDelegate {
             delegate.sheetInteractionChanged(sheet: sheet, info: info)
+        }
+        
+        activeDetent = info.approaching.detent
+        
+        if info.approaching.detent == ._small {
+            segmentedControl.alpha = 1 - info.percentageComplete
+        }
+        if info.preceding.detent == ._small {
+            segmentedControl.alpha = info.percentageComplete
         }
     }
     

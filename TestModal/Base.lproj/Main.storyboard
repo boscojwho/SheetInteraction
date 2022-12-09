@@ -83,6 +83,14 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="SbZ-pp-aGS">
+                                <rect key="frame" x="16" y="56" width="361" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="First"/>
+                                    <segment title="Second"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6o1-zh-hXU"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -118,6 +126,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="segmentedControl" destination="SbZ-pp-aGS" id="JBj-Sf-dA4"/>
                         <outlet property="tableView" destination="d8F-vG-i6P" id="o0J-Zk-cUG"/>
                     </connections>
                 </viewController>

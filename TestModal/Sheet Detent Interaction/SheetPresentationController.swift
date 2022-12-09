@@ -9,6 +9,13 @@ import UIKit
 
 extension UISheetPresentationController {
     
+    func detent(with identifier: Detent.Identifier) -> Detent? {
+        detents.first { $0.identifier == identifier }
+    }
+}
+
+extension UISheetPresentationController {
+    
     /// The vertical space required to display the bottom sheet in "minimized" state when the top sheet is displayed in full height.
     private var bottomSheetPeekThroughHeight: CGFloat {
         switch traitCollection.userInterfaceIdiom {
