@@ -32,6 +32,8 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var debugLabel: UILabel!
     
+    private var struts: [UIView] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         debugLabel.backgroundColor = .white
@@ -49,8 +51,22 @@ class ViewController: UIViewController {
         }
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        /// Reset strut positions after size change.
+        /// Reset after animation so we get the correct safe area insets (i.e. on device rotation).
+        coordinator.animate { _ in
+            self.showStruts()
+        }
+    }
+    
     private func showStruts() {
         if let window = view.window, let sheetPresentationController = presentedViewController?.sheetPresentationController {
+            struts.forEach {
+                $0.removeFromSuperview()
+            }
+            
             let topSheetInsets = sheetPresentationController.topSheetInsets
             let bottomSheetInsets = sheetPresentationController.bottomSheetInsets
             
@@ -105,6 +121,8 @@ class ViewController: UIViewController {
             largeDetent.backgroundColor = .systemBrown
             largeDetent.translatesAutoresizingMaskIntoConstraints = false
             window.addSubview(largeDetent)
+            
+            struts.append(contentsOf: [topInset, sheetTopInset, bottomInset, mediumDetent, medLargeDetent, medSmallDetent, smallDetent, largeDetent])
         }
     }
 }
