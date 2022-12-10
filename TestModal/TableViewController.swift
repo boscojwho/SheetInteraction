@@ -250,16 +250,16 @@ extension TableViewController: SheetInteractionDelegate {
         
 #warning("This needs work....")
         /// Get detent object.
-        if let target = sheet.sheet.detent(with: targetDetent.detent) {
+        if let target = sheet.sheetController.detent(with: targetDetent.detent) {
             /// If target detent is greater than `small`.
-            if target.greaterThan(other: ._small(), in: sheet.sheet) == true {
+            if target.greaterThan(other: ._small(), in: sheet.sheetController) == true {
                 doneButton.alpha = 1
             } else {
                 doneButton.alpha = 0
             }
             
             /// If target detent is greater than `medSmall`.
-            if target.greaterThan(other: ._medSmall(), in: sheet.sheet) == true {
+            if target.greaterThan(other: ._medSmall(), in: sheet.sheetController) == true {
                 segmentedControl.alpha = 1
             } else {
                 segmentedControl.alpha = 0

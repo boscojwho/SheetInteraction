@@ -76,12 +76,12 @@ final class SheetInteraction {
     weak var delegate: SheetInteractionDelegate?
     
     /// Controller managing a modal sheet stack.
-    let sheet: UISheetPresentationController
+    let sheetController: UISheetPresentationController
     /// The root view associated with a sheet's `presentedViewController`. Be sure use the view that encompasses all subviews (e.g. navigation bars).
     let sheetView: UIView
     
     init(sheet: UISheetPresentationController, sheetView: UIView) {
-        self.sheet = sheet
+        self.sheetController = sheet
         self.sheetView = sheetView
         sheetView.addGestureRecognizer(sheetInteractionGesture)
     }
@@ -117,7 +117,7 @@ final class SheetInteraction {
     
     /// Keep track of previous sheet height so we can use it on sheet interaction end.
     /// On sheet interaction end, sheet height is already updated to reflect final state, so we can't calculate target distance using that final value.
-    private lazy var sheetHeightOnPreviousChange: CGFloat = sheetView.frame.height - sheet.topSheetInsets.bottom
+    private lazy var sheetHeightOnPreviousChange: CGFloat = sheetView.frame.height - sheetController.topSheetInsets.bottom
     
     @objc private func handleDetentPan(pan: UIPanGestureRecognizer) {
         guard let window = sheetView.window else {
@@ -131,7 +131,7 @@ final class SheetInteraction {
 //        case .recognized:
 //            break
         case .began:
-            originDetent = sheet.selectedDetentIdentifier ?? sheet.detents.first!.identifier
+            originDetent = sheetController.selectedDetentIdentifier ?? sheetController.detents.first!.identifier
         case .changed:
             let directions = pan.directions
             guard directions.isStationary == false else {
@@ -143,14 +143,14 @@ final class SheetInteraction {
                 #endif
             }
             let frame = sheetView.convert(sheetView.frame, from: window)
-            let detents = sheet.detents
+            let detents = sheetController.detents
             let heights = detents.compactMap {
                 let identifier = $0.identifier
-                let detent = sheet.detents.first { $0.identifier == identifier }!
-                let context = Context.init(containerTraitCollection: sheet.traitCollection, maximumDetentValue: sheet.maximumDetentValue())
+                let detent = sheetController.detents.first { $0.identifier == identifier }!
+                let context = Context.init(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetController.maximumDetentValue())
                 let detentHeight = detent.resolvedValue(in: context)!
                 /// Exclude sheet height outside safe area (bottom edge attached).
-                let sheetHeight = frame.height - sheet.topSheetInsets.bottom
+                let sheetHeight = frame.height - sheetController.topSheetInsets.bottom
                 let distance = sheetHeight - detentHeight
                 /// 0: detent identifier, 1: distance to detent, 2: negative values indicate higher up detents (and vice-versa).
                 return (identifier, abs(distance), distance)
@@ -190,7 +190,7 @@ final class SheetInteraction {
             
             /// Keep track of previous sheet height so we can use it on sheet interaction end.
             /// On sheet interaction end, sheet height is already updated to reflect final state, so we can't calculate target distance using that final value.
-            let sheetHeight = frame.height - sheet.topSheetInsets.bottom
+            let sheetHeight = frame.height - sheetController.topSheetInsets.bottom
             print("sheetHeight: ", sheetHeight)
             sheetHeightOnPreviousChange = sheetHeight
             
@@ -200,10 +200,10 @@ final class SheetInteraction {
             /// But on overscroll at bottom, sheet height stays at the smallest detent's value + safeAreaInset.bottom.
             /// We will need to use sheet.origin to calculate overscroll values.
             let percentageApproaching: CGFloat = {
-                let precedingDetent = sheet.detents.first { $0.identifier == preceding.0 }!
-                let precedingHeight = precedingDetent.resolvedValue(in: Context(containerTraitCollection: sheet.traitCollection, maximumDetentValue: sheet.maximumDetentValue()))!
-                let approachingDetent = sheet.detents.first { $0.identifier == approaching.0 }!
-                let approachingHeight = approachingDetent.resolvedValue(in: Context(containerTraitCollection: sheet.traitCollection, maximumDetentValue: sheet.maximumDetentValue()))!
+                let precedingDetent = sheetController.detents.first { $0.identifier == preceding.0 }!
+                let precedingHeight = precedingDetent.resolvedValue(in: Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetController.maximumDetentValue()))!
+                let approachingDetent = sheetController.detents.first { $0.identifier == approaching.0 }!
+                let approachingHeight = approachingDetent.resolvedValue(in: Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetController.maximumDetentValue()))!
                 let d = abs(precedingHeight - approachingHeight)
                 let percentage = 1 - (approachingDistance / d)
                 return percentage
@@ -211,7 +211,7 @@ final class SheetInteraction {
             print("percentage: \(percentageApproaching)")
             
             #warning("totalPercentage is never zero because height is never zero.")
-            let totalPercentage = sheetHeight/sheet.maximumDetentValue()
+            let totalPercentage = sheetHeight/sheetController.maximumDetentValue()
             print("total percentage: \(totalPercentage)")
           
             let changeInfo = SheetInteractionInfo(
@@ -229,13 +229,13 @@ final class SheetInteraction {
             defer {
                 originDetent = nil
             }
-            let targetDetentIdentifier = sheet.selectedDetentIdentifier ?? sheet.detents.first!.identifier
-            let targetDetent = sheet.detents.first { $0.identifier == targetDetentIdentifier }
-            guard let detentHeight = targetDetent?.resolvedValue(in: Context(containerTraitCollection: sheet.traitCollection, maximumDetentValue: sheet.maximumDetentValue())) else {
+            let targetDetentIdentifier = sheetController.selectedDetentIdentifier ?? sheetController.detents.first!.identifier
+            let targetDetent = sheetController.detents.first { $0.identifier == targetDetentIdentifier }
+            guard let detentHeight = targetDetent?.resolvedValue(in: Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetController.maximumDetentValue())) else {
                 return
             }
             let sheetHeight = sheetHeightOnPreviousChange
-            let totalPercentage = sheetHeight/sheet.maximumDetentValue()
+            let totalPercentage = sheetHeight/sheetController.maximumDetentValue()
             print("total percentage: \(totalPercentage)")
             let targetDistance = abs(sheetHeight - detentHeight)
             delegate?.sheetInteractionEnded(sheet: self, targetDetent: .init(
