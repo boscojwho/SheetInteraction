@@ -143,7 +143,7 @@ final class SheetInteraction {
                 return
                 #endif
             }
-            let frame = window.convert(sheetView.frame, from: sheetView)
+            let sheetFrameInWindow = window.convert(sheetView.frame, from: sheetView)
             let detents = sheetController.detents
             let detentsLayoutInfo = detents.compactMap { detent in
                 let identifier = detent.identifier
@@ -151,7 +151,7 @@ final class SheetInteraction {
 #warning("Handle deactivated detent(s).")
                 let detentHeight = detent.resolvedValue(in: context)!
                 /// Exclude sheet height outside safe area (bottom edge attached).
-                let sheetHeight = frame.height - sheetController.topSheetInsets.bottom
+                let sheetHeight = sheetFrameInWindow.height - sheetController.topSheetInsets.bottom
                 let distance = sheetHeight - detentHeight
                 let detentHeightIncludingInsets = detentHeight + sheetController.topSheetInsets.bottom
                 let yOrigin = window.frame.height - detentHeightIncludingInsets
@@ -198,7 +198,7 @@ final class SheetInteraction {
             
             /// Keep track of previous sheet height so we can use it on sheet interaction end.
             /// On sheet interaction end, sheet height is already updated to reflect final state, so we can't calculate target distance using that final value.
-            let sheetHeight = frame.height - sheetController.topSheetInsets.bottom
+            let sheetHeight = sheetFrameInWindow.height - sheetController.topSheetInsets.bottom
             print("sheetHeight: ", sheetHeight)
             sheetHeightOnPreviousChange = sheetHeight
             
@@ -219,9 +219,23 @@ final class SheetInteraction {
             print("percentage: \(percentageApproaching)")
             
             #warning("totalPercentage is never zero because height is never zero.")
-            let totalPercentage = sheetHeight/sheetController.maximumDetentValue()
-            print("total percentage: \(totalPercentage)")
-          
+            let totalPercentageUsingHeight = sheetHeight/sheetController.maximumDetentValue()
+            /// This method supports overscroll values.
+            /// Note that this is a global percentage capped by the smallest and largest detents.
+            let totalPercentageUsingOrigin = {
+                let maxDetentValue = sheetController.maximumDetentValue()
+                let y = sheetFrameInWindow.origin.y - sheetController.topSheetInsets.top
+                let context = Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetController.maximumDetentValue())
+                let smallestDetentValue = sheetController
+                    .detent(withIdentifier: sheetController.detents.first!.identifier)!
+                    .resolvedValue(in: context)!
+                /// Subtract value of smallest detent so that we get a range between 0-1, where 0 corresponds to smallest, and 1 to largest detent.
+                /// This method means the in-between values will not correspond to any multiples specified in a detent's resolver closure (e.g. context.maximumDetentValue `*` 0.5).
+                let p = y/(maxDetentValue-smallestDetentValue)
+                return 1 - p
+            }()
+            print("total percentage [height]: \(totalPercentageUsingHeight), [yOrigin]: \(totalPercentageUsingOrigin)")
+
             let changeInfo = SheetInteractionInfo(
                 isMinimizing: currentDirections.contains(.down),
                 closest: .init(
@@ -230,7 +244,7 @@ final class SheetInteraction {
                     detentIdentifier: approachingDetent, distance: approachingDistance),
                 preceding: .init(
                     detentIdentifier: precedingDetent, distance: precedingDistance),
-                percentageTotal: totalPercentage, percentageApproaching: percentageApproaching,
+                percentageTotal: totalPercentageUsingHeight, percentageApproaching: percentageApproaching,
                 percentagePreceding: 1 - percentageApproaching)
             delegate?.sheetInteractionChanged(sheet: self, interactionInfo: changeInfo)
         case .ended, .cancelled, .failed:
