@@ -130,10 +130,10 @@ class ViewController: UIViewController {
 extension ViewController: SheetInteractionDelegate {
     
     func sheetInteractionChanged(sheet: SheetInteraction, interactionInfo: SheetInteractionInfo) {
-        debugLabel.text = "Detent: \(interactionInfo.approaching.detent.rawValue), %: \(interactionInfo.percentageApproaching)"
+        debugLabel.text = "Detent: \(interactionInfo.approaching.detentIdentifier.rawValue), %: \(interactionInfo.percentageApproaching)"
     }
     
     func sheetInteractionEnded(sheet: SheetInteraction, targetDetent: SheetInteractionInfo.Change, percentageTotal: CGFloat) {
-        debugLabel.text = "Detent: \(targetDetent.detent.rawValue), %: 1.0"
+        debugLabel.text = "Detent: \(targetDetent.detentIdentifier.rawValue), %: 1.0"
     }
 }

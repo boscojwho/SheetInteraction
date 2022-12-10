@@ -25,11 +25,11 @@ extension SheetNavigationController: SheetInteractionDelegate {
     
     func sheetInteractionChanged(sheet: SheetInteraction, interactionInfo: SheetInteractionInfo) {
         print(#function,
-              "\n\tclosest: \(interactionInfo.closest.detent.rawValue)",
+              "\n\tclosest: \(interactionInfo.closest.detentIdentifier.rawValue)",
               "\n\tclosestDistance: \(interactionInfo.closest.distance)",
-              "\n\tapproaching: \(interactionInfo.approaching.detent.rawValue )",
+              "\n\tapproaching: \(interactionInfo.approaching.detentIdentifier.rawValue )",
               "\n\tapproachingDistance: \(interactionInfo.approaching.distance )",
-              "\n\tpreceding: \(interactionInfo.preceding.detent.rawValue )",
+              "\n\tpreceding: \(interactionInfo.preceding.detentIdentifier.rawValue )",
               "\n\tprecedingDistance: \(interactionInfo.preceding.distance )")
         print("* * *")
         if let delegate = topViewController as? SheetInteractionDelegate {
@@ -39,7 +39,7 @@ extension SheetNavigationController: SheetInteractionDelegate {
     
     func sheetInteractionEnded(sheet: SheetInteraction, targetDetent: SheetInteractionInfo.Change, percentageTotal: CGFloat) {
         print(#function,
-              "\n\ttarget: \(targetDetent.detent.rawValue)",
+              "\n\ttarget: \(targetDetent.detentIdentifier.rawValue)",
               "\n\tdistance: \(targetDetent.distance)")
         print("* * *")
         if let delegate = topViewController as? SheetInteractionDelegate {

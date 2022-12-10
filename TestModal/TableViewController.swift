@@ -231,7 +231,7 @@ extension TableViewController: SheetInteractionDelegate {
             delegate.sheetInteractionChanged(sheet: sheet, interactionInfo: interactionInfo)
         }
         
-        activeDetent = interactionInfo.approaching.detent
+        activeDetent = interactionInfo.approaching.detentIdentifier
         
         detailsButton.alpha = interactionInfo.percentageTotal
         
@@ -249,13 +249,13 @@ extension TableViewController: SheetInteractionDelegate {
             delegate.sheetInteractionEnded(sheet: sheet, targetDetent: targetDetent, percentageTotal: percentageTotal)
         }
         
-        activeDetent = targetDetent.detent
+        activeDetent = targetDetent.detentIdentifier
         
         detailsButton.alpha = percentageTotal
         
 #warning("This needs work....")
         /// Get detent object.
-        if let target = sheet.sheetController.detent(withIdentifier: targetDetent.detent) {
+        if let target = sheet.sheetController.detent(withIdentifier: targetDetent.detentIdentifier) {
             /// If target detent is greater than `small`.
             if target.greaterThan(other: ._small(), in: sheet.sheetController) == true {
                 doneButton.alpha = 1

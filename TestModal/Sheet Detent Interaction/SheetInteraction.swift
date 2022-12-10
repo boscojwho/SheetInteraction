@@ -45,7 +45,7 @@ struct SheetInteractionInfo {
 
     struct Change {
         /// The relevant detent.
-        let detent: UISheetPresentationController.Detent.Identifier
+        let detentIdentifier: UISheetPresentationController.Detent.Identifier
         /// Sheet's distance to specified `detent`, as measured from sheet's top edge.
         let distance: CGFloat
     }
@@ -98,9 +98,9 @@ final class SheetInteraction {
     /// Calls `animationBlock` if sheet is currently greater than or equal to specified `detent`, but *is not* equal or greater to the next adjacent detent.
     func animating(_ detent: UISheetPresentationController.Detent.Identifier, interactionInfo: SheetInteractionInfo, animationBlock: (CGFloat) -> Void) {
         /// Check for `currentDirections` to ensure `animationBlock` only runs when sheet detent state is equal or greater than specified detent.
-        if interactionInfo.approaching.detent == detent, currentDirections.contains(.down) {
+        if interactionInfo.approaching.detentIdentifier == detent, currentDirections.contains(.down) {
             animationBlock(interactionInfo.percentagePreceding)
-        } else if interactionInfo.preceding.detent == detent, currentDirections.contains(.up) {
+        } else if interactionInfo.preceding.detentIdentifier == detent, currentDirections.contains(.up) {
             animationBlock(interactionInfo.percentageApproaching)
         } else {
             return
@@ -217,11 +217,11 @@ final class SheetInteraction {
             let changeInfo = SheetInteractionInfo(
                 isMinimizing: currentDirections.contains(.down),
                 closest: .init(
-                    detent: closest.0, distance: closest.1),
+                    detentIdentifier: closest.0, distance: closest.1),
                 approaching: .init(
-                    detent: approachingDetent, distance: approachingDistance),
+                    detentIdentifier: approachingDetent, distance: approachingDistance),
                 preceding: .init(
-                    detent: precedingDetent, distance: precedingDistance),
+                    detentIdentifier: precedingDetent, distance: precedingDistance),
                 percentageTotal: totalPercentage, percentageApproaching: percentageApproaching,
                 percentagePreceding: 1 - percentageApproaching)
             delegate?.sheetInteractionChanged(sheet: self, interactionInfo: changeInfo)
@@ -239,7 +239,7 @@ final class SheetInteraction {
             print("total percentage: \(totalPercentage)")
             let targetDistance = abs(sheetHeight - detentHeight)
             delegate?.sheetInteractionEnded(sheet: self, targetDetent: .init(
-                detent: targetDetentIdentifier, distance: targetDistance), percentageTotal: totalPercentage)
+                detentIdentifier: targetDetentIdentifier, distance: targetDistance), percentageTotal: totalPercentage)
         default:
             break
         }
