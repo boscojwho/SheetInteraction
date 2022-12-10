@@ -37,7 +37,8 @@ protocol SheetInteractionDelegate: AnyObject {
     func sheetInteractionChanged(sheet: SheetInteraction, interactionInfo: SheetInteractionInfo)
     
     /// - Parameter targetDetent: Sheet is either animating (or animated) to its target detent after user interaction has ended.
-    func sheetInteractionEnded(sheet: SheetInteraction, targetDetent: SheetInteractionInfo.Change, percentageTotal: CGFloat)
+    /// - Parameter percentageTotal: See `SheetInteractionInfo.percentageTotal`.
+    func sheetInteractionEnded(sheet: SheetInteraction, targetDetentInfo: SheetInteractionInfo.Change, percentageTotal: CGFloat)
 }
 
 /// Info relating to a sheet interaction event.
@@ -46,7 +47,7 @@ struct SheetInteractionInfo {
     struct Change {
         /// The relevant detent.
         let detentIdentifier: UISheetPresentationController.Detent.Identifier
-        /// Sheet's distance to specified `detent`, as measured from sheet's top edge.
+        /// Sheet's distance to specified `detentIdentifier`, as measured from sheet's top edge.
         let distance: CGFloat
     }
     
@@ -238,7 +239,7 @@ final class SheetInteraction {
             let totalPercentage = sheetHeight/sheetController.maximumDetentValue()
             print("total percentage: \(totalPercentage)")
             let targetDistance = abs(sheetHeight - detentHeight)
-            delegate?.sheetInteractionEnded(sheet: self, targetDetent: .init(
+            delegate?.sheetInteractionEnded(sheet: self, targetDetentInfo: .init(
                 detentIdentifier: targetDetentIdentifier, distance: targetDistance), percentageTotal: totalPercentage)
         default:
             break

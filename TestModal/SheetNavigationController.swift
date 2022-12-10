@@ -37,13 +37,13 @@ extension SheetNavigationController: SheetInteractionDelegate {
         }
     }
     
-    func sheetInteractionEnded(sheet: SheetInteraction, targetDetent: SheetInteractionInfo.Change, percentageTotal: CGFloat) {
+    func sheetInteractionEnded(sheet: SheetInteraction, targetDetentInfo: SheetInteractionInfo.Change, percentageTotal: CGFloat) {
         print(#function,
-              "\n\ttarget: \(targetDetent.detentIdentifier.rawValue)",
-              "\n\tdistance: \(targetDetent.distance)")
+              "\n\ttarget: \(targetDetentInfo.detentIdentifier.rawValue)",
+              "\n\tdistance: \(targetDetentInfo.distance)")
         print("* * *")
         if let delegate = topViewController as? SheetInteractionDelegate {
-            delegate.sheetInteractionEnded(sheet: sheet, targetDetent: targetDetent, percentageTotal: percentageTotal)
+            delegate.sheetInteractionEnded(sheet: sheet, targetDetentInfo: targetDetentInfo, percentageTotal: percentageTotal)
         }
     }    
 }
