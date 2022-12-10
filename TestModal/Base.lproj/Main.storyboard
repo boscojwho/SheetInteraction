@@ -59,7 +59,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="d8F-vG-i6P">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="817"/>
+                                <rect key="frame" x="0.0" y="87" width="393" height="730"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="aCP-qv-YfY" style="IBUITableViewCellStyleDefault" id="8Ll-Ea-bFC">
                                         <rect key="frame" x="20" y="55.333332061767578" width="353" height="43.666667938232422"/>
@@ -83,9 +83,8 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="SbZ-pp-aGS">
-                                <rect key="frame" x="16" y="56" width="361" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="SbZ-pp-aGS">
+                                <rect key="frame" x="16" y="56" width="361" height="32"/>
                                 <segments>
                                     <segment title="First"/>
                                     <segment title="Second"/>
@@ -97,13 +96,16 @@
                         <constraints>
                             <constraint firstItem="d8F-vG-i6P" firstAttribute="leading" secondItem="6o1-zh-hXU" secondAttribute="leading" id="7Hj-7h-Im5"/>
                             <constraint firstAttribute="bottomMargin" secondItem="d8F-vG-i6P" secondAttribute="bottom" constant="-34" id="CKp-4Q-MoZ"/>
+                            <constraint firstItem="SbZ-pp-aGS" firstAttribute="top" secondItem="6o1-zh-hXU" secondAttribute="top" id="Cwp-99-QOd"/>
+                            <constraint firstItem="SbZ-pp-aGS" firstAttribute="leading" secondItem="6o1-zh-hXU" secondAttribute="leading" constant="16" id="I3a-dZ-6tt"/>
+                            <constraint firstItem="d8F-vG-i6P" firstAttribute="top" secondItem="SbZ-pp-aGS" secondAttribute="bottom" id="IU9-h8-cpV"/>
                             <constraint firstItem="d8F-vG-i6P" firstAttribute="trailing" secondItem="6o1-zh-hXU" secondAttribute="trailing" id="euD-dX-Oht"/>
-                            <constraint firstItem="d8F-vG-i6P" firstAttribute="top" secondItem="ONm-k8-BjT" secondAttribute="top" id="q6I-A6-Ckz"/>
+                            <constraint firstItem="6o1-zh-hXU" firstAttribute="trailing" secondItem="SbZ-pp-aGS" secondAttribute="trailing" constant="16" id="r6F-4f-orJ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Modal" id="byh-UN-vAo">
                         <barButtonItem key="leftBarButtonItem" id="oy5-On-7ja">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="CEU-k4-5a0">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="CEU-k4-5a0">
                                 <rect key="frame" x="16" y="11" width="87" height="34.333333333333336"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
@@ -114,7 +116,7 @@
                             </button>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" id="vfo-C6-ZXV">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="6aK-vj-W4b">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="6aK-vj-W4b">
                                 <rect key="frame" x="290" y="11" width="87" height="34.333333333333336"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
@@ -126,6 +128,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="doneButton" destination="CEU-k4-5a0" id="WnQ-bX-AnW"/>
                         <outlet property="segmentedControl" destination="SbZ-pp-aGS" id="JBj-Sf-dA4"/>
                         <outlet property="tableView" destination="d8F-vG-i6P" id="o0J-Zk-cUG"/>
                     </connections>

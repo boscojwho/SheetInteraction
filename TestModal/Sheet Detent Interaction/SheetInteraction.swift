@@ -7,6 +7,21 @@
 
 import UIKit
 
+extension UISheetPresentationController.Detent {
+    
+    /// - Returns: Self if `other` is lesser than self.
+    func comparing(other: UISheetPresentationController.Detent, in sheet: UISheetPresentationController) -> UISheetPresentationController.Detent {
+        let context = Context(containerTraitCollection: sheet.traitCollection, maximumDetentValue: sheet.maximumDetentValue())
+        guard let val1 = resolvedValue(in: context) else {
+            return other
+        }
+        guard let val2 = other.resolvedValue(in: context) else {
+            return self
+        }
+        return val1 > val2 ? self : other
+    }
+}
+
 class Context: NSObject, UISheetPresentationControllerDetentResolutionContext {
     let containerTraitCollection: UITraitCollection
     let maximumDetentValue: CGFloat
@@ -34,6 +49,9 @@ struct SheetInteractionInfo {
         let distance: CGFloat
     }
     
+    /// Equivalent to swiping down on a sheet stack.
+    let isMinimizing: Bool
+    
     /// - Parameter closestDetent: The detent with the shortest vertical distance from the top edge of a sheet stack. Sheet may or may not be moving away from this detent.
     let closest: Change
     /// - Parameter approachingDetent: This is `nil` if user interaction is stationary. Sheet may or may not end up resting at this detent, depending on sheet interaction velocity.
@@ -42,8 +60,13 @@ struct SheetInteractionInfo {
     /// The nearest detent a sheet's top edge is approaching *from*. For example: when moving from `small` to `medium`, preceding detent is `small`. Once sheet moves to `medium`, preceding will change to `medium`, even when user is actively interacting with sheet stack.
     let preceding: Change
     
+    /// Use this value to interactively animate user-interface elements without having to check for interaction direction.
+//    var percentageAnimating: CGFloat
     /// Interactive animation progress from preceding detent to approaching detent.
-    let percentageComplete: CGFloat
+    let percentageApproaching: CGFloat
+    /// Interactive animation progress from preceding detent.
+    /// This added to `percentageApproaching` equals `1`.
+    let percentagePreceding: CGFloat
 }
 
 /// - NOTE: Ensure *interactionGesture* recognizes simultaneously with all other gestures in `sheetView`.
@@ -62,8 +85,25 @@ final class SheetInteraction {
         sheetView.addGestureRecognizer(sheetInteractionGesture)
     }
     
+    /// The detent at which sheet interaction began.
+    /// This value is available when sheet interaction is actively happening.
+    private(set) var originDetent: UISheetPresentationController.Detent.Identifier?
+    
     var currentDirections: UIPanGestureRecognizer.Directions {
         sheetInteractionGesture.directions
+    }
+    
+    /// This allows callers to perform detent-specific percent-driven interactive animations.
+    /// Calls `animationBlock` if sheet is currently greater than or equal to specified `detent`, but *is not* equal or greater to the next adjacent detent.
+    func animating(_ detent: UISheetPresentationController.Detent.Identifier, interactionInfo: SheetInteractionInfo, animationBlock: (CGFloat) -> Void) {
+        /// Check for `currentDirections` to ensure `animationBlock` only runs when sheet detent state is equal or greater than specified detent.
+        if interactionInfo.approaching.detent == detent, currentDirections.contains(.down) {
+            animationBlock(interactionInfo.percentagePreceding)
+        } else if interactionInfo.preceding.detent == detent, currentDirections.contains(.up) {
+            animationBlock(interactionInfo.percentageApproaching)
+        } else {
+            return
+        }
     }
     
     /// The gesture used to track sheet interaction and detent state.
@@ -84,15 +124,22 @@ final class SheetInteraction {
         }
         
         /// Track which detent is currently closest to the top edge of sheet statck.
-        //        print(#function, "state: \(pan.state)")
+        print(#function, "state: \(pan.state)")
         switch pan.state {
+            /// Handling `.recognized` causes `.ended` to not register.... [2022.12]
+//        case .recognized:
+//            break
         case .began:
-            break
+            originDetent = sheet.selectedDetentIdentifier ?? sheet.detents.first!.identifier
         case .changed:
             let directions = pan.directions
             guard directions.isStationary == false else {
                 print("stationary...: \(pan.velocity(in: pan.view))")
+                #if DEBUG
+                fatalError()
+                #else
                 return
+                #endif
             }
             let frame = sheetView.convert(sheetView.frame, from: window)
             let detents = sheet.detents
@@ -167,15 +214,20 @@ final class SheetInteraction {
             print("total percentage: \(totalPercentage)")
           
             let changeInfo = SheetInteractionInfo(
+                isMinimizing: currentDirections.contains(.down),
                 closest: .init(
                     detent: closest.0, distance: closest.1),
                 approaching: .init(
                     detent: approachingDetent, distance: approachingDistance),
                 preceding: .init(
                     detent: precedingDetent, distance: precedingDistance),
-                percentageComplete: percentageApproaching)
+                percentageApproaching: percentageApproaching,
+            percentagePreceding: 1 - percentageApproaching)
             delegate?.sheetInteractionChanged(sheet: self, info: changeInfo)
         case .ended, .cancelled, .failed:
+            defer {
+                originDetent = nil
+            }
             let targetDetentIdentifier = sheet.selectedDetentIdentifier ?? sheet.detents.first!.identifier
             let targetDetent = sheet.detents.first { $0.identifier == targetDetentIdentifier }
             guard let detentHeight = targetDetent?.resolvedValue(in: Context(containerTraitCollection: sheet.traitCollection, maximumDetentValue: sheet.maximumDetentValue())) else {

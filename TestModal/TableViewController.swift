@@ -22,6 +22,7 @@ class TableViewController: UIViewController {
         }
     }
     
+    @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     
     @IBAction func showModal(_ sender: Any) {
@@ -231,18 +232,38 @@ extension TableViewController: SheetInteractionDelegate {
         
         activeDetent = info.approaching.detent
         
-        #warning("Add `percentageApproaching` and `percentagePreceding`?")
-        if info.approaching.detent == ._small {
-            segmentedControl.alpha = 1 - info.percentageComplete
+#warning("This needs work....")
+        sheet.animating(._medSmall, interactionInfo: info) { percentageAnimating in
+            segmentedControl.alpha = percentageAnimating
         }
-        if info.preceding.detent == ._small {
-            segmentedControl.alpha = info.percentageComplete
+        sheet.animating(._small, interactionInfo: info) { percentageAnimating in
+            doneButton.alpha = percentageAnimating
         }
     }
     
     func sheetInteractionEnded(sheet: SheetInteraction, targetDetent: SheetInteractionInfo.Change) {
         if let delegate = presentingViewController as? SheetInteractionDelegate {
             delegate.sheetInteractionEnded(sheet: sheet, targetDetent: targetDetent)
+        }
+        
+        activeDetent = targetDetent.detent
+        
+#warning("This needs work....")
+        /// Get detent object.
+        if let target = sheet.sheet.detent(with: targetDetent.detent) {
+            /// If target detent is greater than `small`.
+            if target.comparing(other: ._small(), in: sheet.sheet) == target {
+                doneButton.alpha = 1
+            } else {
+                doneButton.alpha = 0
+            }
+            
+            /// If target detent is greater than `medSmall`.
+            if target.comparing(other: ._medSmall(), in: sheet.sheet) == target {
+                segmentedControl.alpha = 1
+            } else {
+                segmentedControl.alpha = 0
+            }
         }
     }
 }
