@@ -156,8 +156,6 @@ final class SheetInteraction {
                 /// 0: detent identifier, 1: distance to detent, 2: negative values indicate higher up detents (and vice-versa).
                 return (identifier: identifier, absDistance: abs(distance), distance: distance)
             }
-            /// Closest in terms of distance, not accounting for sheet momemtum, which may cause sheet to rest at a further detent.
-            let closest = heights.sorted { $0.absDistance < $1.absDistance }.first!
             /// Detents with a negative distance are higher than sheet's current position (i.e. need to drag up).
             let detentsAbove = heights.filter { $0.distance <= 0 }
             /// Detents with a positive distance are lower than sheet's current position (i.e. need to drag down).
