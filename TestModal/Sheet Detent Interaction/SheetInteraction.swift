@@ -162,6 +162,12 @@ final class SheetInteraction {
             let detentsAbove = heights.filter { $0.distance <= 0 }
             /// Detents with a positive distance are lower than sheet's current position (i.e. need to drag down).
             let detentsBelow = heights.filter { $0.distance > 0 }
+            
+            /// Closest in terms of distance, not accounting for sheet momemtum, which may cause sheet to rest at a further detent.
+            let closest = heights.sorted { $0.absDistance < $1.absDistance }.first!
+            let closestDetent = closest.identifier
+            let closestDistance = closest.absDistance
+            
             /// This may or may not be the same as `closest`.
             let approaching = {
                 if directions.contains(.up) {
@@ -175,6 +181,7 @@ final class SheetInteraction {
             }()!
             let approachingDetent = approaching.identifier
             let approachingDistance = approaching.absDistance
+            
             /// Moving away from preceding detent, which may or may not be the detent at which sheet interaction began.
             let preceding = {
                 if directions.contains(.up) {
@@ -201,9 +208,9 @@ final class SheetInteraction {
             /// But on overscroll at bottom, sheet height stays at the smallest detent's value + safeAreaInset.bottom.
             /// We will need to use sheet.origin to calculate overscroll values.
             let percentageApproaching: CGFloat = {
-                let precedingDetent = sheetController.detents.first { $0.identifier == preceding.identifier }!
+                let precedingDetent = sheetController.detent(withIdentifier: preceding.identifier)!
                 let precedingHeight = precedingDetent.resolvedValue(in: Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetController.maximumDetentValue()))!
-                let approachingDetent = sheetController.detents.first { $0.identifier == approaching.identifier }!
+                let approachingDetent = sheetController.detent(withIdentifier: approaching.identifier)!
                 let approachingHeight = approachingDetent.resolvedValue(in: Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetController.maximumDetentValue()))!
                 let d = abs(precedingHeight - approachingHeight)
                 let percentage = 1 - (approachingDistance / d)
@@ -218,7 +225,7 @@ final class SheetInteraction {
             let changeInfo = SheetInteractionInfo(
                 isMinimizing: currentDirections.contains(.down),
                 closest: .init(
-                    detentIdentifier: closest.identifier, distance: closest.absDistance),
+                    detentIdentifier: closestDetent, distance: closestDistance),
                 approaching: .init(
                     detentIdentifier: approachingDetent, distance: approachingDistance),
                 preceding: .init(
@@ -231,7 +238,7 @@ final class SheetInteraction {
                 originDetent = nil
             }
             let targetDetentIdentifier = sheetController.identifierForSelectedDetent()
-            let targetDetent = sheetController.detents.first { $0.identifier == targetDetentIdentifier }
+            let targetDetent = sheetController.detent(withIdentifier: targetDetentIdentifier)
             guard let detentHeight = targetDetent?.resolvedValue(in: Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetController.maximumDetentValue())) else {
                 return
             }
@@ -244,5 +251,22 @@ final class SheetInteraction {
         default:
             break
         }
+    }
+}
+
+extension SheetInteraction {
+    
+    private func detentOrigins() -> [(detent: UISheetPresentationController.Detent, origin: CGPoint)] {
+        guard let window = sheetView.window else {
+            return []
+        }
+        let detents = sheetController.detents
+        let origins = detents.compactMap { detent in
+            let context = Context(containerTraitCollection: sheetView.traitCollection, maximumDetentValue: sheetController.maximumDetentValue())
+            let detentHeightIncludingInsets = detent.resolvedValue(in: context)! + sheetController.topSheetInsets.bottom
+            let yOrigin = window.frame.height - detentHeightIncludingInsets
+            return (detent: detent, origin: CGPoint(x: 0, y: yOrigin))
+        }
+        return origins
     }
 }
