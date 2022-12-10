@@ -131,7 +131,7 @@ final class SheetInteraction {
 //        case .recognized:
 //            break
         case .began:
-            originDetent = sheetController.selectedDetentIdentifier ?? sheetController.detents.first!.identifier
+            originDetent = sheetController.identifierForSelectedDetent()
         case .changed:
             let directions = pan.directions
             guard directions.isStationary == false else {
@@ -229,7 +229,7 @@ final class SheetInteraction {
             defer {
                 originDetent = nil
             }
-            let targetDetentIdentifier = sheetController.selectedDetentIdentifier ?? sheetController.detents.first!.identifier
+            let targetDetentIdentifier = sheetController.identifierForSelectedDetent()
             let targetDetent = sheetController.detents.first { $0.identifier == targetDetentIdentifier }
             guard let detentHeight = targetDetent?.resolvedValue(in: Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetController.maximumDetentValue())) else {
                 return

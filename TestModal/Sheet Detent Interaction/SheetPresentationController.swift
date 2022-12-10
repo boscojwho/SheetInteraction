@@ -9,6 +9,11 @@ import UIKit
 
 extension UISheetPresentationController {
     
+    /// - Returns: First detent in `detents`, instead of `nil`.
+    func identifierForSelectedDetent() -> Detent.Identifier {
+        selectedDetentIdentifier ?? detents.first!.identifier
+    }
+    
     func detent(with identifier: Detent.Identifier) -> Detent? {
         detents.first { $0.identifier == identifier }
     }

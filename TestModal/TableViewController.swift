@@ -220,7 +220,7 @@ extension TableViewController: UISheetPresentationControllerDelegate {
     }
     
     func sheetPresentationControllerDidChangeSelectedDetentIdentifier(_ sheetPresentationController: UISheetPresentationController) {
-        print(sheetPresentationController.selectedDetentIdentifier ?? sheetPresentationController.detents.first!)
+        print(sheetPresentationController.identifierForSelectedDetent())
     }
 }
 
