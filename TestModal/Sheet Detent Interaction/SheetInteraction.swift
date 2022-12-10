@@ -145,7 +145,7 @@ final class SheetInteraction {
             }
             let frame = window.convert(sheetView.frame, from: sheetView)
             let detents = sheetController.detents
-            let heights = detents.compactMap { detent in
+            let detentsLayoutInfo = detents.compactMap { detent in
                 let identifier = detent.identifier
                 let context = Context.init(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetController.maximumDetentValue())
 #warning("Handle deactivated detent(s).")
@@ -153,16 +153,18 @@ final class SheetInteraction {
                 /// Exclude sheet height outside safe area (bottom edge attached).
                 let sheetHeight = frame.height - sheetController.topSheetInsets.bottom
                 let distance = sheetHeight - detentHeight
+                let detentHeightIncludingInsets = detentHeight + sheetController.topSheetInsets.bottom
+                let yOrigin = window.frame.height - detentHeightIncludingInsets
                 /// 0: detent identifier, 1: distance to detent, 2: negative values indicate higher up detents (and vice-versa).
-                return (identifier: identifier, absDistance: abs(distance), distance: distance)
+                return (identifier: identifier, absDistance: abs(distance), distance: distance, origin: CGPoint(x: 0, y: yOrigin))
             }
             /// Detents with a negative distance are higher than sheet's current position (i.e. need to drag up).
-            let detentsAbove = heights.filter { $0.distance <= 0 }
+            let detentsAbove = detentsLayoutInfo.filter { $0.distance <= 0 }
             /// Detents with a positive distance are lower than sheet's current position (i.e. need to drag down).
-            let detentsBelow = heights.filter { $0.distance > 0 }
+            let detentsBelow = detentsLayoutInfo.filter { $0.distance > 0 }
             
             /// Closest in terms of distance, not accounting for sheet momemtum, which may cause sheet to rest at a further detent.
-            let closest = heights.sorted { $0.absDistance < $1.absDistance }.first!
+            let closest = detentsLayoutInfo.sorted { $0.absDistance < $1.absDistance }.first!
             let closestDetent = closest.identifier
             let closestDistance = closest.absDistance
             
@@ -170,9 +172,9 @@ final class SheetInteraction {
             let approaching = {
                 if directions.contains(.up) {
                     /// Sheet is moving up.
-                    return detentsAbove.first ?? heights.last
+                    return detentsAbove.first ?? detentsLayoutInfo.last
                 } else if directions.contains(.down) {
-                    return detentsBelow.last ?? heights.first
+                    return detentsBelow.last ?? detentsLayoutInfo.first
                 } else {
                     fatalError()
                 }
@@ -184,9 +186,9 @@ final class SheetInteraction {
             let preceding = {
                 if directions.contains(.up) {
                     /// Sheet is moving up.
-                    return detentsBelow.last ?? heights.first
+                    return detentsBelow.last ?? detentsLayoutInfo.first
                 } else if directions.contains(.down) {
-                    return detentsAbove.first ?? heights.last
+                    return detentsAbove.first ?? detentsLayoutInfo.last
                 } else {
                     fatalError()
                 }
