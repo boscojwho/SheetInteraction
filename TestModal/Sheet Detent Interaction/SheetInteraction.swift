@@ -143,7 +143,8 @@ final class SheetInteraction {
                 return
                 #endif
             }
-            let frame = sheetView.convert(sheetView.frame, from: window)
+            let frame = window.convert(sheetView.frame, from: sheetView)
+            print("sheet y: \(frame.origin.y)")
             let detents = sheetController.detents
             let heights = detents.compactMap {
                 let identifier = $0.identifier
