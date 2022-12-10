@@ -14,7 +14,7 @@ extension UISheetPresentationController {
         selectedDetentIdentifier ?? detents.first!.identifier
     }
     
-    func detent(with identifier: Detent.Identifier) -> Detent? {
+    func detent(withIdentifier identifier: Detent.Identifier) -> Detent? {
         detents.first { $0.identifier == identifier }
     }
 }

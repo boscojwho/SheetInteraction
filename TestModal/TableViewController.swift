@@ -255,7 +255,7 @@ extension TableViewController: SheetInteractionDelegate {
         
 #warning("This needs work....")
         /// Get detent object.
-        if let target = sheet.sheetController.detent(with: targetDetent.detent) {
+        if let target = sheet.sheetController.detent(withIdentifier: targetDetent.detent) {
             /// If target detent is greater than `small`.
             if target.greaterThan(other: ._small(), in: sheet.sheetController) == true {
                 doneButton.alpha = 1
