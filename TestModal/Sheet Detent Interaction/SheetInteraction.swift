@@ -34,7 +34,7 @@ class Context: NSObject, UISheetPresentationControllerDetentResolutionContext {
 
 /// Emit sheet interaction events.
 protocol SheetInteractionDelegate: AnyObject {
-    func sheetInteractionChanged(sheet: SheetInteraction, info: SheetInteractionInfo)
+    func sheetInteractionChanged(sheet: SheetInteraction, interactionInfo: SheetInteractionInfo)
     
     /// - Parameter targetDetent: Sheet is either animating (or animated) to its target detent after user interaction has ended.
     func sheetInteractionEnded(sheet: SheetInteraction, targetDetent: SheetInteractionInfo.Change, percentageTotal: CGFloat)
@@ -224,7 +224,7 @@ final class SheetInteraction {
                     detent: precedingDetent, distance: precedingDistance),
                 percentageTotal: totalPercentage, percentageApproaching: percentageApproaching,
                 percentagePreceding: 1 - percentageApproaching)
-            delegate?.sheetInteractionChanged(sheet: self, info: changeInfo)
+            delegate?.sheetInteractionChanged(sheet: self, interactionInfo: changeInfo)
         case .ended, .cancelled, .failed:
             defer {
                 originDetent = nil
