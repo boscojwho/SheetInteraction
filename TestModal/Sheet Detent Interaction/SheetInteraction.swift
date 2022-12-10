@@ -9,16 +9,17 @@ import UIKit
 
 extension UISheetPresentationController.Detent {
     
-    /// - Returns: Self if `other` is lesser than self.
-    func comparing(other: UISheetPresentationController.Detent, in sheet: UISheetPresentationController) -> UISheetPresentationController.Detent {
+    /// - Note: If the resolved value of self is nil, returns false. If the resolved value of `other` is nil, and self.resolvedValue is non-nil, returns true.
+    /// - Returns: Self if greater than `other`.
+    func greaterThan(other: UISheetPresentationController.Detent, in sheet: UISheetPresentationController) -> Bool {
         let context = Context(containerTraitCollection: sheet.traitCollection, maximumDetentValue: sheet.maximumDetentValue())
         guard let val1 = resolvedValue(in: context) else {
-            return other
+            return false
         }
         guard let val2 = other.resolvedValue(in: context) else {
-            return self
+            return true
         }
-        return val1 > val2 ? self : other
+        return val1 > val2
     }
 }
 
