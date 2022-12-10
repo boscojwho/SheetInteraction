@@ -133,7 +133,7 @@ extension ViewController: SheetInteractionDelegate {
         debugLabel.text = "Detent: \(info.approaching.detent.rawValue), %: \(info.percentageApproaching)"
     }
     
-    func sheetInteractionEnded(sheet: SheetInteraction, targetDetent: SheetInteractionInfo.Change) {
+    func sheetInteractionEnded(sheet: SheetInteraction, targetDetent: SheetInteractionInfo.Change, percentageTotal: CGFloat) {
         debugLabel.text = "Detent: \(targetDetent.detent.rawValue), %: 1.0"
     }
 }

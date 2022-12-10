@@ -37,7 +37,7 @@ protocol SheetInteractionDelegate: AnyObject {
     func sheetInteractionChanged(sheet: SheetInteraction, info: SheetInteractionInfo)
     
     /// - Parameter targetDetent: Sheet is either animating (or animated) to its target detent after user interaction has ended.
-    func sheetInteractionEnded(sheet: SheetInteraction, targetDetent: SheetInteractionInfo.Change)
+    func sheetInteractionEnded(sheet: SheetInteraction, targetDetent: SheetInteractionInfo.Change, percentageTotal: CGFloat)
 }
 
 /// Info relating to a sheet interaction event.
@@ -61,8 +61,8 @@ struct SheetInteractionInfo {
     /// The nearest detent a sheet's top edge is approaching *from*. For example: when moving from `small` to `medium`, preceding detent is `small`. Once sheet moves to `medium`, preceding will change to `medium`, even when user is actively interacting with sheet stack.
     let preceding: Change
     
-    /// Use this value to interactively animate user-interface elements without having to check for interaction direction.
-//    var percentageAnimating: CGFloat
+    /// From 0-1, this value represents where a sheet is at relative to its smallest detent, where 1 is the largest detent.
+    let percentageTotal: CGFloat
     /// Interactive animation progress from preceding detent to approaching detent.
     let percentageApproaching: CGFloat
     /// Interactive animation progress from preceding detent.
@@ -222,8 +222,8 @@ final class SheetInteraction {
                     detent: approachingDetent, distance: approachingDistance),
                 preceding: .init(
                     detent: precedingDetent, distance: precedingDistance),
-                percentageApproaching: percentageApproaching,
-            percentagePreceding: 1 - percentageApproaching)
+                percentageTotal: totalPercentage, percentageApproaching: percentageApproaching,
+                percentagePreceding: 1 - percentageApproaching)
             delegate?.sheetInteractionChanged(sheet: self, info: changeInfo)
         case .ended, .cancelled, .failed:
             defer {
@@ -239,7 +239,7 @@ final class SheetInteraction {
             print("total percentage: \(totalPercentage)")
             let targetDistance = abs(sheetHeight - detentHeight)
             delegate?.sheetInteractionEnded(sheet: self, targetDetent: .init(
-                detent: targetDetentIdentifier, distance: targetDistance))
+                detent: targetDetentIdentifier, distance: targetDistance), percentageTotal: totalPercentage)
         default:
             break
         }

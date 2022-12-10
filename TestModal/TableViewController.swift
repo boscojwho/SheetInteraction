@@ -22,6 +22,7 @@ class TableViewController: UIViewController {
         }
     }
     
+    @IBOutlet weak var detailsButton: UIButton!
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     
@@ -232,6 +233,8 @@ extension TableViewController: SheetInteractionDelegate {
         
         activeDetent = info.approaching.detent
         
+        detailsButton.alpha = info.percentageTotal
+        
 #warning("This needs work....")
         sheet.animating(._medSmall, interactionInfo: info) { percentageAnimating in
             segmentedControl.alpha = percentageAnimating
@@ -241,12 +244,14 @@ extension TableViewController: SheetInteractionDelegate {
         }
     }
     
-    func sheetInteractionEnded(sheet: SheetInteraction, targetDetent: SheetInteractionInfo.Change) {
+    func sheetInteractionEnded(sheet: SheetInteraction, targetDetent: SheetInteractionInfo.Change, percentageTotal: CGFloat) {
         if let delegate = presentingViewController as? SheetInteractionDelegate {
-            delegate.sheetInteractionEnded(sheet: sheet, targetDetent: targetDetent)
+            delegate.sheetInteractionEnded(sheet: sheet, targetDetent: targetDetent, percentageTotal: percentageTotal)
         }
         
         activeDetent = targetDetent.detent
+        
+        detailsButton.alpha = percentageTotal
         
 #warning("This needs work....")
         /// Get detent object.

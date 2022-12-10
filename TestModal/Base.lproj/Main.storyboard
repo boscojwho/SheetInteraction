@@ -128,6 +128,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="detailsButton" destination="6aK-vj-W4b" id="zxI-mM-v72"/>
                         <outlet property="doneButton" destination="CEU-k4-5a0" id="WnQ-bX-AnW"/>
                         <outlet property="segmentedControl" destination="SbZ-pp-aGS" id="JBj-Sf-dA4"/>
                         <outlet property="tableView" destination="d8F-vG-i6P" id="o0J-Zk-cUG"/>
