@@ -260,25 +260,16 @@ final class SheetInteraction {
             guard let detentHeight = targetDetent?.resolvedValue(in: Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetController.maximumDetentValue())) else {
                 return
             }
-            let sheetFrameInWindow = sheetFrameInWindowOnPreviousChange
             let sheetHeight = sheetHeightOnPreviousChange
             let totalPercentageUsingHeight = sheetHeight/sheetController.maximumDetentValue()
-            let totalPercentageUsingOrigin = {
-                let maxDetentValue = sheetController.maximumDetentValue()
-                let y = sheetFrameInWindow.origin.y - sheetController.topSheetInsets.top
-                let context = Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetController.maximumDetentValue())
-                let smallestDetentValue = sheetController
-                    .detent(withIdentifier: sheetController.detents.first!.identifier)!
-                    .resolvedValue(in: context)!
-                /// Subtract value of smallest detent so that we get a range between 0-1, where 0 corresponds to smallest, and 1 to largest detent.
-                /// This method means the in-between values will not correspond to any multiples specified in a detent's resolver closure (e.g. context.maximumDetentValue `*` 0.5).
-                let p = y/(maxDetentValue-smallestDetentValue)
-                return 1 - p
-            }()
-            print("total percentage [height]: \(totalPercentageUsingHeight), [yOrigin]: \(totalPercentageUsingOrigin)")
+            let totalPercentageUsingOriginOnTouchUp = totalPercentageWithOrigin(sheetFrame: sheetFrameInWindowOnPreviousChange)
+            
+            let sheetFrameInWindow = window.convert(sheetView.frame, from: sheetView)
+            let totalPercentageUsingOriginTargetting = totalPercentageWithOrigin(sheetFrame: sheetFrameInWindow)
+            print("total percentage [height]: \(totalPercentageUsingHeight), [yOrigin]: \(totalPercentageUsingOriginOnTouchUp) --> targetting: \(totalPercentageUsingOriginTargetting)")
             let targetDistance = abs(sheetHeight - detentHeight)
             delegate?.sheetInteractionEnded(sheet: self, targetDetentInfo: .init(
-                detentIdentifier: targetDetentIdentifier, distance: targetDistance), percentageTotal: totalPercentageUsingOrigin)
+                detentIdentifier: targetDetentIdentifier, distance: targetDistance), percentageTotal: totalPercentageUsingOriginTargetting)
         default:
             break
         }
@@ -286,6 +277,19 @@ final class SheetInteraction {
 }
 
 extension SheetInteraction {
+    
+    private func totalPercentageWithOrigin(sheetFrame: CGRect) -> CGFloat {
+        let maxDetentValue = sheetController.maximumDetentValue()
+        let y = sheetFrame.origin.y - sheetController.topSheetInsets.top
+        let context = Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetController.maximumDetentValue())
+        let smallestDetentValue = sheetController
+            .detent(withIdentifier: sheetController.detents.first!.identifier)!
+            .resolvedValue(in: context)!
+        /// Subtract value of smallest detent so that we get a range between 0-1, where 0 corresponds to smallest, and 1 to largest detent.
+        /// This method means the in-between values will not correspond to any multiples specified in a detent's resolver closure (e.g. context.maximumDetentValue `*` 0.5).
+        let p = y/(maxDetentValue-smallestDetentValue)
+        return 1 - p
+    }
     
     private func detentOrigins() -> [(detent: UISheetPresentationController.Detent, origin: CGPoint)] {
         guard let window = sheetView.window else {
