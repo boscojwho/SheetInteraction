@@ -7,10 +7,13 @@
 
 import UIKit
 
+public typealias Detent = UISheetPresentationController.Detent
+public typealias DetentIdentifier = UISheetPresentationController.Detent.Identifier
+
 /// Emit sheet interaction events.
 public protocol SheetInteractionDelegate: AnyObject {
     /// Optional: Default implementation is no-op.
-    func sheetInteractionBegan(sheet: SheetInteraction, at detent: UISheetPresentationController.Detent.Identifier)
+    func sheetInteractionBegan(sheet: SheetInteraction, at detent: DetentIdentifier)
     
     /// Stationary and x-axis change events are not emitted.
     func sheetInteractionChanged(sheet: SheetInteraction, interactionInfo: SheetInteraction.Change)
@@ -21,7 +24,7 @@ public protocol SheetInteractionDelegate: AnyObject {
 }
 
 extension SheetInteractionDelegate {
-    func sheetInteractionBegan(sheet: SheetInteraction, at detent: UISheetPresentationController.Detent.Identifier) {
+    func sheetInteractionBegan(sheet: SheetInteraction, at detent: DetentIdentifier) {
         /// no-op.
     }
 }
