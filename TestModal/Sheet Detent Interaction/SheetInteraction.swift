@@ -74,6 +74,13 @@ struct SheetInteractionInfo {
 /// - NOTE: Ensure *interactionGesture* recognizes simultaneously with all other gestures in `sheetView`.
 final class SheetInteraction {
     
+    /// Layout info relating to a detent during sheet interaction.
+    /// - Parameter identifier: Info pertaining to this detent.
+    /// - Parameter absDistance: Absolute distance in screen points to this detent for the current sheet interaction.
+    /// - Parameter distance: Distance (including magnitude), where negative values indicate higher up detents (and vice-versa).
+    /// - Parameter origin: Origin of the top edge of this detent in the window's coordinate space.
+    private typealias DetentLayoutInfo = (identifier: UISheetPresentationController.Detent.Identifier, absDistance: CGFloat, distance: CGFloat, origin: CGPoint)
+    
     weak var delegate: SheetInteractionDelegate?
     
     /// Controller managing a modal sheet stack.
@@ -149,19 +156,7 @@ final class SheetInteraction {
             sheetFrameInWindowOnPreviousChange = sheetFrameInWindow
 
             let detents = sheetController.detents
-            let detentsLayoutInfo = detents.compactMap { detent in
-                let identifier = detent.identifier
-                let context = Context.init(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetController.maximumDetentValue())
-#warning("Handle deactivated detent(s).")
-                let detentHeight = detent.resolvedValue(in: context)!
-                /// Exclude sheet height outside safe area (bottom edge attached).
-                let sheetHeight = sheetFrameInWindow.height - sheetController.topSheetInsets.bottom
-                let distance = sheetHeight - detentHeight
-                let detentHeightIncludingInsets = detentHeight + sheetController.topSheetInsets.bottom
-                let yOrigin = window.frame.height - detentHeightIncludingInsets
-                /// 0: detent identifier, 1: distance to detent, 2: negative values indicate higher up detents (and vice-versa).
-                return (identifier: identifier, absDistance: abs(distance), distance: distance, origin: CGPoint(x: 0, y: yOrigin))
-            }
+            let detentsLayoutInfo = detentsLayoutInfo(sheetWindow: window, detents: detents)
             /// Detents with a negative distance are higher than sheet's current position (i.e. need to drag up).
             let detentsAbove = detentsLayoutInfo.filter { $0.distance <= 0 }
             /// Detents with a positive distance are lower than sheet's current position (i.e. need to drag down).
@@ -272,6 +267,27 @@ final class SheetInteraction {
                 detentIdentifier: targetDetentIdentifier, distance: targetDistance), percentageTotal: totalPercentageUsingOriginTargetting)
         default:
             break
+        }
+    }
+}
+
+extension SheetInteraction {
+    
+    ///
+    private func detentsLayoutInfo(sheetWindow: UIWindow, detents: [UISheetPresentationController.Detent]) -> [DetentLayoutInfo] {
+        let sheetFrameInWindow = sheetWindow.convert(sheetView.frame, from: sheetView)
+        return detents.compactMap { detent in
+            let identifier = detent.identifier
+            let context = Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetController.maximumDetentValue())
+#warning("Handle deactivated detent(s).")
+            let detentHeight = detent.resolvedValue(in: context)!
+            /// Exclude sheet height outside safe area (bottom edge attached).
+            let sheetHeight = sheetFrameInWindow.height - sheetController.topSheetInsets.bottom
+            let distance = sheetHeight - detentHeight
+            let detentHeightIncludingInsets = detentHeight + sheetController.topSheetInsets.bottom
+            let yOrigin = sheetWindow.frame.height - detentHeightIncludingInsets
+            /// 0: detent identifier, 1: distance to detent, 2: negative values indicate higher up detents (and vice-versa).
+            return (identifier: identifier, absDistance: abs(distance), distance: distance, origin: CGPoint(x: 0, y: yOrigin))
         }
     }
 }
