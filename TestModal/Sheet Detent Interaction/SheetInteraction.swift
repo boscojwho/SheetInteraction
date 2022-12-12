@@ -91,11 +91,11 @@ final class SheetInteraction {
     let sheetLayoutInfo: SheetLayoutInfo
     
     /// - Parameter sheetView: Must already be added to view hierarchy connected to a window.
-    init(sheet: UISheetPresentationController, sheetView: UIView) {
+    init(sheet: UISheetPresentationController, sheetView: UIView, sheetWindow: UIWindow) {
         self.sheetController = sheet
         self.sheetView = sheetView
-        self.sheetWindow = sheet.presentingViewController.view.window!
-        self.sheetLayoutInfo = .init(sheet: sheetController, window: sheetWindow)
+        self.sheetWindow = sheetWindow
+        self.sheetLayoutInfo = .init(sheet: sheetController, sheetView: sheetView, window: sheetWindow)
         sheetView.addGestureRecognizer(sheetInteractionGesture)
     }
     
@@ -256,8 +256,9 @@ final class SheetInteraction {
             
             let sheetFrameInWindow = sheetWindow.convert(sheetView.frame, from: sheetView)
             let totalPercentageUsingOriginTargetting = totalPercentageWithOrigin(sheetFrame: sheetFrameInWindow)
-            print("total percentage [height]: \(totalPercentageUsingHeight), [yOrigin]: \(totalPercentageUsingOriginOnTouchUp) --> targetting: \(totalPercentageUsingOriginTargetting)")
             let targetDistance = abs(sheetHeight - detentHeight)
+            print("total percentage [height]: \(totalPercentageUsingHeight), [yOrigin]: \(totalPercentageUsingOriginOnTouchUp) --> targetting: \(totalPercentageUsingOriginTargetting)")
+
             delegate?.sheetInteractionEnded(sheet: self, targetDetentInfo: .init(
                 detentIdentifier: targetDetentIdentifier, distance: targetDistance), percentageTotal: totalPercentageUsingOriginTargetting)
         default:

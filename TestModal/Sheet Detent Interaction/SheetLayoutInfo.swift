@@ -10,7 +10,17 @@ import UIKit
 /// Layout info for the sheets in a modal sheet stack.
 struct SheetLayoutInfo {
     let sheet: UISheetPresentationController
+    let sheetView: UIView
     let window: UIWindow
+    
+    /// Sheet frame in provided window.
+//    var sheetFrameInWindow: CGRect {
+//        window.convert(sheetView.frame, from: window)
+//    }
+    
+//    var sheetHeight: CGFloat {
+//        sheetFrameInWindow.height - topSheetInsets.bottom
+//    }
     
     /// Layout insets inside window for the bottom sheet (visually underneath) in a sheet stack.
     var bottomSheetInsets: UIEdgeInsets {

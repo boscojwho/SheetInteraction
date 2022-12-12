@@ -24,6 +24,12 @@ extension UISheetPresentationController {
 extension UISheetPresentationController {
     
     var layoutInfo: SheetLayoutInfo {
-        .init(sheet: self, window: presentedView!.window!)
+        .init(sheet: self, sheetView: sheetView, window: sheetView.window!)
+    }
+    
+    var sheetView: UIView {
+        /// Don't use presentedView, which may return UIDropShadowView:
+        /// Could cause issues if drop shadow view is not at the same origin or same size as layout container view.
+        presentedViewController.view!
     }
 }
