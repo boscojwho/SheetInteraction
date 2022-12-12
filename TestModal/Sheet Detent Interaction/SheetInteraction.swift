@@ -274,7 +274,10 @@ final class SheetInteraction {
 
 extension SheetInteraction {
     
-    ///
+    /// Generate layout info relating to the current sheet interaction for the specified detents.
+    /// - Warning: Do not pass inactive detents.
+    /// - Parameter sheetWindow: Window in which sheet statck is presented.
+    /// - Parameter detents: Do not pass inactive detents.
     private func detentsLayoutInfo(sheetWindow: UIWindow, detents: [UISheetPresentationController.Detent]) -> [DetentLayoutInfo] {
         let sheetFrameInWindow = sheetWindow.convert(sheetView.frame, from: sheetView)
         return detents.compactMap { detent in
