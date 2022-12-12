@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E41273A22940AD1200AE1D4A /* Detents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41273A12940AD1200AE1D4A /* Detents.swift */; };
 		E41273A42940AD7E00AE1D4A /* SheetPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41273A32940AD7E00AE1D4A /* SheetPresentationController.swift */; };
+		E4169E2A2946E22400A80641 /* SheetLayoutInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4169E292946E22400A80641 /* SheetLayoutInfo.swift */; };
 		E41EBDA2292C79F800FB3402 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41EBDA1292C79F800FB3402 /* AppDelegate.swift */; };
 		E41EBDA4292C79F800FB3402 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41EBDA3292C79F800FB3402 /* SceneDelegate.swift */; };
 		E41EBDA6292C79F800FB3402 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41EBDA5292C79F800FB3402 /* ViewController.swift */; };
@@ -26,6 +27,7 @@
 /* Begin PBXFileReference section */
 		E41273A12940AD1200AE1D4A /* Detents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detents.swift; sourceTree = "<group>"; };
 		E41273A32940AD7E00AE1D4A /* SheetPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresentationController.swift; sourceTree = "<group>"; };
+		E4169E292946E22400A80641 /* SheetLayoutInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetLayoutInfo.swift; sourceTree = "<group>"; };
 		E41EBD9E292C79F800FB3402 /* TestModal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestModal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E41EBDA1292C79F800FB3402 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E41EBDA3292C79F800FB3402 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				E422B26D29402BE5009A0802 /* PanDirection.swift */,
 				E41273A32940AD7E00AE1D4A /* SheetPresentationController.swift */,
 				E422B26F294041CD009A0802 /* SheetInteraction.swift */,
+				E4169E292946E22400A80641 /* SheetLayoutInfo.swift */,
 			);
 			path = "Sheet Detent Interaction";
 			sourceTree = "<group>";
@@ -177,6 +180,7 @@
 				E41273A42940AD7E00AE1D4A /* SheetPresentationController.swift in Sources */,
 				E422B26C293EE0EA009A0802 /* SheetNavigationController.swift in Sources */,
 				E41EBDA2292C79F800FB3402 /* AppDelegate.swift in Sources */,
+				E4169E2A2946E22400A80641 /* SheetLayoutInfo.swift in Sources */,
 				E422B26E29402BE5009A0802 /* PanDirection.swift in Sources */,
 				E422B26A293D8F35009A0802 /* DetailViewController.swift in Sources */,
 				E41EBDA4292C79F800FB3402 /* SceneDelegate.swift in Sources */,

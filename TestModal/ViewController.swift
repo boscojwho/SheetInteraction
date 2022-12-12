@@ -67,8 +67,8 @@ class ViewController: UIViewController {
                 $0.removeFromSuperview()
             }
             
-            let topSheetInsets = sheetPresentationController.topSheetInsets
-            let bottomSheetInsets = sheetPresentationController.bottomSheetInsets
+            let topSheetInsets = sheetPresentationController.layoutInfo.topSheetInsets
+            let bottomSheetInsets = sheetPresentationController.layoutInfo.bottomSheetInsets
             
             let topInset = UIView.init(frame: .init(origin: .init(x: 0, y: window.frame.origin.y + bottomSheetInsets.top), size: .init(width: window.frame.width, height: 1)))
             topInset.backgroundColor = .red
@@ -86,7 +86,7 @@ class ViewController: UIViewController {
             bottomInset.translatesAutoresizingMaskIntoConstraints = false
             window.addSubview(bottomInset)
             
-            let maxDetentValue = sheetPresentationController.maximumDetentValue()
+            let maxDetentValue = sheetPresentationController.layoutInfo.maximumDetentValue()
             let detentMultiplier = 0.5
             /// 1 - detentMultiplier to get the yOrigin. We need to add top insets because origin starts from top-left at 0 value, and maximumDetentValue excludes top inset value.
             let y = (maxDetentValue * (1 - detentMultiplier)) + topSheetInsets.top

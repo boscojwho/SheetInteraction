@@ -13,8 +13,8 @@ class SheetNavigationController: UINavigationController {
         sheet: sheetPresentationController!,
         sheetView: view!)
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func willMove(toParent parent: UIViewController?) {
+        super.willMove(toParent: parent)
         /// Detent observer gesture doesn't need to be exclusive.
         sheetInteraction.sheetInteractionGesture.delegate = self
         sheetInteraction.delegate = self
