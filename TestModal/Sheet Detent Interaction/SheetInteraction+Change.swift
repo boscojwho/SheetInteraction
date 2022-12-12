@@ -14,7 +14,7 @@ public extension SheetInteraction {
         
         public struct Info {
             /// The relevant detent.
-            public let detentIdentifier: UISheetPresentationController.Detent.Identifier
+            public let detentIdentifier: DetentIdentifier
             /// Sheet's distance to specified `detentIdentifier`, as measured from sheet's top edge.
             public let distance: CGFloat
         }

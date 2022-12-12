@@ -37,7 +37,7 @@ public final class SheetInteraction {
     /// - Parameter absDistance: Absolute distance in screen points to this detent for the current sheet interaction.
     /// - Parameter distance: Distance (including magnitude), where negative values indicate higher up detents (and vice-versa).
     /// - Parameter origin: Origin of the top edge of this detent in the window's coordinate space.
-    private typealias DetentLayoutInfo = (identifier: UISheetPresentationController.Detent.Identifier, absDistance: CGFloat, distance: CGFloat, origin: CGPoint)
+    private typealias DetentLayoutInfo = (identifier: DetentIdentifier, absDistance: CGFloat, distance: CGFloat, origin: CGPoint)
     
     weak public var delegate: SheetInteractionDelegate?
     
@@ -59,7 +59,7 @@ public final class SheetInteraction {
     
     /// The detent at which sheet interaction began.
     /// This value is available when sheet interaction is actively happening.
-    private(set) public var originDetent: UISheetPresentationController.Detent.Identifier?
+    private(set) public var originDetent: DetentIdentifier?
     
     public var currentDirections: UIPanGestureRecognizer.Directions {
         sheetInteractionGesture.directions
@@ -71,7 +71,7 @@ public final class SheetInteraction {
     
     /// This allows callers to perform detent-specific percent-driven interactive animations.
     /// Calls `animationBlock` if sheet is currently greater than or equal to specified `detent`, but *is not* equal or greater to the next adjacent detent.
-    public func animating(_ detent: UISheetPresentationController.Detent.Identifier, interactionInfo: Change, animationBlock: (CGFloat) -> Void) {
+    public func animating(_ detent: DetentIdentifier, interactionInfo: Change, animationBlock: (CGFloat) -> Void) {
         /// Check for `currentDirections` to ensure `animationBlock` only runs when sheet detent state is equal or greater than specified detent.
         if interactionInfo.approaching.detentIdentifier == detent, currentDirections.contains(.down) {
             animationBlock(interactionInfo.percentagePreceding)
