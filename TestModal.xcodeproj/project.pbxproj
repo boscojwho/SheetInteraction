@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		E41273A22940AD1200AE1D4A /* Detents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41273A12940AD1200AE1D4A /* Detents.swift */; };
-		E41273A42940AD7E00AE1D4A /* SheetPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41273A32940AD7E00AE1D4A /* SheetPresentationController.swift */; };
 		E4169E2A2946E22400A80641 /* SheetLayoutInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4169E292946E22400A80641 /* SheetLayoutInfo.swift */; };
 		E4169E2C2946F29F00A80641 /* DetentResolutionContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4169E2B2946F29F00A80641 /* DetentResolutionContext.swift */; };
 		E41EBDA2292C79F800FB3402 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41EBDA1292C79F800FB3402 /* AppDelegate.swift */; };
@@ -22,12 +21,15 @@
 		E422B26C293EE0EA009A0802 /* SheetNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B26B293EE0EA009A0802 /* SheetNavigationController.swift */; };
 		E422B26E29402BE5009A0802 /* PanDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B26D29402BE5009A0802 /* PanDirection.swift */; };
 		E422B270294041CD009A0802 /* SheetInteraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B26F294041CD009A0802 /* SheetInteraction.swift */; };
+		E4BD143429472EE6002C7617 /* Detent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BD143329472EE6002C7617 /* Detent.swift */; };
+		E4BD143629472F2B002C7617 /* Sheet+Detents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BD143529472F2B002C7617 /* Sheet+Detents.swift */; };
+		E4BD143829472F42002C7617 /* Sheet+LayoutInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BD143729472F42002C7617 /* Sheet+LayoutInfo.swift */; };
+		E4BD143A294730CB002C7617 /* SheetInteraction+Change.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BD1439294730CB002C7617 /* SheetInteraction+Change.swift */; };
 		E4C721B62942C839007AB243 /* NavigationController+Modal.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C721B52942C839007AB243 /* NavigationController+Modal.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E41273A12940AD1200AE1D4A /* Detents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detents.swift; sourceTree = "<group>"; };
-		E41273A32940AD7E00AE1D4A /* SheetPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresentationController.swift; sourceTree = "<group>"; };
 		E4169E292946E22400A80641 /* SheetLayoutInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetLayoutInfo.swift; sourceTree = "<group>"; };
 		E4169E2B2946F29F00A80641 /* DetentResolutionContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetentResolutionContext.swift; sourceTree = "<group>"; };
 		E41EBD9E292C79F800FB3402 /* TestModal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestModal.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -43,6 +45,10 @@
 		E422B26B293EE0EA009A0802 /* SheetNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetNavigationController.swift; sourceTree = "<group>"; };
 		E422B26D29402BE5009A0802 /* PanDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanDirection.swift; sourceTree = "<group>"; };
 		E422B26F294041CD009A0802 /* SheetInteraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetInteraction.swift; sourceTree = "<group>"; };
+		E4BD143329472EE6002C7617 /* Detent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detent.swift; sourceTree = "<group>"; };
+		E4BD143529472F2B002C7617 /* Sheet+Detents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sheet+Detents.swift"; sourceTree = "<group>"; };
+		E4BD143729472F42002C7617 /* Sheet+LayoutInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sheet+LayoutInfo.swift"; sourceTree = "<group>"; };
+		E4BD1439294730CB002C7617 /* SheetInteraction+Change.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SheetInteraction+Change.swift"; sourceTree = "<group>"; };
 		E4C721B52942C839007AB243 /* NavigationController+Modal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationController+Modal.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -78,11 +84,12 @@
 			children = (
 				E41EBDA1292C79F800FB3402 /* AppDelegate.swift */,
 				E41EBDA3292C79F800FB3402 /* SceneDelegate.swift */,
+				E4C721B52942C839007AB243 /* NavigationController+Modal.swift */,
+				E41273A12940AD1200AE1D4A /* Detents.swift */,
 				E41EBDA5292C79F800FB3402 /* ViewController.swift */,
+				E422B26B293EE0EA009A0802 /* SheetNavigationController.swift */,
 				E422B267293AFE48009A0802 /* TableViewController.swift */,
 				E422B269293D8F35009A0802 /* DetailViewController.swift */,
-				E4C721B52942C839007AB243 /* NavigationController+Modal.swift */,
-				E422B26B293EE0EA009A0802 /* SheetNavigationController.swift */,
 				E48B7AC02940A7CC0022D7E3 /* Sheet Detent Interaction */,
 				E41EBDA7292C79F800FB3402 /* Main.storyboard */,
 				E41EBDAA292C79F900FB3402 /* Assets.xcassets */,
@@ -95,12 +102,14 @@
 		E48B7AC02940A7CC0022D7E3 /* Sheet Detent Interaction */ = {
 			isa = PBXGroup;
 			children = (
-				E41273A12940AD1200AE1D4A /* Detents.swift */,
+				E4BD143329472EE6002C7617 /* Detent.swift */,
 				E4169E2B2946F29F00A80641 /* DetentResolutionContext.swift */,
 				E422B26D29402BE5009A0802 /* PanDirection.swift */,
-				E41273A32940AD7E00AE1D4A /* SheetPresentationController.swift */,
-				E422B26F294041CD009A0802 /* SheetInteraction.swift */,
+				E4BD143529472F2B002C7617 /* Sheet+Detents.swift */,
+				E4BD143729472F42002C7617 /* Sheet+LayoutInfo.swift */,
 				E4169E292946E22400A80641 /* SheetLayoutInfo.swift */,
+				E4BD1439294730CB002C7617 /* SheetInteraction+Change.swift */,
+				E422B26F294041CD009A0802 /* SheetInteraction.swift */,
 			);
 			path = "Sheet Detent Interaction";
 			sourceTree = "<group>";
@@ -178,10 +187,10 @@
 			files = (
 				E41273A22940AD1200AE1D4A /* Detents.swift in Sources */,
 				E41EBDA6292C79F800FB3402 /* ViewController.swift in Sources */,
+				E4BD143A294730CB002C7617 /* SheetInteraction+Change.swift in Sources */,
 				E422B270294041CD009A0802 /* SheetInteraction.swift in Sources */,
 				E4169E2C2946F29F00A80641 /* DetentResolutionContext.swift in Sources */,
 				E4C721B62942C839007AB243 /* NavigationController+Modal.swift in Sources */,
-				E41273A42940AD7E00AE1D4A /* SheetPresentationController.swift in Sources */,
 				E422B26C293EE0EA009A0802 /* SheetNavigationController.swift in Sources */,
 				E41EBDA2292C79F800FB3402 /* AppDelegate.swift in Sources */,
 				E4169E2A2946E22400A80641 /* SheetLayoutInfo.swift in Sources */,
@@ -189,6 +198,9 @@
 				E422B26A293D8F35009A0802 /* DetailViewController.swift in Sources */,
 				E41EBDA4292C79F800FB3402 /* SceneDelegate.swift in Sources */,
 				E422B268293AFE48009A0802 /* TableViewController.swift in Sources */,
+				E4BD143629472F2B002C7617 /* Sheet+Detents.swift in Sources */,
+				E4BD143429472EE6002C7617 /* Detent.swift in Sources */,
+				E4BD143829472F42002C7617 /* Sheet+LayoutInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

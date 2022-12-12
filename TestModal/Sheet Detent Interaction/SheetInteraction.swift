@@ -9,41 +9,11 @@ import UIKit
 
 /// Emit sheet interaction events.
 protocol SheetInteractionDelegate: AnyObject {
-    func sheetInteractionChanged(sheet: SheetInteraction, interactionInfo: SheetInteractionInfo)
+    func sheetInteractionChanged(sheet: SheetInteraction, interactionInfo: SheetInteraction.Change)
     
     /// - Parameter targetDetent: Sheet is either animating (or animated) to its target detent after user interaction has ended.
     /// - Parameter percentageTotal: See `SheetInteractionInfo.percentageTotal`.
-    func sheetInteractionEnded(sheet: SheetInteraction, targetDetentInfo: SheetInteractionInfo.Change, percentageTotal: CGFloat)
-}
-
-/// Info relating to a sheet interaction event.
-struct SheetInteractionInfo {
-
-    struct Change {
-        /// The relevant detent.
-        let detentIdentifier: UISheetPresentationController.Detent.Identifier
-        /// Sheet's distance to specified `detentIdentifier`, as measured from sheet's top edge.
-        let distance: CGFloat
-    }
-    
-    /// Equivalent to swiping down on a sheet stack.
-    let isMinimizing: Bool
-    
-    /// - Parameter closestDetent: The detent with the shortest vertical distance from the top edge of a sheet stack. Sheet may or may not be moving away from this detent.
-    let closest: Change
-    /// - Parameter approachingDetent: This is `nil` if user interaction is stationary. Sheet may or may not end up resting at this detent, depending on sheet interaction velocity.
-    let approaching: Change
-    #warning("Rename var to `approachingFrom`?")
-    /// The nearest detent a sheet's top edge is approaching *from*. For example: when moving from `small` to `medium`, preceding detent is `small`. Once sheet moves to `medium`, preceding will change to `medium`, even when user is actively interacting with sheet stack.
-    let preceding: Change
-    
-    /// From 0-1, this value represents where a sheet is at relative to its smallest detent, where 1 is the largest detent.
-    let percentageTotal: CGFloat
-    /// Interactive animation progress from preceding detent to approaching detent.
-    let percentageApproaching: CGFloat
-    /// Interactive animation progress from preceding detent.
-    /// This added to `percentageApproaching` equals `1`.
-    let percentagePreceding: CGFloat
+    func sheetInteractionEnded(sheet: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, percentageTotal: CGFloat)
 }
 
 /// - NOTE: Ensure *interactionGesture* recognizes simultaneously with all other gestures in `sheetView`.
@@ -88,7 +58,7 @@ final class SheetInteraction {
     
     /// This allows callers to perform detent-specific percent-driven interactive animations.
     /// Calls `animationBlock` if sheet is currently greater than or equal to specified `detent`, but *is not* equal or greater to the next adjacent detent.
-    func animating(_ detent: UISheetPresentationController.Detent.Identifier, interactionInfo: SheetInteractionInfo, animationBlock: (CGFloat) -> Void) {
+    func animating(_ detent: UISheetPresentationController.Detent.Identifier, interactionInfo: Change, animationBlock: (CGFloat) -> Void) {
         /// Check for `currentDirections` to ensure `animationBlock` only runs when sheet detent state is equal or greater than specified detent.
         if interactionInfo.approaching.detentIdentifier == detent, currentDirections.contains(.down) {
             animationBlock(interactionInfo.percentagePreceding)
@@ -182,7 +152,6 @@ final class SheetInteraction {
             sheetHeightOnPreviousChange = sheetHeight
             
             /// Percentage to approachingDetent, where 1 is closest to approachingDetent.
-            #warning("Support overscroll values: Percentage is currently nan or inf on overscroll.")
             /// On overscroll at top, sheet height is briefly and slightly greater than maximumDetentValue.
             /// But on overscroll at bottom, sheet height stays at the smallest detent's value + safeAreaInset.bottom.
             /// We will need to use sheet.origin to calculate overscroll values.
@@ -198,14 +167,13 @@ final class SheetInteraction {
             let percentagePreceding = 1 - percentageApproaching
             print("percentage: \(percentageApproaching)")
             
-            #warning("totalPercentage is never zero because height is never zero.")
             let totalPercentageUsingHeight = sheetHeight/sheetLayoutInfo.maximumDetentValue()
             /// This method supports overscroll values.
             /// Note that this is a global percentage capped by the smallest and largest detents.
             let totalPercentageUsingOrigin = totalPercentageWithOrigin(sheetLayoutInfo: sheetLayoutInfo, sheetFrame: sheetFrameInWindow)
             print("total percentage [height]: \(totalPercentageUsingHeight), [yOrigin]: \(totalPercentageUsingOrigin)")
 
-            let changeInfo = SheetInteractionInfo(
+            let changeInfo = Change(
                 isMinimizing: isMinimizing,
                 closest: .init(
                     detentIdentifier: closestDetent, distance: closestDistance),

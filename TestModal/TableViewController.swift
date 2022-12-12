@@ -226,7 +226,7 @@ extension TableViewController: UISheetPresentationControllerDelegate {
 
 extension TableViewController: SheetInteractionDelegate {
     
-    func sheetInteractionChanged(sheet: SheetInteraction, interactionInfo: SheetInteractionInfo) {
+    func sheetInteractionChanged(sheet: SheetInteraction, interactionInfo: SheetInteraction.Change) {
         if let delegate = presentingViewController as? SheetInteractionDelegate {
             delegate.sheetInteractionChanged(sheet: sheet, interactionInfo: interactionInfo)
         }
@@ -244,7 +244,7 @@ extension TableViewController: SheetInteractionDelegate {
         }
     }
     
-    func sheetInteractionEnded(sheet: SheetInteraction, targetDetentInfo: SheetInteractionInfo.Change, percentageTotal: CGFloat) {
+    func sheetInteractionEnded(sheet: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, percentageTotal: CGFloat) {
         if let delegate = presentingViewController as? SheetInteractionDelegate {
             delegate.sheetInteractionEnded(sheet: sheet, targetDetentInfo: targetDetentInfo, percentageTotal: percentageTotal)
         }

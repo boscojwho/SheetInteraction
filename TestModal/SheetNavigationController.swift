@@ -28,7 +28,7 @@ class SheetNavigationController: UINavigationController {
 
 extension SheetNavigationController: SheetInteractionDelegate {
     
-    func sheetInteractionChanged(sheet: SheetInteraction, interactionInfo: SheetInteractionInfo) {
+    func sheetInteractionChanged(sheet: SheetInteraction, interactionInfo: SheetInteraction.Change) {
         print(#function,
               "\n\tclosest: \(interactionInfo.closest.detentIdentifier.rawValue)",
               "\n\tclosestDistance: \(interactionInfo.closest.distance)",
@@ -42,7 +42,7 @@ extension SheetNavigationController: SheetInteractionDelegate {
         }
     }
     
-    func sheetInteractionEnded(sheet: SheetInteraction, targetDetentInfo: SheetInteractionInfo.Change, percentageTotal: CGFloat) {
+    func sheetInteractionEnded(sheet: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, percentageTotal: CGFloat) {
         print(#function,
               "\n\ttarget: \(targetDetentInfo.detentIdentifier.rawValue)",
               "\n\tdistance: \(targetDetentInfo.distance)")
@@ -50,7 +50,7 @@ extension SheetNavigationController: SheetInteractionDelegate {
         if let delegate = topViewController as? SheetInteractionDelegate {
             delegate.sheetInteractionEnded(sheet: sheet, targetDetentInfo: targetDetentInfo, percentageTotal: percentageTotal)
         }
-    }    
+    }
 }
 
 extension SheetNavigationController: UIGestureRecognizerDelegate {
