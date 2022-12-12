@@ -215,6 +215,7 @@ final class SheetInteraction {
                 let percentage = 1 - (approachingDistance / d)
                 return percentage
             }()
+            let percentagePreceding = 1 - percentageApproaching
             print("percentage: \(percentageApproaching)")
             
             #warning("totalPercentage is never zero because height is never zero.")
@@ -244,7 +245,7 @@ final class SheetInteraction {
                 preceding: .init(
                     detentIdentifier: precedingDetent, distance: precedingDistance),
                 percentageTotal: totalPercentageUsingOrigin, percentageApproaching: percentageApproaching,
-                percentagePreceding: 1 - percentageApproaching)
+                percentagePreceding: percentagePreceding)
             delegate?.sheetInteractionChanged(sheet: self, interactionInfo: changeInfo)
         case .ended, .cancelled, .failed:
             defer {
