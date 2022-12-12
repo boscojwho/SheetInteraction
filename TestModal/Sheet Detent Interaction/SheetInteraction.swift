@@ -307,18 +307,4 @@ extension SheetInteraction {
         let p = y/(maxDetentValue-smallestDetentValue)
         return 1 - p
     }
-    
-    private func detentOrigins() -> [(detent: UISheetPresentationController.Detent, origin: CGPoint)] {
-        guard let window = sheetView.window else {
-            return []
-        }
-        let detents = sheetController.detents
-        let origins = detents.compactMap { detent in
-            let context = Context(containerTraitCollection: sheetView.traitCollection, maximumDetentValue: sheetController.maximumDetentValue())
-            let detentHeightIncludingInsets = detent.resolvedValue(in: context)! + sheetController.topSheetInsets.bottom
-            let yOrigin = window.frame.height - detentHeightIncludingInsets
-            return (detent: detent, origin: CGPoint(x: 0, y: yOrigin))
-        }
-        return origins
-    }
 }
