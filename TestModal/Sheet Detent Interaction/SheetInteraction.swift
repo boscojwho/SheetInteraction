@@ -295,6 +295,10 @@ extension SheetInteraction {
 
 extension SheetInteraction {
     
+    /// Calculate the total percentage travelled from the smallest detent to the largest detent.
+    ///
+    /// Negative values indicate overscrolling past the smallest detent.
+    /// Positive values indicate overscrolling past the largest detent.
     private func totalPercentageWithOrigin(sheetFrame: CGRect) -> CGFloat {
         let maxDetentValue = sheetController.maximumDetentValue()
         let y = sheetFrame.origin.y - sheetController.topSheetInsets.top
