@@ -9,11 +9,21 @@ import UIKit
 
 /// Emit sheet interaction events.
 public protocol SheetInteractionDelegate: AnyObject {
+    /// Optional: Default implementation is no-op.
+    func sheetInteractionBegan(sheet: SheetInteraction, at detent: UISheetPresentationController.Detent.Identifier)
+    
+    /// Stationary and x-axis change events are not emitted.
     func sheetInteractionChanged(sheet: SheetInteraction, interactionInfo: SheetInteraction.Change)
     
     /// - Parameter targetDetent: Sheet is either animating (or animated) to its target detent after user interaction has ended.
     /// - Parameter percentageTotal: See `SheetInteractionInfo.percentageTotal`.
     func sheetInteractionEnded(sheet: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, percentageTotal: CGFloat)
+}
+
+extension SheetInteractionDelegate {
+    func sheetInteractionBegan(sheet: SheetInteraction, at detent: UISheetPresentationController.Detent.Identifier) {
+        /// no-op.
+    }
 }
 
 /// - NOTE: Ensure *interactionGesture* recognizes simultaneously with all other gestures in `sheetView`.
@@ -91,7 +101,9 @@ public final class SheetInteraction {
 //        case .recognized:
 //            break
         case .began:
-            originDetent = sheetController.identifierForSelectedDetent()
+            let detentBegan = sheetController.identifierForSelectedDetent()
+            originDetent = detentBegan
+            delegate?.sheetInteractionBegan(sheet: self, at: detentBegan)
         case .changed:
             let directions = pan.directions
             guard directions.isStationary == false else {
