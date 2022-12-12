@@ -132,10 +132,10 @@ final class SheetInteraction {
         return gesture
     }()
     
-    private lazy var sheetFrameInWindowOnPreviousChange: CGRect = sheetView.window!.convert(sheetView.frame, to: sheetView.window!)
+    private lazy var sheetFrameInWindowOnPreviousChange: CGRect = sheetLayoutInfo.sheetFrameInWindow
     /// Keep track of previous sheet height so we can use it on sheet interaction end.
     /// On sheet interaction end, sheet height is already updated to reflect final state, so we can't calculate target distance using that final value.
-    private lazy var sheetHeightOnPreviousChange: CGFloat = sheetView.frame.height - sheetLayoutInfo.topSheetInsets.bottom
+    private lazy var sheetHeightOnPreviousChange: CGFloat = sheetLayoutInfo.sheetHeight
     
     @objc private func handleDetentPan(pan: UIPanGestureRecognizer) {
         /// Track which detent is currently closest to the top edge of sheet statck.
@@ -157,7 +157,7 @@ final class SheetInteraction {
                 #endif
             }
             
-            let sheetFrameInWindow = sheetWindow.convert(sheetView.frame, from: sheetView)
+            let sheetFrameInWindow = sheetLayoutInfo.sheetFrameInWindow
             sheetFrameInWindowOnPreviousChange = sheetFrameInWindow
 
             let detents = sheetController.detents
@@ -202,7 +202,7 @@ final class SheetInteraction {
             
             /// Keep track of previous sheet height so we can use it on sheet interaction end.
             /// On sheet interaction end, sheet height is already updated to reflect final state, so we can't calculate target distance using that final value.
-            let sheetHeight = sheetFrameInWindow.height - sheetLayoutInfo.topSheetInsets.bottom
+            let sheetHeight = sheetLayoutInfo.sheetHeight
             print("sheetHeight: ", sheetHeight)
             sheetHeightOnPreviousChange = sheetHeight
             
@@ -227,7 +227,7 @@ final class SheetInteraction {
             let totalPercentageUsingHeight = sheetHeight/sheetLayoutInfo.maximumDetentValue()
             /// This method supports overscroll values.
             /// Note that this is a global percentage capped by the smallest and largest detents.
-            let totalPercentageUsingOrigin = totalPercentageWithOrigin(sheetFrame: sheetFrameInWindow)
+            let totalPercentageUsingOrigin = totalPercentageWithOrigin(sheetLayoutInfo: sheetLayoutInfo, sheetFrame: sheetFrameInWindow)
             print("total percentage [height]: \(totalPercentageUsingHeight), [yOrigin]: \(totalPercentageUsingOrigin)")
 
             let changeInfo = SheetInteractionInfo(
@@ -252,10 +252,10 @@ final class SheetInteraction {
             }
             let sheetHeight = sheetHeightOnPreviousChange
             let totalPercentageUsingHeight = sheetHeight/sheetLayoutInfo.maximumDetentValue()
-            let totalPercentageUsingOriginOnTouchUp = totalPercentageWithOrigin(sheetFrame: sheetFrameInWindowOnPreviousChange)
+            let totalPercentageUsingOriginOnTouchUp = totalPercentageWithOrigin(sheetLayoutInfo: sheetLayoutInfo, sheetFrame: sheetFrameInWindowOnPreviousChange)
             
             let sheetFrameInWindow = sheetWindow.convert(sheetView.frame, from: sheetView)
-            let totalPercentageUsingOriginTargetting = totalPercentageWithOrigin(sheetFrame: sheetFrameInWindow)
+            let totalPercentageUsingOriginTargetting = totalPercentageWithOrigin(sheetLayoutInfo: sheetLayoutInfo, sheetFrame: sheetFrameInWindow)
             let targetDistance = abs(sheetHeight - detentHeight)
             print("total percentage [height]: \(totalPercentageUsingHeight), [yOrigin]: \(totalPercentageUsingOriginOnTouchUp) --> targetting: \(totalPercentageUsingOriginTargetting)")
 
@@ -297,7 +297,10 @@ extension SheetInteraction {
     ///
     /// Negative values indicate overscrolling past the smallest detent.
     /// Positive values indicate overscrolling past the largest detent.
-    private func totalPercentageWithOrigin(sheetFrame: CGRect) -> CGFloat {
+    /// - Parameter sheetLayoutInfo: Use the values in this layout info to calculate the total percentage.
+    /// - Parameter sheetFrame: If `nil`, uses the current sheet frame from `sheetLayoutInfo`. Specify an alternate value to calculate a, for example, previous total percentage.
+    private func totalPercentageWithOrigin(sheetLayoutInfo: SheetLayoutInfo, sheetFrame: CGRect?) -> CGFloat {
+        let sheetFrame = sheetFrame ?? sheetLayoutInfo.sheetFrameInWindow
         let maxDetentValue = sheetLayoutInfo.maximumDetentValue()
         let y = sheetFrame.origin.y - sheetLayoutInfo.topSheetInsets.top
         let context = Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetLayoutInfo.maximumDetentValue())

@@ -14,13 +14,13 @@ struct SheetLayoutInfo {
     let window: UIWindow
     
     /// Sheet frame in provided window.
-//    var sheetFrameInWindow: CGRect {
-//        window.convert(sheetView.frame, from: window)
-//    }
+    var sheetFrameInWindow: CGRect {
+        window.convert(sheetView.frame, from: sheetView)
+    }
     
-//    var sheetHeight: CGFloat {
-//        sheetFrameInWindow.height - topSheetInsets.bottom
-//    }
+    var sheetHeight: CGFloat {
+        sheetFrameInWindow.height - topSheetInsets.bottom
+    }
     
     /// Layout insets inside window for the bottom sheet (visually underneath) in a sheet stack.
     var bottomSheetInsets: UIEdgeInsets {
