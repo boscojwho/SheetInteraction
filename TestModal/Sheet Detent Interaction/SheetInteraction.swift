@@ -72,7 +72,7 @@ final class SheetInteraction {
     /// The gesture used to track sheet interaction and detent state.
     /// This gesture must be configured to recognize simultaneously with all other gestures in `sheetView`.
     private(set) lazy var sheetInteractionGesture: UIPanGestureRecognizer = {
-        let gesture = UIPanGestureRecognizer(target: self, action: #selector(self.handleDetentPan(pan:)))
+        let gesture = UIPanGestureRecognizer(target: self, action: #selector(self.handleSheetInteraction(pan:)))
         gesture.name = "detentPan"
         return gesture
     }()
@@ -82,7 +82,7 @@ final class SheetInteraction {
     /// On sheet interaction end, sheet height is already updated to reflect final state, so we can't calculate target distance using that final value.
     private lazy var sheetHeightOnPreviousChange: CGFloat = sheetLayoutInfo.sheetHeight
     
-    @objc private func handleDetentPan(pan: UIPanGestureRecognizer) {
+    @objc private func handleSheetInteraction(pan: UIPanGestureRecognizer) {
         /// Track which detent is currently closest to the top edge of sheet statck.
         print(#function, "state: \(pan.state)")
         switch pan.state {
