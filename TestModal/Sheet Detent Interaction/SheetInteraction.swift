@@ -87,10 +87,13 @@ final class SheetInteraction {
     let sheetController: UISheetPresentationController
     /// The root view associated with a sheet's `presentedViewController`. Be sure use the view that encompasses all subviews (e.g. navigation bars).
     let sheetView: UIView
+    let sheetWindow: UIWindow
     
+    /// - Parameter sheetView: Must already be added to view hierarchy connected to a window.
     init(sheet: UISheetPresentationController, sheetView: UIView) {
         self.sheetController = sheet
         self.sheetView = sheetView
+        self.sheetWindow = sheetView.window!
         sheetView.addGestureRecognizer(sheetInteractionGesture)
     }
     
@@ -133,10 +136,6 @@ final class SheetInteraction {
     private lazy var sheetHeightOnPreviousChange: CGFloat = sheetView.frame.height - sheetController.topSheetInsets.bottom
     
     @objc private func handleDetentPan(pan: UIPanGestureRecognizer) {
-        guard let window = sheetView.window else {
-            return
-        }
-        
         /// Track which detent is currently closest to the top edge of sheet statck.
         print(#function, "state: \(pan.state)")
         switch pan.state {
@@ -156,11 +155,11 @@ final class SheetInteraction {
                 #endif
             }
             
-            let sheetFrameInWindow = window.convert(sheetView.frame, from: sheetView)
+            let sheetFrameInWindow = sheetWindow.convert(sheetView.frame, from: sheetView)
             sheetFrameInWindowOnPreviousChange = sheetFrameInWindow
 
             let detents = sheetController.detents
-            let detentsLayoutInfo = detentsLayoutInfo(sheetWindow: window, detents: detents)
+            let detentsLayoutInfo = detentsLayoutInfo(detents: detents)
             /// Detents with a negative distance are higher than sheet's current position (i.e. need to drag up).
             let detentsAbove = detentsLayoutInfo.filter { $0.distance <= 0 }
             /// Detents with a positive distance are lower than sheet's current position (i.e. need to drag down).
@@ -253,7 +252,7 @@ final class SheetInteraction {
             let totalPercentageUsingHeight = sheetHeight/sheetController.maximumDetentValue()
             let totalPercentageUsingOriginOnTouchUp = totalPercentageWithOrigin(sheetFrame: sheetFrameInWindowOnPreviousChange)
             
-            let sheetFrameInWindow = window.convert(sheetView.frame, from: sheetView)
+            let sheetFrameInWindow = sheetWindow.convert(sheetView.frame, from: sheetView)
             let totalPercentageUsingOriginTargetting = totalPercentageWithOrigin(sheetFrame: sheetFrameInWindow)
             print("total percentage [height]: \(totalPercentageUsingHeight), [yOrigin]: \(totalPercentageUsingOriginOnTouchUp) --> targetting: \(totalPercentageUsingOriginTargetting)")
             let targetDistance = abs(sheetHeight - detentHeight)
@@ -271,7 +270,7 @@ extension SheetInteraction {
     /// - Warning: Do not pass inactive detents.
     /// - Parameter sheetWindow: Window in which sheet statck is presented.
     /// - Parameter detents: Do not pass inactive detents.
-    private func detentsLayoutInfo(sheetWindow: UIWindow, detents: [UISheetPresentationController.Detent]) -> [DetentLayoutInfo] {
+    private func detentsLayoutInfo(detents: [UISheetPresentationController.Detent]) -> [DetentLayoutInfo] {
         let sheetFrameInWindow = sheetWindow.convert(sheetView.frame, from: sheetView)
         return detents.compactMap { detent in
             let identifier = detent.identifier
