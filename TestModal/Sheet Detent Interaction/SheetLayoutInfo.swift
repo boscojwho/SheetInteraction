@@ -8,17 +8,22 @@
 import UIKit
 
 /// Layout info for the sheets in a modal sheet stack.
+///
+/// - topSheet: The modal view at the front of a sheet stack.
+/// - bottomSheet: A (modal) view behind the top sheet. This could either be the view associated with an app's root view controller, or a previously presented modal view.
 struct SheetLayoutInfo {
     let sheet: UISheetPresentationController
     let sheetView: UIView
     let window: UIWindow
     
     /// Sheet frame in provided window.
+    /// - Warning: This value does not account for safe area insets. You may need to use one of the provided variables in this layout info, or manually inset frame values.
     var sheetFrameInWindow: CGRect {
         window.convert(sheetView.frame, from: sheetView)
     }
     
-    var sheetHeight: CGFloat {
+    /// A sheet's height ouside its safe area should **not** be used when making calculations relating to a sheet's `maximumDetentValue`, since the latter represents the maximum height a sheet should occupy *inside* a window's safe area.
+    var sheetHeightInSafeArea: CGFloat {
         sheetFrameInWindow.height - topSheetInsets.bottom
     }
     
@@ -52,6 +57,7 @@ struct SheetLayoutInfo {
         }
     }
     
+    /// The top edge inset for the bottom sheet, as measured from its window's top edge.
     private var bottomSheetTopInset: CGFloat {
         /// Assume home-button device.
         if window.safeAreaInsets.bottom == 0 {
@@ -71,6 +77,7 @@ struct SheetLayoutInfo {
         }
     }
     
+    /// The top edge inset for the top sheet, as measured from its window's top edge.
     private var topSheetTopInset: CGFloat {
         /// Assume home-button device.
         if window.safeAreaInsets.bottom == 0 {
@@ -80,6 +87,9 @@ struct SheetLayoutInfo {
         }
     }
     
+    /// The bottom edge inset for both top and bottom sheets, as measured from its window's bottom edge.
+    ///
+    /// `UISheetPresentationController` does *not* vary the visual presentation of both top and bottom sheets.
     private var sheetBottomInset: CGFloat {
         return window.safeAreaInsets.bottom
     }

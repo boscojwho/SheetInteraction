@@ -77,10 +77,11 @@ final class SheetInteraction {
         return gesture
     }()
     
+    /// Keep track of previous sheet height so we can use it on sheet interaction end.
     private lazy var sheetFrameInWindowOnPreviousChange: CGRect = sheetLayoutInfo.sheetFrameInWindow
     /// Keep track of previous sheet height so we can use it on sheet interaction end.
     /// On sheet interaction end, sheet height is already updated to reflect final state, so we can't calculate target distance using that final value.
-    private lazy var sheetHeightOnPreviousChange: CGFloat = sheetLayoutInfo.sheetHeight
+    private lazy var sheetHeightOnPreviousChange: CGFloat = sheetLayoutInfo.sheetHeightInSafeArea
     
     @objc private func handleSheetInteraction(pan: UIPanGestureRecognizer) {
         /// Track which detent is currently closest to the top edge of sheet statck.
@@ -147,7 +148,7 @@ final class SheetInteraction {
             
             /// Keep track of previous sheet height so we can use it on sheet interaction end.
             /// On sheet interaction end, sheet height is already updated to reflect final state, so we can't calculate target distance using that final value.
-            let sheetHeight = sheetLayoutInfo.sheetHeight
+            let sheetHeight = sheetLayoutInfo.sheetHeightInSafeArea
             print("sheetHeight: ", sheetHeight)
             sheetHeightOnPreviousChange = sheetHeight
             
@@ -193,6 +194,8 @@ final class SheetInteraction {
             guard let detentHeight = targetDetent?.resolvedValue(in: Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetLayoutInfo.maximumDetentValue())) else {
                 return
             }
+            
+            /// Note we are using *previous* sheet height/frame (i.e. the previous values on .change).
             let sheetHeight = sheetHeightOnPreviousChange
             let totalPercentageUsingHeight = sheetHeight/sheetLayoutInfo.maximumDetentValue()
             let totalPercentageUsingOriginOnTouchUp = totalPercentageWithOrigin(sheetLayoutInfo: sheetLayoutInfo, sheetFrame: sheetFrameInWindowOnPreviousChange)
@@ -210,6 +213,7 @@ final class SheetInteraction {
     }
 }
 
+// MARK: - Layout Info (Detents)
 extension SheetInteraction {
     
     /// Generate layout info relating to the current sheet interaction for the specified detents.
@@ -234,6 +238,7 @@ extension SheetInteraction {
     }
 }
 
+// MARK: - Animation Percentages
 extension SheetInteraction {
     
     /// Calculate the total percentage travelled from the smallest detent to the largest detent.
