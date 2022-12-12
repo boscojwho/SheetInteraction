@@ -102,6 +102,10 @@ final class SheetInteraction {
         sheetInteractionGesture.directions
     }
     
+    var isMinimizing: Bool {
+        currentDirections.contains(.down)
+    }
+    
     /// This allows callers to perform detent-specific percent-driven interactive animations.
     /// Calls `animationBlock` if sheet is currently greater than or equal to specified `detent`, but *is not* equal or greater to the next adjacent detent.
     func animating(_ detent: UISheetPresentationController.Detent.Identifier, interactionInfo: SheetInteractionInfo, animationBlock: (CGFloat) -> Void) {
@@ -222,22 +226,11 @@ final class SheetInteraction {
             let totalPercentageUsingHeight = sheetHeight/sheetController.maximumDetentValue()
             /// This method supports overscroll values.
             /// Note that this is a global percentage capped by the smallest and largest detents.
-            let totalPercentageUsingOrigin = {
-                let maxDetentValue = sheetController.maximumDetentValue()
-                let y = sheetFrameInWindow.origin.y - sheetController.topSheetInsets.top
-                let context = Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetController.maximumDetentValue())
-                let smallestDetentValue = sheetController
-                    .detent(withIdentifier: sheetController.detents.first!.identifier)!
-                    .resolvedValue(in: context)!
-                /// Subtract value of smallest detent so that we get a range between 0-1, where 0 corresponds to smallest, and 1 to largest detent.
-                /// This method means the in-between values will not correspond to any multiples specified in a detent's resolver closure (e.g. context.maximumDetentValue `*` 0.5).
-                let p = y/(maxDetentValue-smallestDetentValue)
-                return 1 - p
-            }()
+            let totalPercentageUsingOrigin = totalPercentageWithOrigin(sheetFrame: sheetFrameInWindow)
             print("total percentage [height]: \(totalPercentageUsingHeight), [yOrigin]: \(totalPercentageUsingOrigin)")
 
             let changeInfo = SheetInteractionInfo(
-                isMinimizing: currentDirections.contains(.down),
+                isMinimizing: isMinimizing,
                 closest: .init(
                     detentIdentifier: closestDetent, distance: closestDistance),
                 approaching: .init(
