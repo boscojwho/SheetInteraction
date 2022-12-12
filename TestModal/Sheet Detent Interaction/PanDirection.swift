@@ -7,32 +7,35 @@
 
 import UIKit
 
-extension UIPanGestureRecognizer {
+public extension UIPanGestureRecognizer {
     
     struct Directions: OptionSet {
-        let rawValue: Int
+        public let rawValue: Int
+        public init(rawValue: Int) {
+            self.rawValue = rawValue
+        }
         
-        static let stationary = Directions(rawValue: 1 << 0)
-        static let up = Directions(rawValue: 1 << 1)
-        static let down = Directions(rawValue: 1 << 2)
-        static let left = Directions(rawValue: 1 << 3)
-        static let right = Directions(rawValue: 1 << 4)
+        public static let stationary = Directions(rawValue: 1 << 0)
+        public static let up = Directions(rawValue: 1 << 1)
+        public static let down = Directions(rawValue: 1 << 2)
+        public static let left = Directions(rawValue: 1 << 3)
+        public static let right = Directions(rawValue: 1 << 4)
         
-        static let all: [Directions] = [.stationary, .up, .down, .left, .right]
+        public static let all: [Directions] = [.stationary, .up, .down, .left, .right]
         
-        var hasVerticalComponent: Bool {
+        public var hasVerticalComponent: Bool {
             contains(.up) || contains(.down)
         }
         
-        var hasHorizontalComponent: Bool {
+        public var hasHorizontalComponent: Bool {
             contains(.left) || contains(.right)
         }
         
-        var isStationary: Bool {
+        public var isStationary: Bool {
             contains(.stationary)
         }
         
-        var debugDescription: String {
+        public var debugDescription: String {
             guard contains(.stationary) == false else {
                 return "stationary"
             }

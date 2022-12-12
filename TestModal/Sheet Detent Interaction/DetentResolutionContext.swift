@@ -7,9 +7,9 @@
 
 import UIKit
 
-final class Context: NSObject, UISheetPresentationControllerDetentResolutionContext {
-    let containerTraitCollection: UITraitCollection
-    let maximumDetentValue: CGFloat
+public final class Context: NSObject, UISheetPresentationControllerDetentResolutionContext {
+    public let containerTraitCollection: UITraitCollection
+    public let maximumDetentValue: CGFloat
     init(containerTraitCollection: UITraitCollection, maximumDetentValue: CGFloat) {
         self.containerTraitCollection = containerTraitCollection
         self.maximumDetentValue = maximumDetentValue

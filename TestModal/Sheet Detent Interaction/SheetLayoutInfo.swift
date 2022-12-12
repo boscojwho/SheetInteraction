@@ -11,34 +11,36 @@ import UIKit
 ///
 /// - topSheet: The modal view at the front of a sheet stack.
 /// - bottomSheet: A (modal) view behind the top sheet. This could either be the view associated with an app's root view controller, or a previously presented modal view.
-struct SheetLayoutInfo {
-    let sheet: UISheetPresentationController
-    let sheetView: UIView
-    let window: UIWindow
+public struct SheetLayoutInfo {
+    public let sheet: UISheetPresentationController
+    public let sheetView: UIView
+    public let window: UIWindow
     
     /// Sheet frame in provided window.
     /// - Warning: This value does not account for safe area insets. You may need to use one of the provided variables in this layout info, or manually inset frame values.
-    var sheetFrameInWindow: CGRect {
+    public var sheetFrameInWindow: CGRect {
         window.convert(sheetView.frame, from: sheetView)
     }
     
     /// A sheet's height ouside its safe area should **not** be used when making calculations relating to a sheet's `maximumDetentValue`, since the latter represents the maximum height a sheet should occupy *inside* a window's safe area.
-    var sheetHeightInSafeArea: CGFloat {
+    public var sheetHeightInSafeArea: CGFloat {
         sheetFrameInWindow.height - topSheetInsets.bottom
     }
     
     /// Layout insets inside window for the bottom sheet (visually underneath) in a sheet stack.
-    var bottomSheetInsets: UIEdgeInsets {
+    public var bottomSheetInsets: UIEdgeInsets {
         .init(top: bottomSheetTopInset, left: 0, bottom: sheetBottomInset, right: 0)
     }
     
     /// Layout insets inside window for the top sheet (visually on top) in a sheet stack.
-    var topSheetInsets: UIEdgeInsets {
+    public var topSheetInsets: UIEdgeInsets {
         .init(top: topSheetTopInset, left: 0, bottom: sheetBottomInset, right: 0)
     }
     
     /// The height available to the top sheet in a sheet stack (i.e. height within window's safe area).
-    func maximumDetentValue() -> CGFloat {
+    ///
+    /// This is the same as that provided by a detent's resolution context in its resolver closure.
+    public func maximumDetentValue() -> CGFloat {
         return window.frame.height - (topSheetInsets.top + topSheetInsets.bottom)
     }
     

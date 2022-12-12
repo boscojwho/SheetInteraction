@@ -8,7 +8,7 @@
 import UIKit
 
 // MARK: - Compare
-extension UISheetPresentationController.Detent {
+public extension UISheetPresentationController.Detent {
     
     /// - Note: If the resolved value of self is nil, returns false. If the resolved value of `other` is nil, and self.resolvedValue is non-nil, returns true.
     /// - Returns: Self if greater than `other`.

@@ -8,7 +8,7 @@
 import UIKit
 
 /// Emit sheet interaction events.
-protocol SheetInteractionDelegate: AnyObject {
+public protocol SheetInteractionDelegate: AnyObject {
     func sheetInteractionChanged(sheet: SheetInteraction, interactionInfo: SheetInteraction.Change)
     
     /// - Parameter targetDetent: Sheet is either animating (or animated) to its target detent after user interaction has ended.
@@ -17,7 +17,7 @@ protocol SheetInteractionDelegate: AnyObject {
 }
 
 /// - NOTE: Ensure *interactionGesture* recognizes simultaneously with all other gestures in `sheetView`.
-final class SheetInteraction {
+public final class SheetInteraction {
     
     /// Layout info relating to a detent during sheet interaction.
     /// - Parameter identifier: Info pertaining to this detent.
@@ -26,17 +26,17 @@ final class SheetInteraction {
     /// - Parameter origin: Origin of the top edge of this detent in the window's coordinate space.
     private typealias DetentLayoutInfo = (identifier: UISheetPresentationController.Detent.Identifier, absDistance: CGFloat, distance: CGFloat, origin: CGPoint)
     
-    weak var delegate: SheetInteractionDelegate?
+    weak public var delegate: SheetInteractionDelegate?
     
     /// Controller managing a modal sheet stack.
-    let sheetController: UISheetPresentationController
+    public let sheetController: UISheetPresentationController
     /// The root view associated with a sheet's `presentedViewController`. Be sure use the view that encompasses all subviews (e.g. navigation bars).
-    let sheetView: UIView
-    let sheetWindow: UIWindow
-    let sheetLayoutInfo: SheetLayoutInfo
+    public let sheetView: UIView
+    public let sheetWindow: UIWindow
+    public let sheetLayoutInfo: SheetLayoutInfo
     
     /// - Parameter sheetView: Must already be added to view hierarchy connected to a window.
-    init(sheet: UISheetPresentationController, sheetView: UIView, sheetWindow: UIWindow) {
+    public init(sheet: UISheetPresentationController, sheetView: UIView, sheetWindow: UIWindow) {
         self.sheetController = sheet
         self.sheetView = sheetView
         self.sheetWindow = sheetWindow
@@ -46,19 +46,19 @@ final class SheetInteraction {
     
     /// The detent at which sheet interaction began.
     /// This value is available when sheet interaction is actively happening.
-    private(set) var originDetent: UISheetPresentationController.Detent.Identifier?
+    private(set) public var originDetent: UISheetPresentationController.Detent.Identifier?
     
-    var currentDirections: UIPanGestureRecognizer.Directions {
+    public var currentDirections: UIPanGestureRecognizer.Directions {
         sheetInteractionGesture.directions
     }
     
-    var isMinimizing: Bool {
+    public var isMinimizing: Bool {
         currentDirections.contains(.down)
     }
     
     /// This allows callers to perform detent-specific percent-driven interactive animations.
     /// Calls `animationBlock` if sheet is currently greater than or equal to specified `detent`, but *is not* equal or greater to the next adjacent detent.
-    func animating(_ detent: UISheetPresentationController.Detent.Identifier, interactionInfo: Change, animationBlock: (CGFloat) -> Void) {
+    public func animating(_ detent: UISheetPresentationController.Detent.Identifier, interactionInfo: Change, animationBlock: (CGFloat) -> Void) {
         /// Check for `currentDirections` to ensure `animationBlock` only runs when sheet detent state is equal or greater than specified detent.
         if interactionInfo.approaching.detentIdentifier == detent, currentDirections.contains(.down) {
             animationBlock(interactionInfo.percentagePreceding)
@@ -71,7 +71,7 @@ final class SheetInteraction {
     
     /// The gesture used to track sheet interaction and detent state.
     /// This gesture must be configured to recognize simultaneously with all other gestures in `sheetView`.
-    private(set) lazy var sheetInteractionGesture: UIPanGestureRecognizer = {
+    private(set) public lazy var sheetInteractionGesture: UIPanGestureRecognizer = {
         let gesture = UIPanGestureRecognizer(target: self, action: #selector(self.handleSheetInteraction(pan:)))
         gesture.name = "detentPan"
         return gesture
@@ -214,7 +214,7 @@ final class SheetInteraction {
 }
 
 // MARK: - Layout Info (Detents)
-extension SheetInteraction {
+private extension SheetInteraction {
     
     /// Generate layout info relating to the current sheet interaction for the specified detents.
     /// - Warning: Do not pass inactive detents.
@@ -239,7 +239,7 @@ extension SheetInteraction {
 }
 
 // MARK: - Animation Percentages
-extension SheetInteraction {
+private extension SheetInteraction {
     
     /// Calculate the total percentage travelled from the smallest detent to the largest detent.
     ///

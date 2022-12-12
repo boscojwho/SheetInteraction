@@ -8,7 +8,7 @@
 import UIKit
 
 // MARK: - Detents
-extension UISheetPresentationController {
+public extension UISheetPresentationController {
     
     /// - Returns: First detent in `detents`, instead of `nil`.
     func identifierForSelectedDetent() -> Detent.Identifier {
