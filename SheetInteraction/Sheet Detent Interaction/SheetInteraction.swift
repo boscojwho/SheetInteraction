@@ -20,7 +20,8 @@ public protocol SheetInteractionDelegate: AnyObject {
     
     /// - Parameter targetDetentInfo: Sheet is either animating (or animated) to its target detent after user interaction has ended.
     /// - Parameter percentageTotal: The target detent's `resolvedValue` as a percentage of the sheet's `maximumDetentValue`, where 0 is the smallest detent.  Overscroll values are reported.  See `SheetInteraction.Change.percentageTotal`.
-    func sheetInteractionEnded(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, percentageTotal: CGFloat)
+    /// - Parameter onTouchUpPercentageTotal: Sheet's percentageTotal animated the moment sheet interaction ends (i.e. on "touch up").
+    func sheetInteractionEnded(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, targetPercentageTotal: CGFloat, onTouchUpPercentageTotal: CGFloat)
 }
 
 extension SheetInteractionDelegate {
@@ -226,7 +227,7 @@ public final class SheetInteraction {
             print("total percentage [height]: \(totalPercentageUsingHeight), [yOrigin]: \(totalPercentageUsingOriginOnTouchUp) --> targetting: \(totalPercentageUsingOriginTargetting)")
 
             delegate?.sheetInteractionEnded(sheetInteraction: self, targetDetentInfo: .init(
-                detentIdentifier: targetDetentIdentifier, distance: targetDistance), percentageTotal: totalPercentageUsingOriginTargetting)
+                detentIdentifier: targetDetentIdentifier, distance: targetDistance), targetPercentageTotal: totalPercentageUsingOriginTargetting, onTouchUpPercentageTotal: totalPercentageUsingOriginOnTouchUp)
         default:
             break
         }

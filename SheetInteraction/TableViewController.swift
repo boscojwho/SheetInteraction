@@ -191,14 +191,14 @@ extension TableViewController: SheetInteractionDelegate {
         }
     }
     
-    func sheetInteractionEnded(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, percentageTotal: CGFloat) {
+    func sheetInteractionEnded(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, targetPercentageTotal: CGFloat, onTouchUpPercentageTotal: CGFloat) {
         if let delegate = presentingViewController as? SheetInteractionDelegate {
-            delegate.sheetInteractionEnded(sheetInteraction: sheetInteraction, targetDetentInfo: targetDetentInfo, percentageTotal: percentageTotal)
+            delegate.sheetInteractionEnded(sheetInteraction: sheetInteraction, targetDetentInfo: targetDetentInfo, targetPercentageTotal: targetPercentageTotal, onTouchUpPercentageTotal: onTouchUpPercentageTotal)
         }
         
         activeDetent = targetDetentInfo.detentIdentifier
         
-        detailsButton.alpha = percentageTotal
+        detailsButton.alpha = targetPercentageTotal
         
         /// On touch up, update UI elements when sheet rests at or above a specifc detent.
         if let target = sheetInteraction.sheetController.detent(withIdentifier: targetDetentInfo.detentIdentifier) {
