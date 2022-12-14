@@ -18,7 +18,7 @@ public protocol SheetInteractionDelegate: AnyObject {
     /// Stationary and x-axis change events are not emitted.
     func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionChange: SheetInteraction.Change)
     
-    /// - Parameter targetDetent: Sheet is either animating (or animated) to its target detent after user interaction has ended.
+    /// - Parameter targetDetentInfo: Sheet is either animating (or animated) to its target detent after user interaction has ended.
     /// - Parameter percentageTotal: See `SheetInteractionInfo.percentageTotal`.
     func sheetInteractionEnded(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, percentageTotal: CGFloat)
 }
