@@ -10,6 +10,7 @@ import UIKit
 // MARK: - Layout Info
 public extension UISheetPresentationController {
     
+    /// Layout info for this sheet.
     var layoutInfo: SheetLayoutInfo {
         .init(sheet: self, sheetView: sheetView, window: sheetView.window!)
     }
