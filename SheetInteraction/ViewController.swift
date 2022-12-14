@@ -30,15 +30,25 @@ extension UIViewController {
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var debugLabel: UILabel!
-    
+    private lazy var debugLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.backgroundColor = .white
+        label.layer.cornerRadius = 4
+        label.layer.masksToBounds = true
+        label.text = "Detent: -, %: -"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     private var struts: [UIView] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        debugLabel.backgroundColor = .white
-        debugLabel.layer.cornerRadius = 4
-        debugLabel.layer.masksToBounds = true
+        
+        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = scene.windows.first {
+            window.addSubview(debugLabel)
+            debugLabel.topAnchor.constraint(equalTo: window.safeAreaLayoutGuide.topAnchor, constant: 8).isActive = true
+            debugLabel.centerXAnchor.constraint(equalTo: window.centerXAnchor).isActive = true
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -47,6 +57,7 @@ class ViewController: UIViewController {
         if presentedViewController == nil {
             showModalSheet(animated: false) {
                 self.showStruts()
+                self.debugLabel.window?.bringSubviewToFront(self.debugLabel)
             }
         }
     }
@@ -130,10 +141,19 @@ class ViewController: UIViewController {
 extension ViewController: SheetInteractionDelegate {
     
     func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionChange: SheetInteraction.Change) {
-        debugLabel.text = "Detent: \(interactionChange.approaching.detentIdentifier.rawValue), %: \(interactionChange.percentageApproaching)"
+        let value = {
+            if interactionChange.percentageApproaching.isInfinite {
+                return interactionChange.percentageTotal
+            } else if interactionChange.percentageApproaching.isNaN {
+                return interactionChange.percentageTotal
+            } else {
+                return interactionChange.percentageApproaching
+            }
+        }()
+        debugLabel.text = "Detent: \(interactionChange.approaching.detentIdentifier.rawValue), %: \(value)"
     }
     
     func sheetInteractionEnded(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, percentageTotal: CGFloat) {
-        debugLabel.text = "Detent: \(targetDetentInfo.detentIdentifier.rawValue), %: 1.0"
+        debugLabel.text = "Detent: \(targetDetentInfo.detentIdentifier.rawValue), %: \(percentageTotal)"
     }
 }

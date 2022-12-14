@@ -196,7 +196,8 @@ public final class SheetInteraction {
                     detentIdentifier: approachingDetent, distance: approachingDistance),
                 preceding: .init(
                     detentIdentifier: precedingDetent, distance: precedingDistance),
-                percentageTotal: totalPercentageUsingOrigin, percentageApproaching: percentageApproaching,
+                percentageTotal: totalPercentageUsingOrigin,
+                percentageApproaching: percentageApproaching,
                 percentagePreceding: percentagePreceding)
             delegate?.sheetInteractionChanged(sheetInteraction: self, interactionChange: changeInfo)
         case .ended, .cancelled, .failed:
