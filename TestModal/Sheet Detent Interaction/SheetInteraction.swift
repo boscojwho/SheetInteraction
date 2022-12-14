@@ -122,7 +122,7 @@ public final class SheetInteraction {
             sheetFrameInWindowOnPreviousChange = sheetFrameInWindow
 
             let detents = sheetController.detents
-            let detentsLayoutInfo = detentsLayoutInfo(detents: detents)
+            let detentsLayoutInfo = activeDetentsLayoutInfo(detents: detents)
             /// Detents with a negative distance are higher than sheet's current position (i.e. need to drag up).
             let detentsAbove = detentsLayoutInfo.filter { $0.distance <= 0 }
             /// Detents with a positive distance are lower than sheet's current position (i.e. need to drag down).
@@ -172,10 +172,11 @@ public final class SheetInteraction {
             /// But on overscroll at bottom, sheet height stays at the smallest detent's value + safeAreaInset.bottom.
             /// We will need to use sheet.origin to calculate overscroll values.
             let percentageApproaching: CGFloat = {
+                let context = Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetLayoutInfo.maximumDetentValue())
                 let precedingDetent = sheetController.detent(withIdentifier: preceding.identifier)!
-                let precedingHeight = precedingDetent.resolvedValue(in: Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetLayoutInfo.maximumDetentValue()))!
+                let precedingHeight = precedingDetent.resolvedValue(in: context)!
                 let approachingDetent = sheetController.detent(withIdentifier: approaching.identifier)!
-                let approachingHeight = approachingDetent.resolvedValue(in: Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetLayoutInfo.maximumDetentValue()))!
+                let approachingHeight = approachingDetent.resolvedValue(in: context)!
                 let d = abs(precedingHeight - approachingHeight)
                 let percentage = 1 - (approachingDistance / d)
                 return percentage
@@ -206,9 +207,14 @@ public final class SheetInteraction {
             }
             let targetDetentIdentifier = sheetController.identifierForSelectedDetent()
             let targetDetent = sheetController.detent(withIdentifier: targetDetentIdentifier)
+            /// We will assume that the target detent is active, since this value is provided by UIKit.
+#if DEBUG
             guard let detentHeight = targetDetent?.resolvedValue(in: Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetLayoutInfo.maximumDetentValue())) else {
-                return
+                fatalError("Target detent's resolved value should not be nil.")
             }
+#else
+            let detentHeight = targetDetent!.resolvedValue(in: Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetLayoutInfo.maximumDetentValue()))!
+#endif
             
             /// Note we are using *previous* sheet height/frame (i.e. the previous values on .change).
             let sheetHeight = sheetHeightOnPreviousChange
@@ -235,13 +241,15 @@ private extension SheetInteraction {
     /// - Warning: Do not pass inactive detents.
     /// - Parameter sheetWindow: Window in which sheet statck is presented.
     /// - Parameter detents: Do not pass inactive detents.
-    private func detentsLayoutInfo(detents: [UISheetPresentationController.Detent]) -> [DetentLayoutInfo] {
+    /// - Returns: Layout info for **active** detents only.
+    private func activeDetentsLayoutInfo(detents: [UISheetPresentationController.Detent]) -> [DetentLayoutInfo] {
         let sheetFrameInWindow = sheetWindow.convert(sheetView.frame, from: sheetView)
         return detents.compactMap { detent in
             let identifier = detent.identifier
             let context = Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetLayoutInfo.maximumDetentValue())
-#warning("Handle deactivated detent(s).")
-            let detentHeight = detent.resolvedValue(in: context)!
+            guard let detentHeight = detent.resolvedValue(in: context) else {
+                return nil
+            }
             /// Exclude sheet height outside safe area (bottom edge attached).
             let sheetHeight = sheetFrameInWindow.height - sheetLayoutInfo.topSheetInsets.bottom
             let distance = sheetHeight - detentHeight
@@ -263,13 +271,17 @@ private extension SheetInteraction {
     /// - Parameter sheetLayoutInfo: Use the values in this layout info to calculate the total percentage.
     /// - Parameter sheetFrame: If `nil`, uses the current sheet frame from `sheetLayoutInfo`. Specify an alternate value to calculate a, for example, previous total percentage.
     private func totalPercentageWithOrigin(sheetLayoutInfo: SheetLayoutInfo, sheetFrame: CGRect?) -> CGFloat {
+        let context = Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetLayoutInfo.maximumDetentValue())
+        guard let smallestDetentValue = sheetController.smallestActiveDetent().resolvedValue(in: context) else {
+            #if DEBUG
+            fatalError("Illegal state: An active detent cannot have a `resolvedValue == nil`.")
+            #else
+            return 0
+            #endif
+        }
         let sheetFrame = sheetFrame ?? sheetLayoutInfo.sheetFrameInWindow
         let maxDetentValue = sheetLayoutInfo.maximumDetentValue()
         let y = sheetFrame.origin.y - sheetLayoutInfo.topSheetInsets.top
-        let context = Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetLayoutInfo.maximumDetentValue())
-        let smallestDetentValue = sheetController
-            .detent(withIdentifier: sheetController.detents.first!.identifier)!
-            .resolvedValue(in: context)!
         /// Subtract value of smallest detent so that we get a range between 0-1, where 0 corresponds to smallest, and 1 to largest detent.
         /// This method means the in-between values will not correspond to any multiples specified in a detent's resolver closure (e.g. context.maximumDetentValue `*` 0.5).
         let p = y/(maxDetentValue-smallestDetentValue)
