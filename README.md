@@ -1,5 +1,11 @@
 # SheetInteraction
-SheetInteraction allows developers to observe changes to a UISheetPresentationController sheet's position, and perform percent-driven animations driven by a sheet stack's position.
+
+<p>
+    <a href="https://developer.apple.com/swift/"><img alt="Swift 5.7" src="https://img.shields.io/badge/swift-5.7-orange.svg?style=flat"></a>
+    <a href="https://github.com/boscojwho/SheetInteraction/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/badge/License-GPLv3-blue.svg"></a>
+</p>
+
+<b>SheetInteraction</b> allows developers to observe changes to a UISheetPresentationController sheet's position, and perform percent-driven animations driven by a sheet stack's position.
 
 Developers may wish to perform percent-driven animations when users interact with [UISheetPresentationController](https://developer.apple.com/documentation/uikit/uisheetpresentationcontroller)'s modal sheet stack. Unfortunately, UISheetPresentationController only notifies its delegate when a sheet's detent finishes changing (i.e. when a sheet finishes animating to its target detent). What developers may wish to know is how much a sheet has animated between its smallest and largest detents, as well as between each individual detent, and be notified of that information interactively as those changes occur.
 
