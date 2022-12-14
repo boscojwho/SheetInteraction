@@ -11,15 +11,10 @@ class SheetNavigationController: UINavigationController {
     
     private lazy var sheetInteraction: SheetInteraction = .init(
         sheet: sheetPresentationController!,
-        sheetView: view!,
-        sheetWindow: presentingViewController!.view.window!)
+        sheetView: view!)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         /// Detent observer gesture doesn't need to be exclusive.
         sheetInteraction.sheetInteractionGesture.delegate = self
         sheetInteraction.delegate = self

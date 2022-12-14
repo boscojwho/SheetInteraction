@@ -45,15 +45,12 @@ public final class SheetInteraction {
     public let sheetController: UISheetPresentationController
     /// The root view associated with a sheet's `presentedViewController`. Be sure use the view that encompasses all subviews (e.g. navigation bars).
     public let sheetView: UIView
-    public let sheetWindow: UIWindow
-    public let sheetLayoutInfo: SheetLayoutInfo
+    public private(set) lazy var sheetWindow: UIWindow = sheetView.window!
+    public private(set) lazy var sheetLayoutInfo: SheetLayoutInfo = .init(sheet: sheetController, sheetView: sheetView, window: sheetWindow)
     
-    /// - Parameter sheetView: Must already be added to view hierarchy connected to a window.
-    public init(sheet: UISheetPresentationController, sheetView: UIView, sheetWindow: UIWindow) {
+    public init(sheet: UISheetPresentationController, sheetView: UIView) {
         self.sheetController = sheet
         self.sheetView = sheetView
-        self.sheetWindow = sheetWindow
-        self.sheetLayoutInfo = .init(sheet: sheetController, sheetView: sheetView, window: sheetWindow)
         sheetView.addGestureRecognizer(sheetInteractionGesture)
     }
     
