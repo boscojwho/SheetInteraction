@@ -175,13 +175,18 @@ extension TableViewController: SheetInteractionDelegate {
         
         activeDetent = interactionChange.approaching.detentIdentifier
         
+        /// Update/animate UI elements based on sheet's total percentage animated from smallest detent to largest detent, where 0 is the smallest detent.
+        /// Note that overscroll values are also reported.
         detailsButton.alpha = interactionChange.percentageTotal
         
-#warning("This needs work....")
-        sheetInteraction.animating(._medSmall, interactionInfo: interactionChange) { percentageAnimating in
+        /// Example of running percent-driven animations tied to a particular detent while user is actively interacting with a sheet stack
+        /// The `percentageAnimating` is always reported such that its value approaches `1` when sheet is moving up, and vice-versa.
+        sheetInteraction.animating(._medSmall, interactionChange: interactionChange) { percentageAnimating in
+            print("_medSmall: \(percentageAnimating)")
             segmentedControl.alpha = percentageAnimating
         }
-        sheetInteraction.animating(._small, interactionInfo: interactionChange) { percentageAnimating in
+        sheetInteraction.animating(._small, interactionChange: interactionChange) { percentageAnimating in
+            print("_small: \(percentageAnimating)")
             doneButton.alpha = percentageAnimating
         }
     }
@@ -195,18 +200,17 @@ extension TableViewController: SheetInteractionDelegate {
         
         detailsButton.alpha = percentageTotal
         
-#warning("This needs work....")
-        /// Get detent object.
+        /// On touch up, update UI elements when sheet rests at or above a specifc detent.
         if let target = sheetInteraction.sheetController.detent(withIdentifier: targetDetentInfo.detentIdentifier) {
             /// If target detent is greater than `small`.
-            if target.greaterThan(other: ._small(), in: sheetInteraction.sheetController) == true {
+            if target.greaterThan(._small(), in: sheetInteraction.sheetController) == true {
                 doneButton.alpha = 1
             } else {
                 doneButton.alpha = 0
             }
             
             /// If target detent is greater than `medSmall`.
-            if target.greaterThan(other: ._medSmall(), in: sheetInteraction.sheetController) == true {
+            if target.greaterThan(._medSmall(), in: sheetInteraction.sheetController) == true {
                 segmentedControl.alpha = 1
             } else {
                 segmentedControl.alpha = 0

@@ -19,7 +19,7 @@ public protocol SheetInteractionDelegate: AnyObject {
     func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionChange: SheetInteraction.Change)
     
     /// - Parameter targetDetentInfo: Sheet is either animating (or animated) to its target detent after user interaction has ended.
-    /// - Parameter percentageTotal: See `SheetInteractionInfo.percentageTotal`.
+    /// - Parameter percentageTotal: The target detent's `resolvedValue` as a percentage of the sheet's `maximumDetentValue`, where 0 is the smallest detent.  Overscroll values are reported.  See `SheetInteraction.Change.percentageTotal`.
     func sheetInteractionEnded(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, percentageTotal: CGFloat)
 }
 
@@ -68,12 +68,13 @@ public final class SheetInteraction {
     
     /// This allows callers to perform detent-specific percent-driven interactive animations.
     /// Calls `animationBlock` if sheet is currently greater than or equal to specified `detent`, but *is not* equal or greater to the next adjacent detent.
-    public func animating(_ detent: DetentIdentifier, interactionInfo: Change, animationBlock: (CGFloat) -> Void) {
+    /// - Parameter animationBlock : The `percentageAnimating` is always reported such that its value approaches `1` when sheet is moving up, and vice-versa.
+    public func animating(_ detent: DetentIdentifier, interactionChange: Change, animationBlock: (CGFloat) -> Void) {
         /// Check for `currentDirections` to ensure `animationBlock` only runs when sheet detent state is equal or greater than specified detent.
-        if interactionInfo.approaching.detentIdentifier == detent, currentDirections.contains(.down) {
-            animationBlock(interactionInfo.percentagePreceding)
-        } else if interactionInfo.preceding.detentIdentifier == detent, currentDirections.contains(.up) {
-            animationBlock(interactionInfo.percentageApproaching)
+        if interactionChange.approaching.detentIdentifier == detent, currentDirections.contains(.down) {
+            animationBlock(interactionChange.percentagePreceding)
+        } else if interactionChange.preceding.detentIdentifier == detent, currentDirections.contains(.up) {
+            animationBlock(interactionChange.percentageApproaching)
         } else {
             return
         }

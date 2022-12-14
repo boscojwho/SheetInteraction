@@ -12,7 +12,7 @@ public extension UISheetPresentationController.Detent {
     
     /// - Note: If the resolved value of self is nil, returns false. If the resolved value of `other` is nil, and self.resolvedValue is non-nil, returns true.
     /// - Returns: Self if greater than `other`.
-    func greaterThan(other: UISheetPresentationController.Detent, in sheet: UISheetPresentationController) -> Bool {
+    func greaterThan(_ other: UISheetPresentationController.Detent, in sheet: UISheetPresentationController) -> Bool {
         let context = Context(containerTraitCollection: sheet.traitCollection, maximumDetentValue: sheet.layoutInfo.maximumDetentValue())
         guard let val1 = resolvedValue(in: context) else {
             return false
