@@ -76,64 +76,6 @@ class TableViewController: UIViewController {
     }
 }
 
-/*
-extension TableViewController {
-
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print(#function)
-        super.touchesBegan(touches, with: event)
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print(#function)
-        super.touchesMoved(touches, with: event)
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print(#function)
-        super.touchesEnded(touches, with: event)
-    }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print(#function)
-        super.touchesCancelled(touches, with: event)
-    }
-}
- */
-
-/*
-extension TableViewController: UIScrollViewDelegate {
-    
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        print(#function)
-    }
-    
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        print(#function)
-    }
-        
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        print(#function)
-    }
-
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print(#function)
-    }
-    
-    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-        print(#function)
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        print(#function)
-    }
-    
-    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        print(#function)
-    }
-}
- */
-
 extension TableViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -272,3 +214,63 @@ extension TableViewController: SheetInteractionDelegate {
         }
     }
 }
+
+/// This method doesn't work because UIKit will intercept touches associated with sheet.
+/*
+extension TableViewController {
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print(#function)
+        super.touchesBegan(touches, with: event)
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print(#function)
+        super.touchesMoved(touches, with: event)
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print(#function)
+        super.touchesEnded(touches, with: event)
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print(#function)
+        super.touchesCancelled(touches, with: event)
+    }
+}
+ */
+
+/// This method doesn't work if user interacts with sheet using grabber, navigation bar, or anywhere outside scroll view.
+/*
+extension TableViewController: UIScrollViewDelegate {
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        print(#function)
+    }
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        print(#function)
+    }
+        
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        print(#function)
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print(#function)
+    }
+    
+    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        print(#function)
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        print(#function)
+    }
+    
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        print(#function)
+    }
+}
+ */
