@@ -168,20 +168,20 @@ extension TableViewController: UISheetPresentationControllerDelegate {
 
 extension TableViewController: SheetInteractionDelegate {
     
-    func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionInfo: SheetInteraction.Change) {
+    func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionChange: SheetInteraction.Change) {
         if let delegate = presentingViewController as? SheetInteractionDelegate {
-            delegate.sheetInteractionChanged(sheetInteraction: sheetInteraction, interactionInfo: interactionInfo)
+            delegate.sheetInteractionChanged(sheetInteraction: sheetInteraction, interactionChange: interactionChange)
         }
         
-        activeDetent = interactionInfo.approaching.detentIdentifier
+        activeDetent = interactionChange.approaching.detentIdentifier
         
-        detailsButton.alpha = interactionInfo.percentageTotal
+        detailsButton.alpha = interactionChange.percentageTotal
         
 #warning("This needs work....")
-        sheetInteraction.animating(._medSmall, interactionInfo: interactionInfo) { percentageAnimating in
+        sheetInteraction.animating(._medSmall, interactionInfo: interactionChange) { percentageAnimating in
             segmentedControl.alpha = percentageAnimating
         }
-        sheetInteraction.animating(._small, interactionInfo: interactionInfo) { percentageAnimating in
+        sheetInteraction.animating(._small, interactionInfo: interactionChange) { percentageAnimating in
             doneButton.alpha = percentageAnimating
         }
     }

@@ -16,7 +16,7 @@ public protocol SheetInteractionDelegate: AnyObject {
     func sheetInteractionBegan(sheetInteraction: SheetInteraction, at detent: DetentIdentifier)
     
     /// Stationary and x-axis change events are not emitted.
-    func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionInfo: SheetInteraction.Change)
+    func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionChange: SheetInteraction.Change)
     
     /// - Parameter targetDetent: Sheet is either animating (or animated) to its target detent after user interaction has ended.
     /// - Parameter percentageTotal: See `SheetInteractionInfo.percentageTotal`.
@@ -197,7 +197,7 @@ public final class SheetInteraction {
                     detentIdentifier: precedingDetent, distance: precedingDistance),
                 percentageTotal: totalPercentageUsingOrigin, percentageApproaching: percentageApproaching,
                 percentagePreceding: percentagePreceding)
-            delegate?.sheetInteractionChanged(sheetInteraction: self, interactionInfo: changeInfo)
+            delegate?.sheetInteractionChanged(sheetInteraction: self, interactionChange: changeInfo)
         case .ended, .cancelled, .failed:
             defer {
                 originDetent = nil

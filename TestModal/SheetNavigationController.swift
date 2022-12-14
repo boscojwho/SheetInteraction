@@ -23,17 +23,17 @@ class SheetNavigationController: UINavigationController {
 
 extension SheetNavigationController: SheetInteractionDelegate {
     
-    func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionInfo: SheetInteraction.Change) {
+    func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionChange: SheetInteraction.Change) {
         print(#function,
-              "\n\tclosest: \(interactionInfo.closest.detentIdentifier.rawValue)",
-              "\n\tclosestDistance: \(interactionInfo.closest.distance)",
-              "\n\tapproaching: \(interactionInfo.approaching.detentIdentifier.rawValue )",
-              "\n\tapproachingDistance: \(interactionInfo.approaching.distance )",
-              "\n\tpreceding: \(interactionInfo.preceding.detentIdentifier.rawValue )",
-              "\n\tprecedingDistance: \(interactionInfo.preceding.distance )")
+              "\n\tclosest: \(interactionChange.closest.detentIdentifier.rawValue)",
+              "\n\tclosestDistance: \(interactionChange.closest.distance)",
+              "\n\tapproaching: \(interactionChange.approaching.detentIdentifier.rawValue )",
+              "\n\tapproachingDistance: \(interactionChange.approaching.distance )",
+              "\n\tpreceding: \(interactionChange.preceding.detentIdentifier.rawValue )",
+              "\n\tprecedingDistance: \(interactionChange.preceding.distance )")
         print("* * *")
         if let delegate = topViewController as? SheetInteractionDelegate {
-            delegate.sheetInteractionChanged(sheetInteraction: sheetInteraction, interactionInfo: interactionInfo)
+            delegate.sheetInteractionChanged(sheetInteraction: sheetInteraction, interactionChange: interactionChange)
         }
     }
     
