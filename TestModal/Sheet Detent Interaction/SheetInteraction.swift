@@ -248,6 +248,7 @@ private extension SheetInteraction {
             let identifier = detent.identifier
             let context = Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetLayoutInfo.maximumDetentValue())
             guard let detentHeight = detent.resolvedValue(in: context) else {
+                print("Encountered inactive detent while generating layout info: \(detent.identifier)")
                 return nil
             }
             /// Exclude sheet height outside safe area (bottom edge attached).
