@@ -32,7 +32,7 @@
 		E41273A12940AD1200AE1D4A /* Detents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detents.swift; sourceTree = "<group>"; };
 		E4169E292946E22400A80641 /* SheetLayoutInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetLayoutInfo.swift; sourceTree = "<group>"; };
 		E4169E2B2946F29F00A80641 /* DetentResolutionContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetentResolutionContext.swift; sourceTree = "<group>"; };
-		E41EBD9E292C79F800FB3402 /* TestModal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestModal.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E41EBD9E292C79F800FB3402 /* SheetInteraction.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SheetInteraction.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E41EBDA1292C79F800FB3402 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E41EBDA3292C79F800FB3402 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E41EBDA5292C79F800FB3402 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -66,7 +66,7 @@
 		E41EBD95292C79F800FB3402 = {
 			isa = PBXGroup;
 			children = (
-				E41EBDA0292C79F800FB3402 /* TestModal */,
+				E41EBDA0292C79F800FB3402 /* SheetInteraction */,
 				E41EBD9F292C79F800FB3402 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -74,12 +74,12 @@
 		E41EBD9F292C79F800FB3402 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E41EBD9E292C79F800FB3402 /* TestModal.app */,
+				E41EBD9E292C79F800FB3402 /* SheetInteraction.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E41EBDA0292C79F800FB3402 /* TestModal */ = {
+		E41EBDA0292C79F800FB3402 /* SheetInteraction */ = {
 			isa = PBXGroup;
 			children = (
 				E41EBDA1292C79F800FB3402 /* AppDelegate.swift */,
@@ -96,7 +96,7 @@
 				E41EBDAC292C79F900FB3402 /* LaunchScreen.storyboard */,
 				E41EBDAF292C79FA00FB3402 /* Info.plist */,
 			);
-			path = TestModal;
+			path = SheetInteraction;
 			sourceTree = "<group>";
 		};
 		E48B7AC02940A7CC0022D7E3 /* Sheet Detent Interaction */ = {
@@ -117,9 +117,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E41EBD9D292C79F800FB3402 /* TestModal */ = {
+		E41EBD9D292C79F800FB3402 /* SheetInteraction */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E41EBDB2292C79FA00FB3402 /* Build configuration list for PBXNativeTarget "TestModal" */;
+			buildConfigurationList = E41EBDB2292C79FA00FB3402 /* Build configuration list for PBXNativeTarget "SheetInteraction" */;
 			buildPhases = (
 				E41EBD9A292C79F800FB3402 /* Sources */,
 				E41EBD9B292C79F800FB3402 /* Frameworks */,
@@ -129,9 +129,9 @@
 			);
 			dependencies = (
 			);
-			name = TestModal;
+			name = SheetInteraction;
 			productName = TestModal;
-			productReference = E41EBD9E292C79F800FB3402 /* TestModal.app */;
+			productReference = E41EBD9E292C79F800FB3402 /* SheetInteraction.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -149,7 +149,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E41EBD99292C79F800FB3402 /* Build configuration list for PBXProject "TestModal" */;
+			buildConfigurationList = E41EBD99292C79F800FB3402 /* Build configuration list for PBXProject "SheetInteraction" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -162,7 +162,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E41EBD9D292C79F800FB3402 /* TestModal */,
+				E41EBD9D292C79F800FB3402 /* SheetInteraction */,
 			);
 		};
 /* End PBXProject section */
@@ -399,7 +399,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E41EBD99292C79F800FB3402 /* Build configuration list for PBXProject "TestModal" */ = {
+		E41EBD99292C79F800FB3402 /* Build configuration list for PBXProject "SheetInteraction" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E41EBDB0292C79FA00FB3402 /* Debug */,
@@ -408,7 +408,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E41EBDB2292C79FA00FB3402 /* Build configuration list for PBXNativeTarget "TestModal" */ = {
+		E41EBDB2292C79FA00FB3402 /* Build configuration list for PBXNativeTarget "SheetInteraction" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E41EBDB3292C79FA00FB3402 /* Debug */,
