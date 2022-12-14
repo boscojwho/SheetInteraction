@@ -158,11 +158,11 @@ extension TableViewController: UISheetPresentationControllerDelegate {
     }
     
     func presentationController(_ presentationController: UIPresentationController, prepare adaptivePresentationController: UIPresentationController) {
-        print(#function)
+        AppDelegate.logger.debug(#function)
     }
     
     func sheetPresentationControllerDidChangeSelectedDetentIdentifier(_ sheetPresentationController: UISheetPresentationController) {
-        print(sheetPresentationController.identifierForSelectedDetent())
+        AppDelegate.logger.debug("\(sheetPresentationController.identifierForSelectedDetent().rawValue)")
     }
 }
 
@@ -182,11 +182,11 @@ extension TableViewController: SheetInteractionDelegate {
         /// Example of running percent-driven animations tied to a particular detent while user is actively interacting with a sheet stack
         /// The `percentageAnimating` is always reported such that its value approaches `1` when sheet is moving up, and vice-versa.
         sheetInteraction.animating(._medSmall, interactionChange: interactionChange) { percentageAnimating in
-            print("_medSmall: \(percentageAnimating)")
+            AppDelegate.logger.debug("_medSmall: \(percentageAnimating)")
             segmentedControl.alpha = percentageAnimating
         }
         sheetInteraction.animating(._small, interactionChange: interactionChange) { percentageAnimating in
-            print("_small: \(percentageAnimating)")
+            AppDelegate.logger.debug("_small: \(percentageAnimating)")
             doneButton.alpha = percentageAnimating
         }
     }

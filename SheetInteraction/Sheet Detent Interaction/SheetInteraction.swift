@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import os
 
 public typealias Detent = UISheetPresentationController.Detent
 public typealias DetentIdentifier = UISheetPresentationController.Detent.Identifier
@@ -32,6 +33,11 @@ extension SheetInteractionDelegate {
 
 /// - NOTE: Ensure *interactionGesture* recognizes simultaneously with all other gestures in `sheetView`.
 public final class SheetInteraction {
+    
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier!,
+        category: String(describing: SheetInteraction.self)
+    )
     
     /// Layout info relating to a detent during sheet interaction.
     /// - Parameter identifier: Info pertaining to this detent.
@@ -97,7 +103,7 @@ public final class SheetInteraction {
     
     @objc private func handleSheetInteraction(pan: UIPanGestureRecognizer) {
         /// Track which detent is currently closest to the top edge of sheet statck.
-        print(#function, "state: \(pan.state)")
+        Self.logger.debug("\(#function) - \(pan.state.rawValue)")
         switch pan.state {
             /// Handling `.recognized` causes `.ended` to not register.... [2022.12]
 //        case .recognized:
@@ -109,7 +115,7 @@ public final class SheetInteraction {
         case .changed:
             let directions = pan.directions
             guard directions.isStationary == false else {
-                print("stationary...: \(pan.velocity(in: pan.view))")
+                Self.logger.debug("stationary...: \(pan.velocity(in: pan.view).debugDescription)")
                 #if DEBUG
                 fatalError()
                 #else
@@ -163,7 +169,7 @@ public final class SheetInteraction {
             /// Keep track of previous sheet height so we can use it on sheet interaction end.
             /// On sheet interaction end, sheet height is already updated to reflect final state, so we can't calculate target distance using that final value.
             let sheetHeight = sheetLayoutInfo.sheetHeightInSafeArea
-            print("sheetHeight: ", sheetHeight)
+            Self.logger.debug("sheetHeight: \(sheetHeight)")
             sheetHeightOnPreviousChange = sheetHeight
             
             /// Percentage to approachingDetent, where 1 is closest to approachingDetent.
@@ -181,13 +187,13 @@ public final class SheetInteraction {
                 return percentage
             }()
             let percentagePreceding = 1 - percentageApproaching
-            print("percentage: \(percentageApproaching)")
+            Self.logger.debug("percentage: \(percentageApproaching)")
             
             let totalPercentageUsingHeight = sheetHeight/sheetLayoutInfo.maximumDetentValue()
             /// This method supports overscroll values.
             /// Note that this is a global percentage capped by the smallest and largest detents.
             let totalPercentageUsingOrigin = totalPercentageWithOrigin(sheetLayoutInfo: sheetLayoutInfo, sheetFrame: sheetFrameInWindow)
-            print("total percentage [height]: \(totalPercentageUsingHeight), [yOrigin]: \(totalPercentageUsingOrigin)")
+            Self.logger.debug("total percentage [height]: \(totalPercentageUsingHeight), [yOrigin]: \(totalPercentageUsingOrigin)")
 
             let changeInfo = Change(
                 isMinimizing: isMinimizing,
@@ -224,7 +230,7 @@ public final class SheetInteraction {
             let sheetFrameInWindow = sheetWindow.convert(sheetView.frame, from: sheetView)
             let totalPercentageUsingOriginTargetting = totalPercentageWithOrigin(sheetLayoutInfo: sheetLayoutInfo, sheetFrame: sheetFrameInWindow)
             let targetDistance = abs(sheetHeight - detentHeight)
-            print("total percentage [height]: \(totalPercentageUsingHeight), [yOrigin]: \(totalPercentageUsingOriginOnTouchUp) --> targetting: \(totalPercentageUsingOriginTargetting)")
+            Self.logger.debug("total percentage [height]: \(totalPercentageUsingHeight), [yOrigin]: \(totalPercentageUsingOriginOnTouchUp) --> targetting: \(totalPercentageUsingOriginTargetting)")
 
             delegate?.sheetInteractionEnded(sheetInteraction: self, targetDetentInfo: .init(
                 detentIdentifier: targetDetentIdentifier, distance: targetDistance), targetPercentageTotal: totalPercentageUsingOriginTargetting, onTouchUpPercentageTotal: totalPercentageUsingOriginOnTouchUp)
@@ -248,7 +254,7 @@ private extension SheetInteraction {
             let identifier = detent.identifier
             let context = Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetLayoutInfo.maximumDetentValue())
             guard let detentHeight = detent.resolvedValue(in: context) else {
-                print("Encountered inactive detent while generating layout info: \(detent.identifier)")
+                Self.logger.debug("Encountered inactive detent while generating layout info: \(detent.identifier.rawValue)")
                 return nil
             }
             /// Exclude sheet height outside safe area (bottom edge attached).
