@@ -168,9 +168,9 @@ extension TableViewController: UISheetPresentationControllerDelegate {
 
 extension TableViewController: SheetInteractionDelegate {
     
-    func sheetInteractionChanged(sheet: SheetInteraction, interactionInfo: SheetInteraction.Change) {
+    func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionInfo: SheetInteraction.Change) {
         if let delegate = presentingViewController as? SheetInteractionDelegate {
-            delegate.sheetInteractionChanged(sheet: sheet, interactionInfo: interactionInfo)
+            delegate.sheetInteractionChanged(sheetInteraction: sheetInteraction, interactionInfo: interactionInfo)
         }
         
         activeDetent = interactionInfo.approaching.detentIdentifier
@@ -178,17 +178,17 @@ extension TableViewController: SheetInteractionDelegate {
         detailsButton.alpha = interactionInfo.percentageTotal
         
 #warning("This needs work....")
-        sheet.animating(._medSmall, interactionInfo: interactionInfo) { percentageAnimating in
+        sheetInteraction.animating(._medSmall, interactionInfo: interactionInfo) { percentageAnimating in
             segmentedControl.alpha = percentageAnimating
         }
-        sheet.animating(._small, interactionInfo: interactionInfo) { percentageAnimating in
+        sheetInteraction.animating(._small, interactionInfo: interactionInfo) { percentageAnimating in
             doneButton.alpha = percentageAnimating
         }
     }
     
-    func sheetInteractionEnded(sheet: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, percentageTotal: CGFloat) {
+    func sheetInteractionEnded(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, percentageTotal: CGFloat) {
         if let delegate = presentingViewController as? SheetInteractionDelegate {
-            delegate.sheetInteractionEnded(sheet: sheet, targetDetentInfo: targetDetentInfo, percentageTotal: percentageTotal)
+            delegate.sheetInteractionEnded(sheetInteraction: sheetInteraction, targetDetentInfo: targetDetentInfo, percentageTotal: percentageTotal)
         }
         
         activeDetent = targetDetentInfo.detentIdentifier
@@ -197,16 +197,16 @@ extension TableViewController: SheetInteractionDelegate {
         
 #warning("This needs work....")
         /// Get detent object.
-        if let target = sheet.sheetController.detent(withIdentifier: targetDetentInfo.detentIdentifier) {
+        if let target = sheetInteraction.sheetController.detent(withIdentifier: targetDetentInfo.detentIdentifier) {
             /// If target detent is greater than `small`.
-            if target.greaterThan(other: ._small(), in: sheet.sheetController) == true {
+            if target.greaterThan(other: ._small(), in: sheetInteraction.sheetController) == true {
                 doneButton.alpha = 1
             } else {
                 doneButton.alpha = 0
             }
             
             /// If target detent is greater than `medSmall`.
-            if target.greaterThan(other: ._medSmall(), in: sheet.sheetController) == true {
+            if target.greaterThan(other: ._medSmall(), in: sheetInteraction.sheetController) == true {
                 segmentedControl.alpha = 1
             } else {
                 segmentedControl.alpha = 0

@@ -23,7 +23,7 @@ class SheetNavigationController: UINavigationController {
 
 extension SheetNavigationController: SheetInteractionDelegate {
     
-    func sheetInteractionChanged(sheet: SheetInteraction, interactionInfo: SheetInteraction.Change) {
+    func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionInfo: SheetInteraction.Change) {
         print(#function,
               "\n\tclosest: \(interactionInfo.closest.detentIdentifier.rawValue)",
               "\n\tclosestDistance: \(interactionInfo.closest.distance)",
@@ -33,17 +33,17 @@ extension SheetNavigationController: SheetInteractionDelegate {
               "\n\tprecedingDistance: \(interactionInfo.preceding.distance )")
         print("* * *")
         if let delegate = topViewController as? SheetInteractionDelegate {
-            delegate.sheetInteractionChanged(sheet: sheet, interactionInfo: interactionInfo)
+            delegate.sheetInteractionChanged(sheetInteraction: sheetInteraction, interactionInfo: interactionInfo)
         }
     }
     
-    func sheetInteractionEnded(sheet: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, percentageTotal: CGFloat) {
+    func sheetInteractionEnded(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, percentageTotal: CGFloat) {
         print(#function,
               "\n\ttarget: \(targetDetentInfo.detentIdentifier.rawValue)",
               "\n\tdistance: \(targetDetentInfo.distance)")
         print("* * *")
         if let delegate = topViewController as? SheetInteractionDelegate {
-            delegate.sheetInteractionEnded(sheet: sheet, targetDetentInfo: targetDetentInfo, percentageTotal: percentageTotal)
+            delegate.sheetInteractionEnded(sheetInteraction: sheetInteraction, targetDetentInfo: targetDetentInfo, percentageTotal: percentageTotal)
         }
     }
 }

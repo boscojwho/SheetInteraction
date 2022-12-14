@@ -13,18 +13,18 @@ public typealias DetentIdentifier = UISheetPresentationController.Detent.Identif
 /// Emit sheet interaction events.
 public protocol SheetInteractionDelegate: AnyObject {
     /// Optional: Default implementation is no-op.
-    func sheetInteractionBegan(sheet: SheetInteraction, at detent: DetentIdentifier)
+    func sheetInteractionBegan(sheetInteraction: SheetInteraction, at detent: DetentIdentifier)
     
     /// Stationary and x-axis change events are not emitted.
-    func sheetInteractionChanged(sheet: SheetInteraction, interactionInfo: SheetInteraction.Change)
+    func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionInfo: SheetInteraction.Change)
     
     /// - Parameter targetDetent: Sheet is either animating (or animated) to its target detent after user interaction has ended.
     /// - Parameter percentageTotal: See `SheetInteractionInfo.percentageTotal`.
-    func sheetInteractionEnded(sheet: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, percentageTotal: CGFloat)
+    func sheetInteractionEnded(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, percentageTotal: CGFloat)
 }
 
 extension SheetInteractionDelegate {
-    func sheetInteractionBegan(sheet: SheetInteraction, at detent: DetentIdentifier) {
+    func sheetInteractionBegan(sheetInteraction: SheetInteraction, at detent: DetentIdentifier) {
         /// no-op.
     }
 }
@@ -103,7 +103,7 @@ public final class SheetInteraction {
         case .began:
             let detentBegan = sheetController.identifierForSelectedDetent()
             originDetent = detentBegan
-            delegate?.sheetInteractionBegan(sheet: self, at: detentBegan)
+            delegate?.sheetInteractionBegan(sheetInteraction: self, at: detentBegan)
         case .changed:
             let directions = pan.directions
             guard directions.isStationary == false else {
@@ -197,7 +197,7 @@ public final class SheetInteraction {
                     detentIdentifier: precedingDetent, distance: precedingDistance),
                 percentageTotal: totalPercentageUsingOrigin, percentageApproaching: percentageApproaching,
                 percentagePreceding: percentagePreceding)
-            delegate?.sheetInteractionChanged(sheet: self, interactionInfo: changeInfo)
+            delegate?.sheetInteractionChanged(sheetInteraction: self, interactionInfo: changeInfo)
         case .ended, .cancelled, .failed:
             defer {
                 originDetent = nil
@@ -223,7 +223,7 @@ public final class SheetInteraction {
             let targetDistance = abs(sheetHeight - detentHeight)
             print("total percentage [height]: \(totalPercentageUsingHeight), [yOrigin]: \(totalPercentageUsingOriginOnTouchUp) --> targetting: \(totalPercentageUsingOriginTargetting)")
 
-            delegate?.sheetInteractionEnded(sheet: self, targetDetentInfo: .init(
+            delegate?.sheetInteractionEnded(sheetInteraction: self, targetDetentInfo: .init(
                 detentIdentifier: targetDetentIdentifier, distance: targetDistance), percentageTotal: totalPercentageUsingOriginTargetting)
         default:
             break
