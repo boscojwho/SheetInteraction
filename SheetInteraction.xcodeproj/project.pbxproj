@@ -90,7 +90,7 @@
 				E422B26B293EE0EA009A0802 /* SheetNavigationController.swift */,
 				E422B267293AFE48009A0802 /* TableViewController.swift */,
 				E422B269293D8F35009A0802 /* DetailViewController.swift */,
-				E48B7AC02940A7CC0022D7E3 /* Sheet Detent Interaction */,
+				E48B7AC02940A7CC0022D7E3 /* Sources */,
 				E41EBDA7292C79F800FB3402 /* Main.storyboard */,
 				E41EBDAA292C79F900FB3402 /* Assets.xcassets */,
 				E41EBDAC292C79F900FB3402 /* LaunchScreen.storyboard */,
@@ -99,7 +99,7 @@
 			path = SheetInteraction;
 			sourceTree = "<group>";
 		};
-		E48B7AC02940A7CC0022D7E3 /* Sheet Detent Interaction */ = {
+		E48B7AC02940A7CC0022D7E3 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				E4BD143329472EE6002C7617 /* Detent.swift */,
@@ -111,7 +111,7 @@
 				E4BD1439294730CB002C7617 /* SheetInteraction+Change.swift */,
 				E422B26F294041CD009A0802 /* SheetInteraction.swift */,
 			);
-			path = "Sheet Detent Interaction";
+			path = Sources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
