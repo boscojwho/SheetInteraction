@@ -66,7 +66,7 @@
 		E41EBD95292C79F800FB3402 = {
 			isa = PBXGroup;
 			children = (
-				E41EBDA0292C79F800FB3402 /* SheetInteraction */,
+				E41EBDA0292C79F800FB3402 /* Example */,
 				E41EBD9F292C79F800FB3402 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -79,7 +79,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E41EBDA0292C79F800FB3402 /* SheetInteraction */ = {
+		E41EBDA0292C79F800FB3402 /* Example */ = {
 			isa = PBXGroup;
 			children = (
 				E41EBDA1292C79F800FB3402 /* AppDelegate.swift */,
@@ -96,7 +96,7 @@
 				E41EBDAC292C79F900FB3402 /* LaunchScreen.storyboard */,
 				E41EBDAF292C79FA00FB3402 /* Info.plist */,
 			);
-			path = SheetInteraction;
+			path = Example;
 			sourceTree = "<group>";
 		};
 		E48B7AC02940A7CC0022D7E3 /* Sources */ = {
@@ -349,7 +349,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4G96725NK5;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = SheetInteraction/Info.plist;
+				INFOPLIST_FILE = Example/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -377,7 +377,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4G96725NK5;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = SheetInteraction/Info.plist;
+				INFOPLIST_FILE = Example/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
