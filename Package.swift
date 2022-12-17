@@ -22,7 +22,7 @@ let package = Package(
         .target(
             name: "SheetInteraction",
             dependencies: [],
-            exclude: ["Tests"]),
+            exclude: ["Tests", "Example"]),
         .testTarget(
             name: "SheetInteractionTests",
             dependencies: ["SheetInteraction"]),
