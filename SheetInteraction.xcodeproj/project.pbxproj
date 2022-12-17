@@ -21,6 +21,8 @@
 		E422B26C293EE0EA009A0802 /* SheetNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B26B293EE0EA009A0802 /* SheetNavigationController.swift */; };
 		E422B26E29402BE5009A0802 /* PanDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B26D29402BE5009A0802 /* PanDirection.swift */; };
 		E422B270294041CD009A0802 /* SheetInteraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B26F294041CD009A0802 /* SheetInteraction.swift */; };
+		E4861248294D3DFE00E47E7D /* SheetInteraction_SPM.h in Headers */ = {isa = PBXBuildFile; fileRef = E4861247294D3DFE00E47E7D /* SheetInteraction_SPM.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E486124D294D3E1800E47E7D /* TestSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E486124C294D3E1800E47E7D /* TestSheet.swift */; };
 		E4BD143429472EE6002C7617 /* Detent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BD143329472EE6002C7617 /* Detent.swift */; };
 		E4BD143629472F2B002C7617 /* Sheet+Detents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BD143529472F2B002C7617 /* Sheet+Detents.swift */; };
 		E4BD143829472F42002C7617 /* Sheet+LayoutInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BD143729472F42002C7617 /* Sheet+LayoutInfo.swift */; };
@@ -45,6 +47,11 @@
 		E422B26B293EE0EA009A0802 /* SheetNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetNavigationController.swift; sourceTree = "<group>"; };
 		E422B26D29402BE5009A0802 /* PanDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanDirection.swift; sourceTree = "<group>"; };
 		E422B26F294041CD009A0802 /* SheetInteraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetInteraction.swift; sourceTree = "<group>"; };
+		E486123B294D3D4E00E47E7D /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		E4861245294D3DFE00E47E7D /* SheetInteraction_SPM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SheetInteraction_SPM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4861247294D3DFE00E47E7D /* SheetInteraction_SPM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SheetInteraction_SPM.h; sourceTree = "<group>"; };
+		E486124C294D3E1800E47E7D /* TestSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSheet.swift; sourceTree = "<group>"; };
+		E486124E294D3E4E00E47E7D /* TestSheetTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSheetTest.swift; sourceTree = "<group>"; };
 		E4BD143329472EE6002C7617 /* Detent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detent.swift; sourceTree = "<group>"; };
 		E4BD143529472F2B002C7617 /* Sheet+Detents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sheet+Detents.swift"; sourceTree = "<group>"; };
 		E4BD143729472F42002C7617 /* Sheet+LayoutInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sheet+LayoutInfo.swift"; sourceTree = "<group>"; };
@@ -60,13 +67,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E4861242294D3DFE00E47E7D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		E41EBD95292C79F800FB3402 = {
 			isa = PBXGroup;
 			children = (
+				E486123B294D3D4E00E47E7D /* Package.swift */,
+				E486123C294D3D8B00E47E7D /* Sources */,
+				E486123D294D3D9100E47E7D /* Tests */,
 				E41EBDA0292C79F800FB3402 /* Example */,
+				E4861246294D3DFE00E47E7D /* SheetInteraction-SPM */,
 				E41EBD9F292C79F800FB3402 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -75,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				E41EBD9E292C79F800FB3402 /* SheetInteraction.app */,
+				E4861245294D3DFE00E47E7D /* SheetInteraction_SPM.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -99,6 +118,46 @@
 			path = Example;
 			sourceTree = "<group>";
 		};
+		E486123C294D3D8B00E47E7D /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				E486123E294D3D9C00E47E7D /* SheetInteraction */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		E486123D294D3D9100E47E7D /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				E486123F294D3DAE00E47E7D /* SheetInteractionTests */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		E486123E294D3D9C00E47E7D /* SheetInteraction */ = {
+			isa = PBXGroup;
+			children = (
+				E486124C294D3E1800E47E7D /* TestSheet.swift */,
+			);
+			path = SheetInteraction;
+			sourceTree = "<group>";
+		};
+		E486123F294D3DAE00E47E7D /* SheetInteractionTests */ = {
+			isa = PBXGroup;
+			children = (
+				E486124E294D3E4E00E47E7D /* TestSheetTest.swift */,
+			);
+			path = SheetInteractionTests;
+			sourceTree = "<group>";
+		};
+		E4861246294D3DFE00E47E7D /* SheetInteraction-SPM */ = {
+			isa = PBXGroup;
+			children = (
+				E4861247294D3DFE00E47E7D /* SheetInteraction_SPM.h */,
+			);
+			path = "SheetInteraction-SPM";
+			sourceTree = "<group>";
+		};
 		E48B7AC02940A7CC0022D7E3 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -115,6 +174,17 @@
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		E4861240294D3DFE00E47E7D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4861248294D3DFE00E47E7D /* SheetInteraction_SPM.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		E41EBD9D292C79F800FB3402 /* SheetInteraction */ = {
@@ -134,6 +204,24 @@
 			productReference = E41EBD9E292C79F800FB3402 /* SheetInteraction.app */;
 			productType = "com.apple.product-type.application";
 		};
+		E4861244294D3DFE00E47E7D /* SheetInteraction-SPM */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E4861249294D3DFE00E47E7D /* Build configuration list for PBXNativeTarget "SheetInteraction-SPM" */;
+			buildPhases = (
+				E4861240294D3DFE00E47E7D /* Headers */,
+				E4861241294D3DFE00E47E7D /* Sources */,
+				E4861242294D3DFE00E47E7D /* Frameworks */,
+				E4861243294D3DFE00E47E7D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SheetInteraction-SPM";
+			productName = "SheetInteraction-SPM";
+			productReference = E4861245294D3DFE00E47E7D /* SheetInteraction_SPM.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -146,6 +234,10 @@
 				TargetAttributes = {
 					E41EBD9D292C79F800FB3402 = {
 						CreatedOnToolsVersion = 14.1;
+					};
+					E4861244294D3DFE00E47E7D = {
+						CreatedOnToolsVersion = 14.2;
+						LastSwiftMigration = 1420;
 					};
 				};
 			};
@@ -163,6 +255,7 @@
 			projectRoot = "";
 			targets = (
 				E41EBD9D292C79F800FB3402 /* SheetInteraction */,
+				E4861244294D3DFE00E47E7D /* SheetInteraction-SPM */,
 			);
 		};
 /* End PBXProject section */
@@ -175,6 +268,13 @@
 				E41EBDAE292C79F900FB3402 /* LaunchScreen.storyboard in Resources */,
 				E41EBDAB292C79F900FB3402 /* Assets.xcassets in Resources */,
 				E41EBDA9292C79F800FB3402 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E4861243294D3DFE00E47E7D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,6 +301,14 @@
 				E4BD143629472F2B002C7617 /* Sheet+Detents.swift in Sources */,
 				E4BD143429472EE6002C7617 /* Detent.swift in Sources */,
 				E4BD143829472F42002C7617 /* Sheet+LayoutInfo.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E4861241294D3DFE00E47E7D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E486124D294D3E1800E47E7D /* TestSheet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,6 +504,83 @@
 			};
 			name = Release;
 		};
+		E486124A294D3DFE00E47E7D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 4G96725NK5;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bosco.ho.SheetInteraction-SPM";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		E486124B294D3DFE00E47E7D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 4G96725NK5;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bosco.ho.SheetInteraction-SPM";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -413,6 +598,15 @@
 			buildConfigurations = (
 				E41EBDB3292C79FA00FB3402 /* Debug */,
 				E41EBDB4292C79FA00FB3402 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E4861249294D3DFE00E47E7D /* Build configuration list for PBXNativeTarget "SheetInteraction-SPM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E486124A294D3DFE00E47E7D /* Debug */,
+				E486124B294D3DFE00E47E7D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
