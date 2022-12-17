@@ -121,7 +121,6 @@
 			isa = PBXGroup;
 			children = (
 				E486123E294D3D9C00E47E7D /* Sources */,
-				E41EBDA0292C79F800FB3402 /* Example */,
 			);
 			path = SheetInteraction;
 			sourceTree = "<group>";
@@ -138,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				E486124C294D3E1800E47E7D /* TestSheet.swift */,
+				E41EBDA0292C79F800FB3402 /* Example */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
