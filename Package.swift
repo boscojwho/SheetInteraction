@@ -21,12 +21,10 @@ let package = Package(
         .target(
             name: "SheetInteraction",
             dependencies: [],
-            path: "Sources/SheetInteraction",
-            sources: ["Sources/SheetInteraction"]),
+            path: "Sources/SheetInteraction"),
         .testTarget(
             name: "SheetInteractionTests",
             dependencies: ["SheetInteraction"],
-            path: "Tests/SheetInteractionTests",
-            sources: ["Tests/SheetInteractionTests"]),
+            path: "Tests/SheetInteractionTests"),
     ]
 )
