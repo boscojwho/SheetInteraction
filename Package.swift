@@ -21,7 +21,8 @@ let package = Package(
         .target(
             name: "SheetInteraction",
             dependencies: [],
-            path: "Sources/SheetInteraction"),
+            path: "Sources/SheetInteraction",
+            exclude: ["Example", "SheetInteraction-SPM"]),
         .testTarget(
             name: "SheetInteractionTests",
             dependencies: ["SheetInteraction"],
