@@ -16,6 +16,9 @@ SheetInteraction provides developers with the following features:
 - Track amount a sheet has animated between each detent (e.g. 0.33 betweeen `medium` and `large`).
 - Observe the target detent at which a sheet will rest when user ends interaction (i.e. on touch up) and before sheet begins animating to its final resting detent.
 
+## Example
+A working example is provided in this project's `Sources/Example` directory. Build and run the `SheetInteraction-Example` scheme to see it in action.
+
 ## How to Use
 To begin, initialize a `SheetInteraction` object on the root view controller of a modal view controller stack. The root view controller can either be a `UINavigationController` or `UIViewController`. This object *must* be initialized with the root view of the root view controller. In a navigation controller setup, ensure this is a view that includes the navigation bar (**Warning**: Do not use a modal view stack's drop shadow view provided by UIKit, as its `frame` and `safeAreaInsets` may not necessarily align with that of the `sheetView`'s).
 
