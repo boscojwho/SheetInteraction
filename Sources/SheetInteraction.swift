@@ -25,7 +25,7 @@ public protocol SheetInteractionDelegate: AnyObject {
     func sheetInteractionEnded(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, targetPercentageTotal: CGFloat, onTouchUpPercentageTotal: CGFloat)
 }
 
-extension SheetInteractionDelegate {
+public extension SheetInteractionDelegate {
     func sheetInteractionBegan(sheetInteraction: SheetInteraction, at detent: DetentIdentifier) {
         /// no-op.
     }
