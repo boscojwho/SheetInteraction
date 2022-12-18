@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		E41273A22940AD1200AE1D4A /* Detents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41273A12940AD1200AE1D4A /* Detents.swift */; };
-		E4169E2A2946E22400A80641 /* SheetLayoutInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4169E292946E22400A80641 /* SheetLayoutInfo.swift */; };
-		E4169E2C2946F29F00A80641 /* DetentResolutionContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4169E2B2946F29F00A80641 /* DetentResolutionContext.swift */; };
 		E41EBDA2292C79F800FB3402 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41EBDA1292C79F800FB3402 /* AppDelegate.swift */; };
 		E41EBDA4292C79F800FB3402 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41EBDA3292C79F800FB3402 /* SceneDelegate.swift */; };
 		E41EBDA6292C79F800FB3402 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41EBDA5292C79F800FB3402 /* ViewController.swift */; };
@@ -19,14 +17,15 @@
 		E422B268293AFE48009A0802 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B267293AFE48009A0802 /* TableViewController.swift */; };
 		E422B26A293D8F35009A0802 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B269293D8F35009A0802 /* DetailViewController.swift */; };
 		E422B26C293EE0EA009A0802 /* SheetNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B26B293EE0EA009A0802 /* SheetNavigationController.swift */; };
-		E422B26E29402BE5009A0802 /* PanDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B26D29402BE5009A0802 /* PanDirection.swift */; };
-		E422B270294041CD009A0802 /* SheetInteraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B26F294041CD009A0802 /* SheetInteraction.swift */; };
 		E4861248294D3DFE00E47E7D /* SheetInteraction_SPM.h in Headers */ = {isa = PBXBuildFile; fileRef = E4861247294D3DFE00E47E7D /* SheetInteraction_SPM.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E486124D294D3E1800E47E7D /* TestSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E486124C294D3E1800E47E7D /* TestSheet.swift */; };
-		E4BD143429472EE6002C7617 /* Detent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BD143329472EE6002C7617 /* Detent.swift */; };
-		E4BD143629472F2B002C7617 /* Sheet+Detents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BD143529472F2B002C7617 /* Sheet+Detents.swift */; };
-		E4BD143829472F42002C7617 /* Sheet+LayoutInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BD143729472F42002C7617 /* Sheet+LayoutInfo.swift */; };
-		E4BD143A294730CB002C7617 /* SheetInteraction+Change.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BD1439294730CB002C7617 /* SheetInteraction+Change.swift */; };
+		E486125F294F969700E47E7D /* SheetInteraction+Change.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BD1439294730CB002C7617 /* SheetInteraction+Change.swift */; };
+		E4861260294F969700E47E7D /* SheetLayoutInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4169E292946E22400A80641 /* SheetLayoutInfo.swift */; };
+		E4861261294F969700E47E7D /* Detent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BD143329472EE6002C7617 /* Detent.swift */; };
+		E4861262294F969700E47E7D /* SheetInteraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B26F294041CD009A0802 /* SheetInteraction.swift */; };
+		E4861263294F969700E47E7D /* PanDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B26D29402BE5009A0802 /* PanDirection.swift */; };
+		E4861264294F969700E47E7D /* DetentResolutionContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4169E2B2946F29F00A80641 /* DetentResolutionContext.swift */; };
+		E4861265294F969700E47E7D /* Sheet+LayoutInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BD143729472F42002C7617 /* Sheet+LayoutInfo.swift */; };
+		E4861266294F969700E47E7D /* Sheet+Detents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BD143529472F2B002C7617 /* Sheet+Detents.swift */; };
 		E4C721B62942C839007AB243 /* NavigationController+Modal.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C721B52942C839007AB243 /* NavigationController+Modal.swift */; };
 /* End PBXBuildFile section */
 
@@ -50,7 +49,6 @@
 		E486123B294D3D4E00E47E7D /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		E4861245294D3DFE00E47E7D /* SheetInteraction_SPM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SheetInteraction_SPM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4861247294D3DFE00E47E7D /* SheetInteraction_SPM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SheetInteraction_SPM.h; sourceTree = "<group>"; };
-		E486124C294D3E1800E47E7D /* TestSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSheet.swift; sourceTree = "<group>"; };
 		E486124E294D3E4E00E47E7D /* TestSheetTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSheetTest.swift; sourceTree = "<group>"; };
 		E4BD143329472EE6002C7617 /* Detent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detent.swift; sourceTree = "<group>"; };
 		E4BD143529472F2B002C7617 /* Sheet+Detents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sheet+Detents.swift"; sourceTree = "<group>"; };
@@ -81,7 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				E486123B294D3D4E00E47E7D /* Package.swift */,
-				E486123C294D3D8B00E47E7D /* SheetInteraction */,
+				E486123E294D3D9C00E47E7D /* Sources */,
 				E486123D294D3D9100E47E7D /* Tests */,
 				E4861246294D3DFE00E47E7D /* SheetInteraction-SPM */,
 				E41EBD9F292C79F800FB3402 /* Products */,
@@ -117,14 +115,6 @@
 			path = Example;
 			sourceTree = "<group>";
 		};
-		E486123C294D3D8B00E47E7D /* SheetInteraction */ = {
-			isa = PBXGroup;
-			children = (
-				E486123E294D3D9C00E47E7D /* Sources */,
-			);
-			path = SheetInteraction;
-			sourceTree = "<group>";
-		};
 		E486123D294D3D9100E47E7D /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -136,7 +126,14 @@
 		E486123E294D3D9C00E47E7D /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				E486124C294D3E1800E47E7D /* TestSheet.swift */,
+				E4BD143329472EE6002C7617 /* Detent.swift */,
+				E4169E2B2946F29F00A80641 /* DetentResolutionContext.swift */,
+				E422B26D29402BE5009A0802 /* PanDirection.swift */,
+				E4BD143529472F2B002C7617 /* Sheet+Detents.swift */,
+				E4BD143729472F42002C7617 /* Sheet+LayoutInfo.swift */,
+				E4169E292946E22400A80641 /* SheetLayoutInfo.swift */,
+				E4BD1439294730CB002C7617 /* SheetInteraction+Change.swift */,
+				E422B26F294041CD009A0802 /* SheetInteraction.swift */,
 				E41EBDA0292C79F800FB3402 /* Example */,
 			);
 			path = Sources;
@@ -161,14 +158,6 @@
 		E48B7AC02940A7CC0022D7E3 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				E4BD143329472EE6002C7617 /* Detent.swift */,
-				E4169E2B2946F29F00A80641 /* DetentResolutionContext.swift */,
-				E422B26D29402BE5009A0802 /* PanDirection.swift */,
-				E4BD143529472F2B002C7617 /* Sheet+Detents.swift */,
-				E4BD143729472F42002C7617 /* Sheet+LayoutInfo.swift */,
-				E4169E292946E22400A80641 /* SheetLayoutInfo.swift */,
-				E4BD1439294730CB002C7617 /* SheetInteraction+Change.swift */,
-				E422B26F294041CD009A0802 /* SheetInteraction.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -287,20 +276,12 @@
 			files = (
 				E41273A22940AD1200AE1D4A /* Detents.swift in Sources */,
 				E41EBDA6292C79F800FB3402 /* ViewController.swift in Sources */,
-				E4BD143A294730CB002C7617 /* SheetInteraction+Change.swift in Sources */,
-				E422B270294041CD009A0802 /* SheetInteraction.swift in Sources */,
-				E4169E2C2946F29F00A80641 /* DetentResolutionContext.swift in Sources */,
 				E4C721B62942C839007AB243 /* NavigationController+Modal.swift in Sources */,
 				E422B26C293EE0EA009A0802 /* SheetNavigationController.swift in Sources */,
 				E41EBDA2292C79F800FB3402 /* AppDelegate.swift in Sources */,
-				E4169E2A2946E22400A80641 /* SheetLayoutInfo.swift in Sources */,
-				E422B26E29402BE5009A0802 /* PanDirection.swift in Sources */,
 				E422B26A293D8F35009A0802 /* DetailViewController.swift in Sources */,
 				E41EBDA4292C79F800FB3402 /* SceneDelegate.swift in Sources */,
 				E422B268293AFE48009A0802 /* TableViewController.swift in Sources */,
-				E4BD143629472F2B002C7617 /* Sheet+Detents.swift in Sources */,
-				E4BD143429472EE6002C7617 /* Detent.swift in Sources */,
-				E4BD143829472F42002C7617 /* Sheet+LayoutInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,7 +289,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E486124D294D3E1800E47E7D /* TestSheet.swift in Sources */,
+				E486125F294F969700E47E7D /* SheetInteraction+Change.swift in Sources */,
+				E4861260294F969700E47E7D /* SheetLayoutInfo.swift in Sources */,
+				E4861263294F969700E47E7D /* PanDirection.swift in Sources */,
+				E4861261294F969700E47E7D /* Detent.swift in Sources */,
+				E4861264294F969700E47E7D /* DetentResolutionContext.swift in Sources */,
+				E4861262294F969700E47E7D /* SheetInteraction.swift in Sources */,
+				E4861266294F969700E47E7D /* Sheet+Detents.swift in Sources */,
+				E4861265294F969700E47E7D /* Sheet+LayoutInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
