@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     static let logger = Logger(
         subsystem: Bundle.main.bundleIdentifier!,
-        category: String(describing: SheetInteraction.self).appending(".SampleApp")
+        category: String(describing: SheetInteraction.AppDelegate.self).appending(".SampleApp")
     )
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {

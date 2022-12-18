@@ -17,6 +17,8 @@
 		E422B268293AFE48009A0802 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B267293AFE48009A0802 /* TableViewController.swift */; };
 		E422B26A293D8F35009A0802 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B269293D8F35009A0802 /* DetailViewController.swift */; };
 		E422B26C293EE0EA009A0802 /* SheetNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B26B293EE0EA009A0802 /* SheetNavigationController.swift */; };
+		E431DB5B294F9E6B0080C4B7 /* SheetInteraction_SPM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4861245294D3DFE00E47E7D /* SheetInteraction_SPM.framework */; };
+		E431DB5C294F9E6B0080C4B7 /* SheetInteraction_SPM.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E4861245294D3DFE00E47E7D /* SheetInteraction_SPM.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E4861248294D3DFE00E47E7D /* SheetInteraction_SPM.h in Headers */ = {isa = PBXBuildFile; fileRef = E4861247294D3DFE00E47E7D /* SheetInteraction_SPM.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E486125F294F969700E47E7D /* SheetInteraction+Change.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BD1439294730CB002C7617 /* SheetInteraction+Change.swift */; };
 		E4861260294F969700E47E7D /* SheetLayoutInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4169E292946E22400A80641 /* SheetLayoutInfo.swift */; };
@@ -28,6 +30,30 @@
 		E4861266294F969700E47E7D /* Sheet+Detents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BD143529472F2B002C7617 /* Sheet+Detents.swift */; };
 		E4C721B62942C839007AB243 /* NavigationController+Modal.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C721B52942C839007AB243 /* NavigationController+Modal.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E431DB5D294F9E6B0080C4B7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E41EBD96292C79F800FB3402 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E4861244294D3DFE00E47E7D;
+			remoteInfo = "SheetInteraction-SPM";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E431DB5F294F9E6B0080C4B7 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E431DB5C294F9E6B0080C4B7 /* SheetInteraction_SPM.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		E41273A12940AD1200AE1D4A /* Detents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detents.swift; sourceTree = "<group>"; };
@@ -62,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E431DB5B294F9E6B0080C4B7 /* SheetInteraction_SPM.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +110,7 @@
 				E486123D294D3D9100E47E7D /* Tests */,
 				E4861246294D3DFE00E47E7D /* SheetInteraction-SPM */,
 				E41EBD9F292C79F800FB3402 /* Products */,
+				E431DB5A294F9E6B0080C4B7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -106,13 +134,19 @@
 				E422B26B293EE0EA009A0802 /* SheetNavigationController.swift */,
 				E422B267293AFE48009A0802 /* TableViewController.swift */,
 				E422B269293D8F35009A0802 /* DetailViewController.swift */,
-				E48B7AC02940A7CC0022D7E3 /* Sources */,
 				E41EBDA7292C79F800FB3402 /* Main.storyboard */,
 				E41EBDAA292C79F900FB3402 /* Assets.xcassets */,
 				E41EBDAC292C79F900FB3402 /* LaunchScreen.storyboard */,
 				E41EBDAF292C79FA00FB3402 /* Info.plist */,
 			);
 			path = Example;
+			sourceTree = "<group>";
+		};
+		E431DB5A294F9E6B0080C4B7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		E486123D294D3D9100E47E7D /* Tests */ = {
@@ -155,13 +189,6 @@
 			path = "SheetInteraction-SPM";
 			sourceTree = "<group>";
 		};
-		E48B7AC02940A7CC0022D7E3 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Sources;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -183,10 +210,12 @@
 				E41EBD9A292C79F800FB3402 /* Sources */,
 				E41EBD9B292C79F800FB3402 /* Frameworks */,
 				E41EBD9C292C79F800FB3402 /* Resources */,
+				E431DB5F294F9E6B0080C4B7 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				E431DB5E294F9E6B0080C4B7 /* PBXTargetDependency */,
 			);
 			name = SheetInteraction;
 			productName = TestModal;
@@ -301,6 +330,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E431DB5E294F9E6B0080C4B7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E4861244294D3DFE00E47E7D /* SheetInteraction-SPM */;
+			targetProxy = E431DB5D294F9E6B0080C4B7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		E41EBDA7292C79F800FB3402 /* Main.storyboard */ = {
@@ -445,12 +482,13 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4G96725NK5;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Example/Info.plist;
+				INFOPLIST_FILE = Sources/Example/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -473,12 +511,13 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4G96725NK5;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Example/Info.plist;
+				INFOPLIST_FILE = Sources/Example/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -506,7 +545,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
@@ -545,7 +584,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
