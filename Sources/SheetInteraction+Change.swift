@@ -31,6 +31,8 @@ public extension SheetInteraction {
         public let preceding: Info
         
         /// From 0-1, this value represents where a sheet is at relative to its smallest detent, where 1 is the largest detent.
+        ///
+        /// - Warning: Currently, this value is not calculated relative to a sheet's `maximumDetentValue`. In other words, `detent.resolutionContext.maximumDetentValue * 0.5` does not equal `percentageTotal = 0.5`.
         public let percentageTotal: CGFloat
         /// Interactive animation progress from preceding detent to approaching detent.
         public let percentageApproaching: CGFloat
