@@ -23,6 +23,11 @@ The above features allow developers to tie user interface animations and state t
 A working example is provided in this project's `Sources/Example` directory. Build and run the `SheetInteraction-Example` scheme to see it in action.
 
 ## How to Use
+1. Initialize a `SheetInteraction` object.
+2. Assign a delegate to that object in order to observe user interaction.
+3. Set a delegate on `SheetInteraction.sheetInteractionGesture`, and ensure it simultaneously recognizes with all other gesture recognizers.
+4. See [Animations](#animations) on how to drive percent-driven animations based on a sheet's user interaction.
+
 To begin, initialize a `SheetInteraction` object on the root view controller of a modal view controller stack. The root view controller can either be a `UINavigationController` or `UIViewController`. This object *must* be initialized with the root view of the root view controller. In a navigation controller setup, ensure this is a view that includes the navigation bar (**Warning**: Do not use a modal view stack's drop shadow view provided by UIKit, as its `frame` and `safeAreaInsets` may not necessarily align with that of the `sheetView`'s).
 
 SheetInteraction only needs to be initialized once for any modal view stack.
