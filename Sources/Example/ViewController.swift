@@ -10,22 +10,34 @@ import SheetInteraction_SPM
 
 extension UIViewController {
     
-    func showModalSheet(animated: Bool, completion: (() -> Void)? = nil) {
-        let vc = storyboard!.instantiateViewController(withIdentifier: "TableViewController")
-        let nc = SheetNavigationController(rootViewController: vc)
-
-        nc.modalPresentationStyle = .pageSheet
-        /// Use delegate to prevent interactive dismissal while also allowing user interaction outside view controller bounds. [2022.12]
-//        nc.isModalInPresentation = true
-        nc.sheetPresentationController?.prefersEdgeAttachedInCompactHeight = true
-        nc.sheetPresentationController?.delegate = vc as? UISheetPresentationControllerDelegate
-        nc.sheetPresentationController?.detents = [
-            ._small(), ._medSmall(), ._medium(), ._medLarge(), ._large(), ._full()
-        ]
-        /// Set undimmed to allow pass-through interaction on presenting view controller.
-        nc.sheetPresentationController?.largestUndimmedDetentIdentifier = .init(rawValue: "large")
+    func showModalSheet(embedded embeddedInNavigationController: Bool = true, animated: Bool, completion: (() -> Void)? = nil) {
+        let vc = storyboard!.instantiateViewController(withIdentifier: "TableViewController") as! TableViewController
         
-        present(nc, animated: true, completion: completion)
+        if embeddedInNavigationController == true {
+            let nc = SheetNavigationController(rootViewController: vc)
+            
+            nc.modalPresentationStyle = .pageSheet
+            /// Use delegate to prevent interactive dismissal while also allowing user interaction outside view controller bounds. [2022.12]
+            //        nc.isModalInPresentation = true
+            nc.sheetPresentationController?.prefersEdgeAttachedInCompactHeight = true
+            nc.sheetPresentationController?.delegate = vc
+            nc.sheetPresentationController?.detents = [
+                ._small(), ._medSmall(), ._medium(), ._medLarge(), ._large(), ._full()
+            ]
+            /// Set undimmed to allow pass-through interaction on presenting view controller.
+            nc.sheetPresentationController?.largestUndimmedDetentIdentifier = .init(rawValue: "large")
+            present(nc, animated: true, completion: completion)
+        } else {
+            vc.modalPresentationStyle = .pageSheet
+            vc.sheetPresentationController?.prefersEdgeAttachedInCompactHeight = true
+            vc.sheetPresentationController?.delegate = vc
+            vc.sheetPresentationController?.detents = [
+                ._small(), ._medSmall(), ._medium(), ._medLarge(), ._large(), ._full()
+            ]
+            vc.sheetPresentationController?.largestUndimmedDetentIdentifier = .init(rawValue: "large")
+            vc.observesSheetInteraction = true
+            present(vc, animated: true, completion: completion)
+        }
     }
 }
 
@@ -56,7 +68,7 @@ class ViewController: UIViewController {
         super.viewDidAppear(animated)
         
         if presentedViewController == nil {
-            showModalSheet(animated: false) {
+            showModalSheet(embedded: true, animated: false) {
                 self.showStruts()
                 self.debugLabel.window?.bringSubviewToFront(self.debugLabel)
             }

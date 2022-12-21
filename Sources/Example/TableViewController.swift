@@ -12,6 +12,9 @@ class TableViewController: UIViewController {
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
+    var observesSheetInteraction: Bool = false
+    private lazy var sheetInteraction: SheetInteraction = .init(sheet: sheetPresentationController!, sheetView: view)
+    
     private var activeDetent: UISheetPresentationController.Detent.Identifier = ._small {
         didSet {
             guard oldValue != activeDetent else {
@@ -40,6 +43,11 @@ class TableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if observesSheetInteraction == true {
+            sheetInteraction.sheetInteractionGesture.delegate = self
+            sheetInteraction.delegate = self
+        }
         
         if let vcIndex = navigationController?.viewControllers.firstIndex(of: self) {
             let ncIndex = navigationController?.levelInModalHierarchy() ?? 0
@@ -80,10 +88,13 @@ class TableViewController: UIViewController {
 extension TableViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 5
+        return 6
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 5 {
+            return 30
+        }
         return 1
     }
     
@@ -133,7 +144,7 @@ extension TableViewController: UITableViewDataSource {
                 return 0
             }
         default:
-            return 0
+            return 30
         }
     }
     
@@ -163,7 +174,7 @@ extension TableViewController: UISheetPresentationControllerDelegate {
     }
     
     func sheetPresentationControllerDidChangeSelectedDetentIdentifier(_ sheetPresentationController: UISheetPresentationController) {
-        AppDelegate.logger.debug("\(sheetPresentationController.identifierForSelectedDetent().rawValue)")
+        AppDelegate.logger.debug("\(#function) - \(sheetPresentationController.identifierForSelectedDetent().rawValue)")
     }
 }
 
@@ -220,6 +231,16 @@ extension TableViewController: SheetInteractionDelegate {
     }
 }
 
+extension TableViewController: UIGestureRecognizerDelegate {
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer == sheetInteraction.sheetInteractionGesture {
+            return true
+        }
+        return false
+    }
+}
+
 /// This method doesn't work because UIKit will intercept touches associated with sheet.
 /*
 extension TableViewController {
@@ -247,35 +268,37 @@ extension TableViewController {
  */
 
 /// This method doesn't work if user interacts with sheet using grabber, navigation bar, or anywhere outside scroll view.
-/*
 extension TableViewController: UIScrollViewDelegate {
     
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        print(#function)
-    }
-    
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        print(#function)
-    }
-        
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        print(#function)
-    }
-
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print(#function)
-    }
-    
-    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-        print(#function)
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        print(#function)
-    }
-    
-    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        print(#function)
-    }
+//    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+//        print(#function)
+//    }
+//    
+//    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+//        print(#function)
+//        AppDelegate.logger.debug("\(self.sheetPresentationController!.selectedDetentIdentifier!.rawValue)")
+//    }
+//
+//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+//        print(#function)
+//    }
+//
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        print(#function)
+//    }
+//
+//    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+//        print(#function)
+//        AppDelegate.logger.debug("\(self.sheetPresentationController!.selectedDetentIdentifier!.rawValue)")
+//    }
+//
+//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+//        print(#function)
+//        AppDelegate.logger.debug("\(self.sheetPresentationController!.selectedDetentIdentifier!.rawValue)")
+//    }
+//
+//    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+//        print(#function)
+//        AppDelegate.logger.debug("\(self.sheetPresentationController!.selectedDetentIdentifier!.rawValue)")
+//    }
 }
- */

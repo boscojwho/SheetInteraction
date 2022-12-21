@@ -10,7 +10,7 @@ import SheetInteraction_SPM
 
 class SheetNavigationController: UINavigationController {
     
-    private lazy var sheetInteraction: SheetInteraction = .init(
+    private(set) lazy var sheetInteraction: SheetInteraction = .init(
         sheet: sheetPresentationController!,
         sheetView: view!)
     
