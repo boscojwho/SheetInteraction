@@ -43,7 +43,7 @@
         <scene sceneID="AyQ-PY-jdi">
             <objects>
                 <viewController storyboardIdentifier="TableViewController" id="v4z-D5-Sei" customClass="TableViewController" customModule="SheetInteraction" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ONm-k8-BjT">
+                    <view key="view" contentMode="scaleToFill" id="ONm-k8-BjT" customClass="SheetRootView" customModule="SheetInteraction" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="783"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
