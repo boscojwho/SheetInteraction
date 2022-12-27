@@ -20,7 +20,7 @@ extension UIViewController {
             /// Use delegate to prevent interactive dismissal while also allowing user interaction outside view controller bounds. [2022.12]
             //        nc.isModalInPresentation = true
             nc.sheetPresentationController?.prefersEdgeAttachedInCompactHeight = true
-            nc.sheetPresentationController?.delegate = vc
+//            nc.sheetPresentationController?.delegate = vc
             nc.sheetPresentationController?.detents = [
                 ._small(), ._medSmall(), ._medium(), ._medLarge(), ._large(), ._full()
             ]
@@ -30,7 +30,7 @@ extension UIViewController {
         } else {
             vc.modalPresentationStyle = .pageSheet
             vc.sheetPresentationController?.prefersEdgeAttachedInCompactHeight = true
-            vc.sheetPresentationController?.delegate = vc
+//            vc.sheetPresentationController?.delegate = vc
             vc.sheetPresentationController?.detents = [
                 ._small(), ._medSmall(), ._medium(), ._medLarge(), ._large(), ._full()
             ]
@@ -168,5 +168,9 @@ extension ViewController: SheetInteractionDelegate {
     
     func sheetInteractionEnded(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, targetPercentageTotal: CGFloat, onTouchUpPercentageTotal: CGFloat) {
         debugLabel.text = "Detent: \(targetDetentInfo.detentIdentifier.rawValue), %: \(targetPercentageTotal)"
+    }
+    
+    func sheetInteractionDidEnd(sheetInteraction: SheetInteraction, selectedDetentIdentifier: UISheetPresentationController.Detent.Identifier) {
+        debugLabel.text = "Detent: \(selectedDetentIdentifier.rawValue), %: \(sheetInteraction.totalPercentageAnimated())"
     }
 }

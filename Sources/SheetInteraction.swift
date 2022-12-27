@@ -23,6 +23,9 @@ public protocol SheetInteractionDelegate: AnyObject {
     /// - Parameter targetPercentageTotal: The target detent's `resolvedValue` as a percentage of the sheet's `maximumDetentValue`, where 0 is the smallest detent.  Overscroll values are reported.  See `SheetInteraction.Change.percentageTotal`.
     /// - Parameter onTouchUpPercentageTotal: Sheet's percentageTotal animated the moment sheet interaction ends (i.e. on "touch up").
     func sheetInteractionEnded(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, targetPercentageTotal: CGFloat, onTouchUpPercentageTotal: CGFloat)
+    
+    /// Called when `UISheetPresentationController` finishes (or is close to) animating to a new selected detent.
+    func sheetInteractionDidEnd(sheetInteraction: SheetInteraction, selectedDetentIdentifier: UISheetPresentationController.Detent.Identifier)
 }
 
 public extension SheetInteractionDelegate {
@@ -55,9 +58,13 @@ public final class SheetInteraction {
     public private(set) lazy var sheetWindow: UIWindow = sheetView.window!
     public private(set) lazy var sheetLayoutInfo: SheetLayoutInfo = .init(sheet: sheetController, sheetView: sheetView, window: sheetWindow)
     
+    private let sheetControllerDelegate: SheetInteractionPresentationControllerDelegate
+    
     public init(sheet: UISheetPresentationController, sheetView: UIView) {
         self.sheetController = sheet
         self.sheetView = sheetView
+        self.sheetControllerDelegate = SheetInteractionPresentationControllerDelegate(sheetPresentationController: sheet)
+        self.sheetControllerDelegate.delegate = self
         sheetView.addGestureRecognizer(sheetInteractionGesture)
     }
     
@@ -85,6 +92,10 @@ public final class SheetInteraction {
         } else {
             return
         }
+    }
+    
+    public func totalPercentageAnimated() -> CGFloat {
+        totalPercentageWithOrigin(sheetLayoutInfo: sheetLayoutInfo, sheetFrame: sheetLayoutInfo.sheetFrameInWindow)
     }
     
     /// The gesture used to track sheet interaction and detent state.
@@ -293,5 +304,30 @@ private extension SheetInteraction {
         /// This method means the in-between values will not correspond to any multiples specified in a detent's resolver closure (e.g. context.maximumDetentValue `*` 0.5).
         let p = y/(maxDetentValue-smallestDetentValue)
         return 1 - p
+    }
+}
+
+protocol SheetControllerDelegate: AnyObject {
+    func sheetController(didChangeSelectedDetentIdentifier identifier: UISheetPresentationController.Detent.Identifier)
+}
+
+final class SheetInteractionPresentationControllerDelegate: NSObject, UISheetPresentationControllerDelegate {
+     
+    weak var delegate: SheetControllerDelegate?
+    
+    init(sheetPresentationController: UISheetPresentationController) {
+        super.init()
+        sheetPresentationController.delegate = self
+    }
+    
+    func sheetPresentationControllerDidChangeSelectedDetentIdentifier(_ sheetPresentationController: UISheetPresentationController) {
+        delegate?.sheetController(didChangeSelectedDetentIdentifier: sheetPresentationController.selectedDetentIdentifier ?? sheetPresentationController.identifierForSmallestDetent())
+    }
+}
+
+extension SheetInteraction: SheetControllerDelegate {
+    
+    func sheetController(didChangeSelectedDetentIdentifier identifier: UISheetPresentationController.Detent.Identifier) {
+        delegate?.sheetInteractionDidEnd(sheetInteraction: self, selectedDetentIdentifier: identifier)
     }
 }

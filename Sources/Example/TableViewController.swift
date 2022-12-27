@@ -229,6 +229,32 @@ extension TableViewController: SheetInteractionDelegate {
             }
         }
     }
+    
+    func sheetInteractionDidEnd(sheetInteraction: SheetInteraction, selectedDetentIdentifier: UISheetPresentationController.Detent.Identifier) {
+        if let delegate = presentingViewController as? SheetInteractionDelegate {
+            delegate.sheetInteractionDidEnd(sheetInteraction: sheetInteraction, selectedDetentIdentifier: selectedDetentIdentifier)
+        }
+        
+        activeDetent = selectedDetentIdentifier
+        
+        detailsButton.alpha = sheetInteraction.totalPercentageAnimated()
+        
+        if let target = sheetInteraction.sheetController.detent(withIdentifier: selectedDetentIdentifier) {
+            /// If target detent is greater than `small`.
+            if target.greaterThan(._small(), in: sheetInteraction.sheetController) == true {
+                doneButton.alpha = 1
+            } else {
+                doneButton.alpha = 0
+            }
+            
+            /// If target detent is greater than `medSmall`.
+            if target.greaterThan(._medSmall(), in: sheetInteraction.sheetController) == true {
+                segmentedControl.alpha = 1
+            } else {
+                segmentedControl.alpha = 0
+            }
+        }
+    }
 }
 
 extension TableViewController: UIGestureRecognizerDelegate {
