@@ -20,6 +20,7 @@
 		E431DB5B294F9E6B0080C4B7 /* SheetInteraction_SPM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4861245294D3DFE00E47E7D /* SheetInteraction_SPM.framework */; };
 		E431DB5C294F9E6B0080C4B7 /* SheetInteraction_SPM.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E4861245294D3DFE00E47E7D /* SheetInteraction_SPM.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E431DB6B29553EAC0080C4B7 /* SheetRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E431DB6A29553EAC0080C4B7 /* SheetRootView.swift */; };
+		E431DB6D295A7B560080C4B7 /* SheetTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E431DB6C295A7B560080C4B7 /* SheetTableView.swift */; };
 		E4861248294D3DFE00E47E7D /* SheetInteraction_SPM.h in Headers */ = {isa = PBXBuildFile; fileRef = E4861247294D3DFE00E47E7D /* SheetInteraction_SPM.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E486125F294F969700E47E7D /* SheetInteraction+Change.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BD1439294730CB002C7617 /* SheetInteraction+Change.swift */; };
 		E4861260294F969700E47E7D /* SheetLayoutInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4169E292946E22400A80641 /* SheetLayoutInfo.swift */; };
@@ -74,6 +75,7 @@
 		E422B26D29402BE5009A0802 /* PanDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanDirection.swift; sourceTree = "<group>"; };
 		E422B26F294041CD009A0802 /* SheetInteraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetInteraction.swift; sourceTree = "<group>"; };
 		E431DB6A29553EAC0080C4B7 /* SheetRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetRootView.swift; sourceTree = "<group>"; };
+		E431DB6C295A7B560080C4B7 /* SheetTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetTableView.swift; sourceTree = "<group>"; };
 		E486123B294D3D4E00E47E7D /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		E4861245294D3DFE00E47E7D /* SheetInteraction_SPM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SheetInteraction_SPM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4861247294D3DFE00E47E7D /* SheetInteraction_SPM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SheetInteraction_SPM.h; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 				E41EBDAC292C79F900FB3402 /* LaunchScreen.storyboard */,
 				E41EBDAF292C79FA00FB3402 /* Info.plist */,
 				E431DB6A29553EAC0080C4B7 /* SheetRootView.swift */,
+				E431DB6C295A7B560080C4B7 /* SheetTableView.swift */,
 			);
 			path = Example;
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E41273A22940AD1200AE1D4A /* Detents.swift in Sources */,
+				E431DB6D295A7B560080C4B7 /* SheetTableView.swift in Sources */,
 				E41EBDA6292C79F800FB3402 /* ViewController.swift in Sources */,
 				E4C721B62942C839007AB243 /* NavigationController+Modal.swift in Sources */,
 				E422B26C293EE0EA009A0802 /* SheetNavigationController.swift in Sources */,

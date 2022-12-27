@@ -20,9 +20,20 @@ class SheetNavigationController: UINavigationController {
         sheetInteraction.sheetInteractionGesture.delegate = self
         sheetInteraction.delegate = self
     }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        AppDelegate.logger.debug("\(#function) - \(self.sheetInteraction.sheetLayoutInfo.sheetFrameInWindow.origin.y)")
+    }
 }
 
 extension SheetNavigationController: SheetInteractionDelegate {
+    
+    func sheetInteractionBegan(sheetInteraction: SheetInteraction, at detent: DetentIdentifier) {
+        if let delegate = topViewController as? SheetInteractionDelegate {
+            delegate.sheetInteractionBegan(sheetInteraction: sheetInteraction, at: detent)
+        }
+    }
     
     func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionChange: SheetInteraction.Change) {
         AppDelegate.logger.debug("\(#function) - \n\tclosest: \(interactionChange.closest.detentIdentifier.rawValue), closestDistance: \(interactionChange.closest.distance) \n\tapproaching: \(interactionChange.approaching.detentIdentifier.rawValue), ...Distance: \(interactionChange.approaching.distance), ...Percentage: \(interactionChange.percentageApproaching) \n\tpreceding: \(interactionChange.preceding.detentIdentifier.rawValue), ...Distance: \(interactionChange.preceding.distance), ...Percentage: \(interactionChange.percentagePreceding) \n\tpercentageTotal: \(interactionChange.percentageTotal)")

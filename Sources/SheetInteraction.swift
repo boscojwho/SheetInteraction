@@ -211,6 +211,14 @@ public final class SheetInteraction {
             defer {
                 originDetent = nil
             }
+            let l = pan.location(in: sheetView)
+            let v = pan.velocity(in: sheetView)
+            let t = pan.translation(in: sheetView)
+            Self.logger.debug("location -> \(l.debugDescription)")
+            Self.logger.debug("velocity -> \(v.debugDescription)")
+            Self.logger.debug("translation -> \(t.debugDescription)")
+            Self.logger.debug("y (on touchUp) -> \(self.sheetLayoutInfo.sheetFrameInWindow.origin.y)")
+            
             let targetDetentIdentifier = sheetController.identifierForSelectedDetent()
             let targetDetent = sheetController.detent(withIdentifier: targetDetentIdentifier)
             /// We will assume that the target detent is active, since this value is provided by UIKit.

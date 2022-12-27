@@ -174,15 +174,35 @@ extension TableViewController: UISheetPresentationControllerDelegate {
     }
     
     func sheetPresentationControllerDidChangeSelectedDetentIdentifier(_ sheetPresentationController: UISheetPresentationController) {
-        AppDelegate.logger.debug("\(#function) - \(sheetPresentationController.identifierForSelectedDetent().rawValue)")
+        sheetPresentationController.animateChanges {
+            AppDelegate.logger.debug("\(#function) - \(sheetPresentationController.identifierForSelectedDetent().rawValue)")
+            AppDelegate.logger.debug("y (layoutInfo) -> \(sheetPresentationController.layoutInfo.sheetFrameInWindow.origin.y)")
+        }
+        let window = sheetPresentationController.layoutInfo.window
+        let frame = window.convert(parent!.view.frame, from: parent!.view)
+        AppDelegate.logger.debug("y (live) -> \(frame.origin.y)")
     }
 }
 
 extension TableViewController: SheetInteractionDelegate {
     
+    func sheetInteractionBegan(sheetInteraction: SheetInteraction, at detent: DetentIdentifier) {
+        if let delegate = presentingViewController as? SheetInteractionDelegate {
+            delegate.sheetInteractionBegan(sheetInteraction: sheetInteraction, at: detent)
+        }
+        
+        if let rootView = self.view as? SheetRootView {
+            rootView.sheetInteractionBegan(sheetInteraction: sheetInteraction, at: detent)
+        }
+    }
+    
     func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionChange: SheetInteraction.Change) {
         if let delegate = presentingViewController as? SheetInteractionDelegate {
             delegate.sheetInteractionChanged(sheetInteraction: sheetInteraction, interactionChange: interactionChange)
+        }
+        
+        if let rootView = self.view as? SheetRootView {
+            rootView.sheetInteractionChanged(sheetInteraction: sheetInteraction, interactionChange: interactionChange)
         }
         
         activeDetent = interactionChange.approaching.detentIdentifier
@@ -206,6 +226,10 @@ extension TableViewController: SheetInteractionDelegate {
     func sheetInteractionEnded(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, targetPercentageTotal: CGFloat, onTouchUpPercentageTotal: CGFloat) {
         if let delegate = presentingViewController as? SheetInteractionDelegate {
             delegate.sheetInteractionEnded(sheetInteraction: sheetInteraction, targetDetentInfo: targetDetentInfo, targetPercentageTotal: targetPercentageTotal, onTouchUpPercentageTotal: onTouchUpPercentageTotal)
+        }
+        
+        if let rootView = self.view as? SheetRootView {
+            rootView.sheetInteractionEnded(sheetInteraction: sheetInteraction, targetDetentInfo: targetDetentInfo, targetPercentageTotal: targetPercentageTotal, onTouchUpPercentageTotal: onTouchUpPercentageTotal)
         }
         
         activeDetent = targetDetentInfo.detentIdentifier
@@ -277,6 +301,8 @@ extension TableViewController: UIScrollViewDelegate {
 //    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
 //        print(#function)
 //        AppDelegate.logger.debug("\(self.sheetPresentationController!.selectedDetentIdentifier!.rawValue)")
+//        AppDelegate.logger.debug("\tvelocity -> \(velocity.debugDescription)")
+//        AppDelegate.logger.debug("\ttargetContentOffset -> \(targetContentOffset.pointee.debugDescription)")
 //    }
 //
 //    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
