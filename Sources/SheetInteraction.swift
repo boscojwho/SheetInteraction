@@ -131,33 +131,7 @@ public final class SheetInteraction {
         case .changed:
             handleSheetInteractionChanged(pan: pan)
         case .ended, .cancelled, .failed:
-            defer {
-                originDetent = nil
-            }
-            let targetDetentIdentifier = sheetController.identifierForSelectedDetent()
-            let targetDetent = sheetController.detent(withIdentifier: targetDetentIdentifier)
-            /// We will assume that the target detent is active, since this value is provided by UIKit.
-#if DEBUG
-            guard let detentHeight = targetDetent?.resolvedValue(in: Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetLayoutInfo.maximumDetentValue())) else {
-                fatalError("Target detent's resolved value should not be nil.")
-            }
-#else
-            let detentHeight = targetDetent!.resolvedValue(in: Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetLayoutInfo.maximumDetentValue()))!
-#endif
-            
-            /// Note we are using *previous* sheet height/frame (i.e. the previous values on .change).
-            let sheetHeight = sheetHeightOnPreviousChange
-            let totalPercentageUsingHeight = sheetHeight/sheetLayoutInfo.maximumDetentValue()
-            let totalPercentageUsingOriginOnTouchUp = totalPercentageWithOrigin(sheetLayoutInfo: sheetLayoutInfo, sheetFrame: sheetFrameInWindowOnPreviousChange)
-            
-            let sheetFrameInWindow = sheetWindow.convert(sheetView.frame, from: sheetView)
-            let totalPercentageUsingOriginTargetting = totalPercentageWithOrigin(sheetLayoutInfo: sheetLayoutInfo, sheetFrame: sheetFrameInWindow)
-            let targetDistance = abs(sheetHeight - detentHeight)
-            Self.logger.debug("total percentage [height]: \(totalPercentageUsingHeight), [yOrigin]: \(totalPercentageUsingOriginOnTouchUp) --> targetting: \(totalPercentageUsingOriginTargetting) (\(targetDetentIdentifier.rawValue))")
-            
-            isEnding = true
-            delegate?.sheetInteractionWillEnd(sheetInteraction: self, targetDetentInfo: .init(
-                detentIdentifier: targetDetentIdentifier, distance: targetDistance), targetPercentageTotal: totalPercentageUsingOriginTargetting, onTouchUpPercentageTotal: totalPercentageUsingOriginOnTouchUp)
+            handleSheetInteractionEnded()
         default:
             break
         }
@@ -264,6 +238,36 @@ public final class SheetInteraction {
             percentageApproaching: percentageApproaching,
             percentagePreceding: percentagePreceding)
         delegate?.sheetInteractionChanged(sheetInteraction: self, interactionChange: changeInfo)
+    }
+    
+    private func handleSheetInteractionEnded() {
+        defer {
+            originDetent = nil
+        }
+        let targetDetentIdentifier = sheetController.identifierForSelectedDetent()
+        let targetDetent = sheetController.detent(withIdentifier: targetDetentIdentifier)
+        /// We will assume that the target detent is active, since this value is provided by UIKit.
+#if DEBUG
+        guard let detentHeight = targetDetent?.resolvedValue(in: Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetLayoutInfo.maximumDetentValue())) else {
+            fatalError("Target detent's resolved value should not be nil.")
+        }
+#else
+        let detentHeight = targetDetent!.resolvedValue(in: Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetLayoutInfo.maximumDetentValue()))!
+#endif
+        
+        /// Note we are using *previous* sheet height/frame (i.e. the previous values on .change).
+        let sheetHeight = sheetHeightOnPreviousChange
+        let totalPercentageUsingHeight = sheetHeight/sheetLayoutInfo.maximumDetentValue()
+        let totalPercentageUsingOriginOnTouchUp = totalPercentageWithOrigin(sheetLayoutInfo: sheetLayoutInfo, sheetFrame: sheetFrameInWindowOnPreviousChange)
+        
+        let sheetFrameInWindow = sheetWindow.convert(sheetView.frame, from: sheetView)
+        let totalPercentageUsingOriginTargetting = totalPercentageWithOrigin(sheetLayoutInfo: sheetLayoutInfo, sheetFrame: sheetFrameInWindow)
+        let targetDistance = abs(sheetHeight - detentHeight)
+        Self.logger.debug("total percentage [height]: \(totalPercentageUsingHeight), [yOrigin]: \(totalPercentageUsingOriginOnTouchUp) --> targetting: \(totalPercentageUsingOriginTargetting) (\(targetDetentIdentifier.rawValue))")
+        
+        isEnding = true
+        delegate?.sheetInteractionWillEnd(sheetInteraction: self, targetDetentInfo: .init(
+            detentIdentifier: targetDetentIdentifier, distance: targetDistance), targetPercentageTotal: totalPercentageUsingOriginTargetting, onTouchUpPercentageTotal: totalPercentageUsingOriginOnTouchUp)
     }
 }
 
