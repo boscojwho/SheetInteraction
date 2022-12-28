@@ -131,6 +131,13 @@ public final class SheetInteraction {
         case .changed:
             handleSheetInteractionChanged(pan: pan)
         case .ended, .cancelled, .failed:
+#if DEBUG
+            if pan.state == .cancelled {
+                Self.logger.debug("Sheet interaction finished with gesture cancellation.")
+            } else if pan.state == .failed {
+                Self.logger.debug("Sheet interaction finished with gesture failure.")
+            }
+#endif
             handleSheetInteractionEnded()
         default:
             break
