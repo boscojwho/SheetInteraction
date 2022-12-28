@@ -138,7 +138,11 @@ public final class SheetInteraction {
                 Self.logger.debug("Sheet interaction finished with gesture failure.")
             }
 #endif
-            handleSheetInteractionEnded()
+            /// Run on next layout cycle to ensure layout info is correct.
+            /// When sheet interaction begins on a descendant scroll view, sheet layout info does not match the selected detent when UIKit notifies us. [2022.12]
+            Task { @MainActor in
+                handleSheetInteractionWillEnd()
+            }
         default:
             break
         }
@@ -247,7 +251,7 @@ public final class SheetInteraction {
         delegate?.sheetInteractionChanged(sheetInteraction: self, interactionChange: changeInfo)
     }
     
-    private func handleSheetInteractionEnded() {
+    private func handleSheetInteractionWillEnd() {
         defer {
             originDetent = nil
         }
@@ -275,6 +279,17 @@ public final class SheetInteraction {
         isEnding = true
         delegate?.sheetInteractionWillEnd(sheetInteraction: self, targetDetentInfo: .init(
             detentIdentifier: targetDetentIdentifier, distance: targetDistance), targetPercentageTotal: totalPercentageUsingOriginTargetting, onTouchUpPercentageTotal: totalPercentageUsingOriginOnTouchUp)
+    }
+    
+    private func handleSheetInteractionDidEnd(identifier: UISheetPresentationController.Detent.Identifier) {
+#if DEBUG
+        if isEnding == false {
+            Self.logger.debug("Sheet interaction ended without call to willEnd.")
+        }
+#endif
+        Self.logger.debug("percentage: \(self.totalPercentageAnimated())")
+        isEnding = false
+        delegate?.sheetInteractionDidEnd(sheetInteraction: self, selectedDetentIdentifier: identifier)
     }
 }
 
@@ -355,12 +370,10 @@ final class SheetInteractionPresentationControllerDelegate: NSObject, UISheetPre
 extension SheetInteraction: SheetControllerDelegate {
     
     func sheetController(didChangeSelectedDetentIdentifier identifier: UISheetPresentationController.Detent.Identifier) {
-        #if DEBUG
-        if isEnding == false {
-            Self.logger.debug("Sheet interaction ended without call to willEnd.")
+        /// Run on next layout cycle to ensure layout info is correct.
+        /// When sheet interaction begins on a descendant scroll view, sheet layout info does not match the selected detent when UIKit notifies us. [2022.12]
+        Task { @MainActor in
+            handleSheetInteractionDidEnd(identifier: identifier)
         }
-        #endif
-        isEnding = false
-        delegate?.sheetInteractionDidEnd(sheetInteraction: self, selectedDetentIdentifier: identifier)
     }
 }
