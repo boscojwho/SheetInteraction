@@ -127,9 +127,7 @@ public final class SheetInteraction {
 //        case .recognized:
 //            break
         case .began:
-            let detentBegan = sheetController.identifierForSelectedDetent()
-            originDetent = detentBegan
-            delegate?.sheetInteractionBegan(sheetInteraction: self, at: detentBegan)
+            handleSheetInteractionBegan()
         case .changed:
             let directions = pan.directions
             guard directions.isStationary == false else {
@@ -256,6 +254,12 @@ public final class SheetInteraction {
         default:
             break
         }
+    }
+    
+    private func handleSheetInteractionBegan() {
+        let detentBegan = sheetController.identifierForSelectedDetent()
+        originDetent = detentBegan
+        delegate?.sheetInteractionBegan(sheetInteraction: self, at: detentBegan)
     }
 }
 
