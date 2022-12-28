@@ -19,10 +19,11 @@ public protocol SheetInteractionDelegate: AnyObject {
     /// Stationary and x-axis change events are not emitted.
     func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionChange: SheetInteraction.Change)
     
+    /// Called on touch up.  This event may be skipped if user quickly begins and ends sheet interaction (i.e. with a quick flick). See `SheetInteraction.isEnding`.
     /// - Parameter targetDetentInfo: Sheet is either animating (or animated) to its target detent after user interaction has ended.
     /// - Parameter targetPercentageTotal: The target detent's `resolvedValue` as a percentage of the sheet's `maximumDetentValue`, where 0 is the smallest detent.  Overscroll values are reported.  See `SheetInteraction.Change.percentageTotal`.
     /// - Parameter onTouchUpPercentageTotal: Sheet's percentageTotal animated the moment sheet interaction ends (i.e. on "touch up").
-    func sheetInteractionEnded(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, targetPercentageTotal: CGFloat, onTouchUpPercentageTotal: CGFloat)
+    func sheetInteractionWillEnd(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, targetPercentageTotal: CGFloat, onTouchUpPercentageTotal: CGFloat)
     
     /// Called when `UISheetPresentationController` finishes (or is close to) animating to a new selected detent.
     func sheetInteractionDidEnd(sheetInteraction: SheetInteraction, selectedDetentIdentifier: UISheetPresentationController.Detent.Identifier)
@@ -79,6 +80,12 @@ public final class SheetInteraction {
     public var isMinimizing: Bool {
         currentDirections.contains(.down)
     }
+    
+    /// Is `true` between `willEnd` and `didEnd` states.
+    ///
+    /// On rare occasions, `willEnd` state is skipped when user quickly begins then ends sheet interaction (i.e. with a quick flick). In this case, the `willEnd` event is not emitted to the delegate, and `didEnd` event is immediately emitted.
+    /// - NOTE: This is set immediately before calling relevant delegate methods.
+    public private(set) var isEnding: Bool = false
     
     /// This allows callers to perform detent-specific percent-driven interactive animations.
     /// Calls `animationBlock` if sheet is currently greater than or equal to specified `detent`, but *is not* equal or greater to the next adjacent detent.
@@ -243,7 +250,8 @@ public final class SheetInteraction {
             let targetDistance = abs(sheetHeight - detentHeight)
             Self.logger.debug("total percentage [height]: \(totalPercentageUsingHeight), [yOrigin]: \(totalPercentageUsingOriginOnTouchUp) --> targetting: \(totalPercentageUsingOriginTargetting) (\(targetDetentIdentifier.rawValue))")
             
-            delegate?.sheetInteractionEnded(sheetInteraction: self, targetDetentInfo: .init(
+            isEnding = true
+            delegate?.sheetInteractionWillEnd(sheetInteraction: self, targetDetentInfo: .init(
                 detentIdentifier: targetDetentIdentifier, distance: targetDistance), targetPercentageTotal: totalPercentageUsingOriginTargetting, onTouchUpPercentageTotal: totalPercentageUsingOriginOnTouchUp)
         default:
             break
@@ -328,6 +336,12 @@ final class SheetInteractionPresentationControllerDelegate: NSObject, UISheetPre
 extension SheetInteraction: SheetControllerDelegate {
     
     func sheetController(didChangeSelectedDetentIdentifier identifier: UISheetPresentationController.Detent.Identifier) {
+        #if DEBUG
+        if isEnding == false {
+            Self.logger.debug("Sheet interaction ended without call to willEnd.")
+        }
+        #endif
+        isEnding = false
         delegate?.sheetInteractionDidEnd(sheetInteraction: self, selectedDetentIdentifier: identifier)
     }
 }
