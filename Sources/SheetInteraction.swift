@@ -129,100 +129,7 @@ public final class SheetInteraction {
         case .began:
             handleSheetInteractionBegan()
         case .changed:
-            let directions = pan.directions
-            guard directions.isStationary == false else {
-                Self.logger.debug("stationary...: \(pan.velocity(in: pan.view).debugDescription)")
-                #if DEBUG
-                fatalError()
-                #else
-                return
-                #endif
-            }
-            
-            let sheetFrameInWindow = sheetLayoutInfo.sheetFrameInWindow
-            sheetFrameInWindowOnPreviousChange = sheetFrameInWindow
-
-            let detents = sheetController.detents
-            let detentsLayoutInfo = activeDetentsLayoutInfo(detents: detents)
-            /// Detents with a negative distance are higher than sheet's current position (i.e. need to drag up).
-            let detentsAbove = detentsLayoutInfo.filter { $0.distance <= 0 }
-            /// Detents with a positive distance are lower than sheet's current position (i.e. need to drag down).
-            let detentsBelow = detentsLayoutInfo.filter { $0.distance > 0 }
-            
-            /// Closest in terms of distance, not accounting for sheet momemtum, which may cause sheet to rest at a further detent.
-            let closest = detentsLayoutInfo.sorted { $0.absDistance < $1.absDistance }.first!
-            let closestDetent = closest.identifier
-            let closestDistance = closest.absDistance
-            
-            /// This may or may not be the same as `closest`.
-            let approaching = {
-                if directions.contains(.up) {
-                    /// Sheet is moving up.
-                    return detentsAbove.first ?? detentsLayoutInfo.last
-                } else if directions.contains(.down) {
-                    return detentsBelow.last ?? detentsLayoutInfo.first
-                } else {
-                    fatalError()
-                }
-            }()!
-            let approachingDetent = approaching.identifier
-            let approachingDistance = approaching.absDistance
-            
-            /// Moving away from preceding detent, which may or may not be the detent at which sheet interaction began.
-            let preceding = {
-                if directions.contains(.up) {
-                    /// Sheet is moving up.
-                    return detentsBelow.last ?? detentsLayoutInfo.first
-                } else if directions.contains(.down) {
-                    return detentsAbove.first ?? detentsLayoutInfo.last
-                } else {
-                    fatalError()
-                }
-            }()!
-            let precedingDetent = preceding.identifier
-            let precedingDistance = preceding.absDistance
-            
-            /// Keep track of previous sheet height so we can use it on sheet interaction end.
-            /// On sheet interaction end, sheet height is already updated to reflect final state, so we can't calculate target distance using that final value.
-            let sheetHeight = sheetLayoutInfo.sheetHeightInSafeArea
-            Self.logger.debug("sheetHeight: \(sheetHeight)")
-            sheetHeightOnPreviousChange = sheetHeight
-            
-            /// Percentage to approachingDetent, where 1 is closest to approachingDetent.
-            /// On overscroll at top, sheet height is briefly and slightly greater than maximumDetentValue.
-            /// But on overscroll at bottom, sheet height stays at the smallest detent's value + safeAreaInset.bottom.
-            /// We will need to use sheet.origin to calculate overscroll values.
-            let percentageApproaching: CGFloat = {
-                let context = Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetLayoutInfo.maximumDetentValue())
-                let precedingDetent = sheetController.detent(withIdentifier: preceding.identifier)!
-                let precedingHeight = precedingDetent.resolvedValue(in: context)!
-                let approachingDetent = sheetController.detent(withIdentifier: approaching.identifier)!
-                let approachingHeight = approachingDetent.resolvedValue(in: context)!
-                let d = abs(precedingHeight - approachingHeight)
-                let percentage = 1 - (approachingDistance / d)
-                return percentage
-            }()
-            let percentagePreceding = 1 - percentageApproaching
-            Self.logger.debug("percentage: \(percentageApproaching)")
-            
-            let totalPercentageUsingHeight = sheetHeight/sheetLayoutInfo.maximumDetentValue()
-            /// This method supports overscroll values.
-            /// Note that this is a global percentage capped by the smallest and largest detents.
-            let totalPercentageUsingOrigin = totalPercentageWithOrigin(sheetLayoutInfo: sheetLayoutInfo, sheetFrame: sheetFrameInWindow)
-            Self.logger.debug("total percentage [height]: \(totalPercentageUsingHeight), [yOrigin]: \(totalPercentageUsingOrigin)")
-
-            let changeInfo = Change(
-                isMinimizing: isMinimizing,
-                closest: .init(
-                    detentIdentifier: closestDetent, distance: closestDistance),
-                approaching: .init(
-                    detentIdentifier: approachingDetent, distance: approachingDistance),
-                preceding: .init(
-                    detentIdentifier: precedingDetent, distance: precedingDistance),
-                percentageTotal: totalPercentageUsingOrigin,
-                percentageApproaching: percentageApproaching,
-                percentagePreceding: percentagePreceding)
-            delegate?.sheetInteractionChanged(sheetInteraction: self, interactionChange: changeInfo)
+            handleSheetInteractionChanged(pan: pan)
         case .ended, .cancelled, .failed:
             defer {
                 originDetent = nil
@@ -260,6 +167,103 @@ public final class SheetInteraction {
         let detentBegan = sheetController.identifierForSelectedDetent()
         originDetent = detentBegan
         delegate?.sheetInteractionBegan(sheetInteraction: self, at: detentBegan)
+    }
+    
+    private func handleSheetInteractionChanged(pan: UIPanGestureRecognizer) {
+        let directions = pan.directions
+        guard directions.isStationary == false else {
+            Self.logger.debug("stationary...: \(pan.velocity(in: pan.view).debugDescription)")
+#if DEBUG
+            fatalError()
+#else
+            return
+#endif
+        }
+        
+        let sheetFrameInWindow = sheetLayoutInfo.sheetFrameInWindow
+        sheetFrameInWindowOnPreviousChange = sheetFrameInWindow
+        
+        let detents = sheetController.detents
+        let detentsLayoutInfo = activeDetentsLayoutInfo(detents: detents)
+        /// Detents with a negative distance are higher than sheet's current position (i.e. need to drag up).
+        let detentsAbove = detentsLayoutInfo.filter { $0.distance <= 0 }
+        /// Detents with a positive distance are lower than sheet's current position (i.e. need to drag down).
+        let detentsBelow = detentsLayoutInfo.filter { $0.distance > 0 }
+        
+        /// Closest in terms of distance, not accounting for sheet momemtum, which may cause sheet to rest at a further detent.
+        let closest = detentsLayoutInfo.sorted { $0.absDistance < $1.absDistance }.first!
+        let closestDetent = closest.identifier
+        let closestDistance = closest.absDistance
+        
+        /// This may or may not be the same as `closest`.
+        let approaching = {
+            if directions.contains(.up) {
+                /// Sheet is moving up.
+                return detentsAbove.first ?? detentsLayoutInfo.last
+            } else if directions.contains(.down) {
+                return detentsBelow.last ?? detentsLayoutInfo.first
+            } else {
+                fatalError()
+            }
+        }()!
+        let approachingDetent = approaching.identifier
+        let approachingDistance = approaching.absDistance
+        
+        /// Moving away from preceding detent, which may or may not be the detent at which sheet interaction began.
+        let preceding = {
+            if directions.contains(.up) {
+                /// Sheet is moving up.
+                return detentsBelow.last ?? detentsLayoutInfo.first
+            } else if directions.contains(.down) {
+                return detentsAbove.first ?? detentsLayoutInfo.last
+            } else {
+                fatalError()
+            }
+        }()!
+        let precedingDetent = preceding.identifier
+        let precedingDistance = preceding.absDistance
+        
+        /// Keep track of previous sheet height so we can use it on sheet interaction end.
+        /// On sheet interaction end, sheet height is already updated to reflect final state, so we can't calculate target distance using that final value.
+        let sheetHeight = sheetLayoutInfo.sheetHeightInSafeArea
+        Self.logger.debug("sheetHeight: \(sheetHeight)")
+        sheetHeightOnPreviousChange = sheetHeight
+        
+        /// Percentage to approachingDetent, where 1 is closest to approachingDetent.
+        /// On overscroll at top, sheet height is briefly and slightly greater than maximumDetentValue.
+        /// But on overscroll at bottom, sheet height stays at the smallest detent's value + safeAreaInset.bottom.
+        /// We will need to use sheet.origin to calculate overscroll values.
+        let percentageApproaching: CGFloat = {
+            let context = Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetLayoutInfo.maximumDetentValue())
+            let precedingDetent = sheetController.detent(withIdentifier: preceding.identifier)!
+            let precedingHeight = precedingDetent.resolvedValue(in: context)!
+            let approachingDetent = sheetController.detent(withIdentifier: approaching.identifier)!
+            let approachingHeight = approachingDetent.resolvedValue(in: context)!
+            let d = abs(precedingHeight - approachingHeight)
+            let percentage = 1 - (approachingDistance / d)
+            return percentage
+        }()
+        let percentagePreceding = 1 - percentageApproaching
+        Self.logger.debug("percentage: \(percentageApproaching)")
+        
+        let totalPercentageUsingHeight = sheetHeight/sheetLayoutInfo.maximumDetentValue()
+        /// This method supports overscroll values.
+        /// Note that this is a global percentage capped by the smallest and largest detents.
+        let totalPercentageUsingOrigin = totalPercentageWithOrigin(sheetLayoutInfo: sheetLayoutInfo, sheetFrame: sheetFrameInWindow)
+        Self.logger.debug("total percentage [height]: \(totalPercentageUsingHeight), [yOrigin]: \(totalPercentageUsingOrigin)")
+        
+        let changeInfo = Change(
+            isMinimizing: isMinimizing,
+            closest: .init(
+                detentIdentifier: closestDetent, distance: closestDistance),
+            approaching: .init(
+                detentIdentifier: approachingDetent, distance: approachingDistance),
+            preceding: .init(
+                detentIdentifier: precedingDetent, distance: precedingDistance),
+            percentageTotal: totalPercentageUsingOrigin,
+            percentageApproaching: percentageApproaching,
+            percentagePreceding: percentagePreceding)
+        delegate?.sheetInteractionChanged(sheetInteraction: self, interactionChange: changeInfo)
     }
 }
 
