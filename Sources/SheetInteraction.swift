@@ -19,12 +19,14 @@ public protocol SheetInteractionDelegate: AnyObject {
     /// Stationary and x-axis change events are not emitted.
     func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionChange: SheetInteraction.Change)
     
+    /// Use this event to perform animation to the target detent.
     /// Called on touch up.  This event may be skipped if user quickly begins and ends sheet interaction (i.e. with a quick flick). See `SheetInteraction.isEnding`.
     /// - Parameter targetDetentInfo: Sheet is either animating (or animated) to its target detent after user interaction has ended.
     /// - Parameter targetPercentageTotal: The target detent's `resolvedValue` as a percentage of the sheet's `maximumDetentValue`, where 0 is the smallest detent.  Overscroll values are reported.  See `SheetInteraction.Change.percentageTotal`.
     /// - Parameter onTouchUpPercentageTotal: Sheet's percentageTotal animated the moment sheet interaction ends (i.e. on "touch up").
     func sheetInteractionWillEnd(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, targetPercentageTotal: CGFloat, onTouchUpPercentageTotal: CGFloat)
     
+    /// Use this event to finalize any user-interface state and/or appearance when sheet finishes animating to its selected detent.
     /// Called when `UISheetPresentationController` finishes (or is close to) animating to a new selected detent.
     func sheetInteractionDidEnd(sheetInteraction: SheetInteraction, selectedDetentIdentifier: UISheetPresentationController.Detent.Identifier)
 }
