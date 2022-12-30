@@ -353,6 +353,7 @@ private extension SheetInteraction {
 
 protocol SheetControllerDelegate: AnyObject {
     func sheetController(didChangeSelectedDetentIdentifier identifier: UISheetPresentationController.Detent.Identifier)
+    func sheetControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool
 }
 
 final class SheetInteractionPresentationControllerDelegate: NSObject, UISheetPresentationControllerDelegate {
@@ -367,6 +368,10 @@ final class SheetInteractionPresentationControllerDelegate: NSObject, UISheetPre
     func sheetPresentationControllerDidChangeSelectedDetentIdentifier(_ sheetPresentationController: UISheetPresentationController) {
         delegate?.sheetController(didChangeSelectedDetentIdentifier: sheetPresentationController.selectedDetentIdentifier ?? sheetPresentationController.identifierForSmallestDetent())
     }
+    
+    func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
+        delegate?.sheetControllerShouldDismiss(presentationController) ?? true
+    }
 }
 
 extension SheetInteraction: SheetControllerDelegate {
@@ -377,5 +382,9 @@ extension SheetInteraction: SheetControllerDelegate {
         Task { @MainActor in
             handleSheetInteractionDidEnd(identifier: identifier)
         }
+    }
+    
+    func sheetControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
+        (delegate as? UISheetPresentationControllerDelegate)?.presentationControllerShouldDismiss?(presentationController) ?? true
     }
 }

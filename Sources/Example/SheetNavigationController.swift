@@ -47,6 +47,13 @@ extension SheetNavigationController: SheetInteractionDelegate {
     }
 }
 
+extension SheetNavigationController: UISheetPresentationControllerDelegate {
+    
+    func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
+        (topViewController as? UISheetPresentationControllerDelegate)?.presentationControllerShouldDismiss?(presentationController) ?? true
+    }
+}
+
 extension SheetNavigationController: UIGestureRecognizerDelegate {
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {

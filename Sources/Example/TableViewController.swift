@@ -15,7 +15,7 @@ class TableViewController: UIViewController {
     var observesSheetInteraction: Bool = false
     private lazy var sheetInteraction: SheetInteraction = .init(sheet: sheetPresentationController!, sheetView: view)
     
-    private var activeDetent: UISheetPresentationController.Detent.Identifier = ._small {
+    private var activeDetent: UISheetPresentationController.Detent.Identifier = ._medSmall {
         didSet {
             guard oldValue != activeDetent else {
                 return
