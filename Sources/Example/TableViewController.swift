@@ -108,48 +108,80 @@ extension TableViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
-        case 4:
+        case 5:
             switch activeDetent {
             case ._full:
-                return 30
+                return 44
+            default:
+                return 0
+            }
+        case 4:
+            switch activeDetent {
+            case ._full, ._large:
+                return 44
             default:
                 return 0
             }
         case 3:
             switch activeDetent {
-            case ._full, ._large:
-                return 30
+            case ._full, ._large, ._medLarge:
+                return 44
             default:
                 return 0
             }
         case 2:
             switch activeDetent {
-            case ._full, ._large, ._medLarge:
-                return 30
+            case ._full, ._large, ._medLarge, ._medium:
+                return 44
             default:
                 return 0
             }
         case 1:
             switch activeDetent {
-            case ._full, ._large, ._medLarge, ._medium:
-                return 30
+            case ._full, ._large, ._medLarge, ._medium, ._medSmall:
+                return 44
             default:
                 return 0
             }
         case 0:
             switch activeDetent {
-            case ._full, ._large, ._medLarge, ._medium, ._medSmall:
-                return 30
+            case ._full, ._large, ._medLarge, ._medium, ._medSmall, ._small:
+                return 44
             default:
                 return 0
             }
         default:
-            return 30
+            return 44
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let stringValue = {
+            switch indexPath.section {
+            case 0:
+                return "small"
+            case 1:
+                return "mediumSmall"
+            case 2:
+                return "medium"
+            case 3:
+                return "mediumLarge"
+            case 4:
+                return "large"
+            case 5:
+                return "full"
+            default:
+                return ""
+            }
+        }()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        cell.accessibilityIdentifier = stringValue
+        cell.contentConfiguration = {
+            var config = UIListContentConfiguration.cell()
+            config.text = stringValue
+            return config
+        }()
+        return cell
     }
 }
 

@@ -26,6 +26,7 @@ extension UIViewController {
             ]
             /// Set undimmed to allow pass-through interaction on presenting view controller.
             nc.sheetPresentationController?.largestUndimmedDetentIdentifier = .init(rawValue: "large")
+            nc.sheetPresentationController?.selectedDetentIdentifier = ._medSmall
             present(nc, animated: true, completion: completion)
         } else {
             vc.modalPresentationStyle = .pageSheet
@@ -35,6 +36,7 @@ extension UIViewController {
                 ._small(), ._medSmall(), ._medium(), ._medLarge(), ._large(), ._full()
             ]
             vc.sheetPresentationController?.largestUndimmedDetentIdentifier = .init(rawValue: "large")
+            vc.sheetPresentationController?.selectedDetentIdentifier = ._medSmall
             vc.observesSheetInteraction = true
             present(vc, animated: true, completion: completion)
         }
@@ -97,17 +99,20 @@ class ViewController: UIViewController {
             let topInset = UIView.init(frame: .init(origin: .init(x: 0, y: window.frame.origin.y + bottomSheetInsets.top), size: .init(width: window.frame.width, height: 1)))
             topInset.backgroundColor = .red
             topInset.translatesAutoresizingMaskIntoConstraints = false
+            topInset.accessibilityIdentifier = "struts.topInset"
             window.addSubview(topInset)
             
-            let sheetTopInset = UIView.init(frame: .init(origin: .init(x: 0, y: window.frame.origin.y + topSheetInsets.top), size: .init(width: window.frame.width, height: 1)))
-            sheetTopInset.backgroundColor = .purple
-            sheetTopInset.translatesAutoresizingMaskIntoConstraints = false
-            window.addSubview(sheetTopInset)
+            let fullDetent = UIView.init(frame: .init(origin: .init(x: 0, y: window.frame.origin.y + topSheetInsets.top), size: .init(width: window.frame.width, height: 1)))
+            fullDetent.backgroundColor = .purple
+            fullDetent.translatesAutoresizingMaskIntoConstraints = false
+            fullDetent.accessibilityIdentifier = "struts.fullDetent"
+            window.addSubview(fullDetent)
             
             /// This will not be visible on home button devices, as should be the case.
             let bottomInset = UIView.init(frame: .init(origin: .init(x: 0, y: window.frame.height-topSheetInsets.bottom), size: .init(width: window.frame.width, height: 1)))
             bottomInset.backgroundColor = .green
             bottomInset.translatesAutoresizingMaskIntoConstraints = false
+            bottomInset.accessibilityIdentifier = "struts.bottomInset"
             window.addSubview(bottomInset)
             
             let maxDetentValue = sheetPresentationController.layoutInfo.maximumDetentValue()
@@ -117,6 +122,7 @@ class ViewController: UIViewController {
             let mediumDetent = UIView.init(frame: .init(origin: .init(x: 0, y: y), size: .init(width: window.frame.width, height: 1)))
             mediumDetent.backgroundColor = .orange
             mediumDetent.translatesAutoresizingMaskIntoConstraints = false
+            mediumDetent.accessibilityIdentifier = "struts.mediumDetent"
             window.addSubview(mediumDetent)
             
             let medLargeDetentMultiplier = 0.67
@@ -124,6 +130,7 @@ class ViewController: UIViewController {
             let medLargeDetent = UIView.init(frame: .init(origin: .init(x: 0, y: y2), size: .init(width: window.frame.width, height: 1)))
             medLargeDetent.backgroundColor = .black
             medLargeDetent.translatesAutoresizingMaskIntoConstraints = false
+            medLargeDetent.accessibilityIdentifier = "struts.medLargeDetent"
             window.addSubview(medLargeDetent)
             
             let medSmallDetentMultiplier = 0.33
@@ -131,12 +138,14 @@ class ViewController: UIViewController {
             let medSmallDetent = UIView.init(frame: .init(origin: .init(x: 0, y: y3), size: .init(width: window.frame.width, height: 1)))
             medSmallDetent.backgroundColor = .cyan
             medSmallDetent.translatesAutoresizingMaskIntoConstraints = false
+            medSmallDetent.accessibilityIdentifier = "struts.medSmallDetent"
             window.addSubview(medSmallDetent)
             
             let y4 = window.frame.height - 56 - topSheetInsets.bottom
             let smallDetent = UIView.init(frame: .init(origin: .init(x: 0, y: y4), size: .init(width: window.frame.width, height: 1)))
             smallDetent.backgroundColor = .systemPink
             smallDetent.translatesAutoresizingMaskIntoConstraints = false
+            smallDetent.accessibilityIdentifier = "struts.smallDetent"
             window.addSubview(smallDetent)
             
             let largeDetentMultiplier = 0.95
@@ -144,9 +153,10 @@ class ViewController: UIViewController {
             let largeDetent = UIView.init(frame: .init(origin: .init(x: 0, y: y5), size: .init(width: window.frame.width, height: 1)))
             largeDetent.backgroundColor = .systemBrown
             largeDetent.translatesAutoresizingMaskIntoConstraints = false
+            largeDetent.accessibilityIdentifier = "struts.largeDetent"
             window.addSubview(largeDetent)
             
-            struts.append(contentsOf: [topInset, sheetTopInset, bottomInset, mediumDetent, medLargeDetent, medSmallDetent, smallDetent, largeDetent])
+            struts.append(contentsOf: [topInset, fullDetent, bottomInset, mediumDetent, medLargeDetent, medSmallDetent, smallDetent, largeDetent])
         }
     }
 }
