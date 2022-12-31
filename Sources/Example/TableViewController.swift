@@ -17,6 +17,7 @@ class TableViewController: UIViewController {
     
     private var activeDetent: UISheetPresentationController.Detent.Identifier = ._medSmall {
         didSet {
+            AppDelegate.logger.debug("[\(self.navigationItem.title!)] \(oldValue.rawValue) -> \(self.activeDetent.rawValue)")
             guard oldValue != activeDetent else {
                 return
             }
@@ -213,6 +214,10 @@ extension TableViewController: UISheetPresentationControllerDelegate {
 extension TableViewController: SheetInteractionDelegate {
     
     func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionChange: SheetInteraction.Change) {
+        guard presentedViewController == nil else {
+            return
+        }
+            
         if let delegate = presentingViewController as? SheetInteractionDelegate {
             delegate.sheetInteractionChanged(sheetInteraction: sheetInteraction, interactionChange: interactionChange)
         }
@@ -236,6 +241,10 @@ extension TableViewController: SheetInteractionDelegate {
     }
     
     func sheetInteractionWillEnd(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, targetPercentageTotal: CGFloat, onTouchUpPercentageTotal: CGFloat) {
+        guard presentedViewController == nil else {
+            return
+        }
+        
         if let delegate = presentingViewController as? SheetInteractionDelegate {
             delegate.sheetInteractionWillEnd(sheetInteraction: sheetInteraction, targetDetentInfo: targetDetentInfo, targetPercentageTotal: targetPercentageTotal, onTouchUpPercentageTotal: onTouchUpPercentageTotal)
         }
@@ -263,6 +272,10 @@ extension TableViewController: SheetInteractionDelegate {
     }
     
     func sheetInteractionDidEnd(sheetInteraction: SheetInteraction, selectedDetentIdentifier: UISheetPresentationController.Detent.Identifier) {
+        guard presentedViewController == nil else {
+            return
+        }
+        
         if let delegate = presentingViewController as? SheetInteractionDelegate {
             delegate.sheetInteractionDidEnd(sheetInteraction: sheetInteraction, selectedDetentIdentifier: selectedDetentIdentifier)
         }

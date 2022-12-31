@@ -23,6 +23,14 @@ class SheetNavigationController: UINavigationController {
         /// Detent observer gesture doesn't need to be exclusive.
         sheetInteraction.sheetInteractionGesture.delegate = self
         sheetInteraction.delegate = self
+        
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let ncIndex = self.levelInModalHierarchy()
+        sheetInteraction.debugLabel = "Modal \(ncIndex)"
     }
 }
 

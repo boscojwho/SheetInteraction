@@ -71,6 +71,8 @@ public final class SheetInteraction: NSObject {
         sheetView.addGestureRecognizer(sheetInteractionGesture)
     }
     
+    public var debugLabel: String = ""
+    
     /// The detent at which sheet interaction began.
     /// This value is available when sheet interaction is actively happening.
     private(set) public var originDetent: DetentIdentifier?
@@ -122,6 +124,10 @@ public final class SheetInteraction: NSObject {
     private lazy var sheetHeightOnPreviousChange: CGFloat = sheetLayoutInfo.sheetHeightInSafeArea
     
     @objc private func handleSheetInteraction(pan: UIPanGestureRecognizer) {
+        Self.logger.debug("\(self.debugLabel)")
+        guard sheetController.presentedViewController.presentedViewController == nil else {
+            return
+        }
         /// Track which detent is currently closest to the top edge of sheet statck.
         Self.logger.debug("\(#function) - \(pan.state.rawValue)")
         switch pan.state {
@@ -353,7 +359,8 @@ private extension SheetInteraction {
 
 extension SheetInteraction: UISheetPresentationControllerDelegate {
     public func sheetPresentationControllerDidChangeSelectedDetentIdentifier(_ sheetPresentationController: UISheetPresentationController) {
-        Self.logger.debug("\(sheetPresentationController.presentedViewController) -> \(sheetPresentationController.identifierForSelectedDetent().rawValue)")
+        Self.logger.debug("presenting: \(sheetPresentationController.presentingViewController) -> \(sheetPresentationController.presentingViewController.sheetPresentationController!.identifierForSelectedDetent().rawValue)")
+        Self.logger.debug("presented: \(sheetPresentationController.presentedViewController) -> \(sheetPresentationController.identifierForSelectedDetent().rawValue)")
         /// Run on next layout cycle to ensure layout info is correct.
         /// When sheet interaction begins on a descendant scroll view, sheet layout info does not match the selected detent when UIKit notifies us. [2022.12]
         Task { @MainActor in
@@ -363,20 +370,23 @@ extension SheetInteraction: UISheetPresentationControllerDelegate {
     
     public func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
         if let sheet = presentationController as? UISheetPresentationController {
-            Self.logger.debug("\(sheet.presentedViewController) -> \(sheet.identifierForSelectedDetent().rawValue)")
+            Self.logger.debug("presenting: \(sheet.presentingViewController) -> \(sheet.presentingViewController.sheetPresentationController!.identifierForSelectedDetent().rawValue)")
+            Self.logger.debug("presented: \(sheet.presentedViewController) -> \(sheet.identifierForSelectedDetent().rawValue)")
         }
         return (delegate as? UISheetPresentationControllerDelegate)?.presentationControllerShouldDismiss?(presentationController) ?? true
     }
     
     public func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
         if let sheet = presentationController as? UISheetPresentationController {
-            Self.logger.debug("\(sheet.presentedViewController) -> \(sheet.identifierForSelectedDetent().rawValue)")
+            Self.logger.debug("presenting: \(sheet.presentingViewController) -> \(sheet.presentingViewController.sheetPresentationController!.identifierForSelectedDetent().rawValue)")
+            Self.logger.debug("presented: \(sheet.presentedViewController) -> \(sheet.identifierForSelectedDetent().rawValue)")
         }
     }
     
     public func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         if let sheet = presentationController as? UISheetPresentationController {
-            Self.logger.debug("\(sheet.presentedViewController) -> \(sheet.identifierForSelectedDetent().rawValue)")
+            Self.logger.debug("presenting: \(sheet.presentedViewController) -> \(sheet.presentingViewController.sheetPresentationController!.identifierForSelectedDetent().rawValue)")
+            Self.logger.debug("presented: \(sheet.presentedViewController) -> \(sheet.identifierForSelectedDetent().rawValue)")
         }
     }
     
@@ -384,5 +394,9 @@ extension SheetInteraction: UISheetPresentationControllerDelegate {
         if let sheet = presentationController as? UISheetPresentationController {
             Self.logger.debug("\(sheet.presentedViewController) -> \(sheet.identifierForSelectedDetent().rawValue)")
         }
+    }
+    
+    public func presentationController(_ presentationController: UIPresentationController, willPresentWithAdaptiveStyle style: UIModalPresentationStyle, transitionCoordinator: UIViewControllerTransitionCoordinator?) {
+        
     }
 }
