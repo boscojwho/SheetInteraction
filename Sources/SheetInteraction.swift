@@ -38,7 +38,7 @@ public extension SheetInteractionDelegate {
 }
 
 /// - NOTE: Ensure *interactionGesture* recognizes simultaneously with all other gestures in `sheetView`.
-public final class SheetInteraction {
+public final class SheetInteraction: NSObject {
     
     private static let logger = Logger(
         subsystem: Bundle.main.bundleIdentifier!,
@@ -60,14 +60,14 @@ public final class SheetInteraction {
     public let sheetView: UIView
     public private(set) lazy var sheetWindow: UIWindow = sheetView.window!
     public private(set) lazy var sheetLayoutInfo: SheetLayoutInfo = .init(sheet: sheetController, sheetView: sheetView, window: sheetWindow)
-    
-    private let sheetControllerDelegate: SheetInteractionPresentationControllerDelegate
-    
+        
     public init(sheet: UISheetPresentationController, sheetView: UIView) {
         self.sheetController = sheet
         self.sheetView = sheetView
-        self.sheetControllerDelegate = SheetInteractionPresentationControllerDelegate(sheetPresentationController: sheet)
-        self.sheetControllerDelegate.delegate = self
+        
+        super.init()
+        
+        sheetController.delegate = self
         sheetView.addGestureRecognizer(sheetInteractionGesture)
     }
     
@@ -351,40 +351,38 @@ private extension SheetInteraction {
     }
 }
 
-protocol SheetControllerDelegate: AnyObject {
-    func sheetController(didChangeSelectedDetentIdentifier identifier: UISheetPresentationController.Detent.Identifier)
-    func sheetControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool
-}
-
-final class SheetInteractionPresentationControllerDelegate: NSObject, UISheetPresentationControllerDelegate {
-     
-    weak var delegate: SheetControllerDelegate?
-    
-    init(sheetPresentationController: UISheetPresentationController) {
-        super.init()
-        sheetPresentationController.delegate = self
-    }
-    
-    func sheetPresentationControllerDidChangeSelectedDetentIdentifier(_ sheetPresentationController: UISheetPresentationController) {
-        delegate?.sheetController(didChangeSelectedDetentIdentifier: sheetPresentationController.selectedDetentIdentifier ?? sheetPresentationController.identifierForSmallestDetent())
-    }
-    
-    func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
-        delegate?.sheetControllerShouldDismiss(presentationController) ?? true
-    }
-}
-
-extension SheetInteraction: SheetControllerDelegate {
-    
-    func sheetController(didChangeSelectedDetentIdentifier identifier: UISheetPresentationController.Detent.Identifier) {
+extension SheetInteraction: UISheetPresentationControllerDelegate {
+    public func sheetPresentationControllerDidChangeSelectedDetentIdentifier(_ sheetPresentationController: UISheetPresentationController) {
+        Self.logger.debug("\(sheetPresentationController.presentedViewController) -> \(sheetPresentationController.identifierForSelectedDetent().rawValue)")
         /// Run on next layout cycle to ensure layout info is correct.
         /// When sheet interaction begins on a descendant scroll view, sheet layout info does not match the selected detent when UIKit notifies us. [2022.12]
         Task { @MainActor in
-            handleSheetInteractionDidEnd(identifier: identifier)
+            handleSheetInteractionDidEnd(identifier: sheetPresentationController.selectedDetentIdentifier ?? sheetPresentationController.identifierForSmallestDetent())
         }
     }
     
-    func sheetControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
-        (delegate as? UISheetPresentationControllerDelegate)?.presentationControllerShouldDismiss?(presentationController) ?? true
+    public func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
+        if let sheet = presentationController as? UISheetPresentationController {
+            Self.logger.debug("\(sheet.presentedViewController) -> \(sheet.identifierForSelectedDetent().rawValue)")
+        }
+        return (delegate as? UISheetPresentationControllerDelegate)?.presentationControllerShouldDismiss?(presentationController) ?? true
+    }
+    
+    public func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
+        if let sheet = presentationController as? UISheetPresentationController {
+            Self.logger.debug("\(sheet.presentedViewController) -> \(sheet.identifierForSelectedDetent().rawValue)")
+        }
+    }
+    
+    public func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        if let sheet = presentationController as? UISheetPresentationController {
+            Self.logger.debug("\(sheet.presentedViewController) -> \(sheet.identifierForSelectedDetent().rawValue)")
+        }
+    }
+    
+    public func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
+        if let sheet = presentationController as? UISheetPresentationController {
+            Self.logger.debug("\(sheet.presentedViewController) -> \(sheet.identifierForSelectedDetent().rawValue)")
+        }
     }
 }
