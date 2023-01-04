@@ -34,7 +34,7 @@ class SheetNavigationController: UINavigationController {
 
 extension SheetNavigationController: SheetStackInteractionBehaviorDelegate {
     func shouldNotifyRootPresenter() -> Bool {
-        return isSingleSheet() || isTopSheet()
+        return true
     }
     
     func shouldHandleSheetInteraction() -> Bool {
