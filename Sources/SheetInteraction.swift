@@ -17,7 +17,7 @@ public protocol SheetInteractionDelegate: AnyObject {
     func sheetInteraction() -> SheetInteraction?
     
     /// Return the delegate behavior for this sheet.
-    func sheetStackDelegate() -> SheetStackInteractionBehavior?
+    func sheetStackDelegate() -> SheetStackInteractionForwarding?
     
     /// Optional: Default implementation is no-op.
     func sheetInteractionBegan(sheetInteraction: SheetInteraction, at detent: DetentIdentifier)
@@ -42,7 +42,7 @@ public extension SheetInteractionDelegate {
         nil
     }
     
-    func sheetStackDelegate() -> SheetStackInteractionBehavior? {
+    func sheetStackDelegate() -> SheetStackInteractionForwarding? {
         nil
     }
     
@@ -68,11 +68,13 @@ public final class SheetInteraction: NSObject {
     
     weak public var delegate: SheetInteractionDelegate? {
         didSet {
-            sheetStackBehavior.delegate = delegate as? SheetStackInteractionBehaviorDelegate
+            interactionForwarding.delegate = delegate as? SheetStackInteractionForwardingBehavior
         }
     }
     /// Defines delegate callback behavior in a modal sheet stack.
-    public let sheetStackBehavior: SheetStackInteractionBehavior = .init()
+    ///
+    /// - NOTE: Sheet interaction auto-assigns its delegate as the forwarding delegate.
+    public let interactionForwarding: SheetStackInteractionForwarding = .init()
     
     /// Controller managing a modal sheet stack.
     public let sheetController: UISheetPresentationController
@@ -179,7 +181,7 @@ public final class SheetInteraction: NSObject {
     private func handleSheetInteractionBegan() {
         let detentBegan = sheetController.identifierForSelectedDetent()
         originDetent = detentBegan
-        sheetStackBehavior.sheetInteractionBegan(originSheetInteraction: self, presentedSheetInteraction: self, at: detentBegan)
+        interactionForwarding.sheetInteractionBegan(originSheetInteraction: self, presentedSheetInteraction: self, at: detentBegan)
     }
     
     private func handleSheetInteractionChanged(pan: UIPanGestureRecognizer) {
@@ -276,7 +278,7 @@ public final class SheetInteraction: NSObject {
             percentageTotal: totalPercentageUsingOrigin,
             percentageApproaching: percentageApproaching,
             percentagePreceding: percentagePreceding)
-        sheetStackBehavior.sheetInteractionChanged(originSheetInteraction: self, presentedSheetInteraction: self, interactionChange: changeInfo)
+        interactionForwarding.sheetInteractionChanged(originSheetInteraction: self, presentedSheetInteraction: self, interactionChange: changeInfo)
     }
     
     private func handleSheetInteractionWillEnd() {

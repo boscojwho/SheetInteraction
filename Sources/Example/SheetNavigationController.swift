@@ -32,7 +32,7 @@ class SheetNavigationController: UINavigationController {
     }
 }
 
-extension SheetNavigationController: SheetStackInteractionBehaviorDelegate {
+extension SheetNavigationController: SheetStackInteractionForwardingBehavior {
     func shouldNotifyRootPresenter() -> Bool {
         return true
     }
@@ -48,8 +48,8 @@ extension SheetNavigationController: SheetInteractionDelegate {
         _sheetInteraction
     }
     
-    func sheetStackDelegate() -> SheetStackInteractionBehavior? {
-        _sheetInteraction.sheetStackBehavior
+    func sheetStackDelegate() -> SheetStackInteractionForwarding? {
+        _sheetInteraction.interactionForwarding
     }
     
     func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionChange: SheetInteraction.Change) {
