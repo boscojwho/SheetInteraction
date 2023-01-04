@@ -51,50 +51,10 @@ public extension SheetInteractionDelegate {
     }
 }
 
-public protocol SheetStackInteractionBehaviorDelegate: AnyObject {
-    /// Root presenter is the non-modal view controller that originally presented a modal sheet stack.
-    ///
-    /// In a multi-sheet configuration, this value is only applicable to the top sheet (i.e. ignored for all other sheets).
-    func notifyRootPresenter() -> Bool
-    /// The view controller that presented this sheet.
-    func notifyPresenter() -> Bool
-}
-
-/// Defines delegate callback behavior in a modal sheet stack. This behavior becomes important when there are multiple sheets in a stack.
-public final class SheetStackInteractionBehavior {
-    
-    weak var delegate: SheetStackInteractionBehaviorDelegate?
-    
-    /// - Parameter presentingSheetInteraction: This is the same as `originSheetInteraction` when called from the top sheet.
-    func sheetInteractionBegan(originSheetInteraction: SheetInteraction, presentingSheetInteraction: SheetInteraction, at detentBegan: DetentIdentifier) {
-        guard let delegate else {
-            SheetInteraction.logger.debug("Behavior delegate not found.")
-            return
-        }
-        
-        guard delegate.notifyPresenter() == true || delegate.notifyRootPresenter() == true else {
-            SheetInteraction.logger.debug("Sheet configured to not notify (root) presenter.")
-            return
-        }
-        
-        guard let presentingDelegate = presentingSheetInteraction.sheetController.presentingViewController as? SheetInteractionDelegate, let presentedSheetInteraction = presentingDelegate.sheetInteraction() else {
-            return
-        }
-        
-        SheetInteraction.logger.debug("\(#function) - delegate: \(String(describing: delegate.self))")
-        originSheetInteraction.delegate?.sheetInteractionBegan(sheetInteraction: originSheetInteraction, at: detentBegan)
-        
-        SheetInteraction.logger.debug("\(#function) - presentingDelegate: \(String(describing: presentingDelegate.self))")
-        presentedSheetInteraction
-            .sheetStackBehavior
-            .sheetInteractionBegan(originSheetInteraction: originSheetInteraction, presentingSheetInteraction: presentedSheetInteraction, at: detentBegan)
-    }
-}
-
 /// - NOTE: Ensure *interactionGesture* recognizes simultaneously with all other gestures in `sheetView`.
 public final class SheetInteraction: NSObject {
     
-    fileprivate static let logger = Logger(
+    internal static let logger = Logger(
         subsystem: Bundle.main.bundleIdentifier!,
         category: String(describing: SheetInteraction.self)
     )

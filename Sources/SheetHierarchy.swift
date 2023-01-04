@@ -1,6 +1,6 @@
 //
 //  SheetHierarchy.swift
-//  SheetInteraction-SPM
+//  SheetInteraction
 //
 //  Created by Bosco Ho on 2023-01-03.
 //

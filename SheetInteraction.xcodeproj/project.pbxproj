@@ -22,6 +22,7 @@
 		E4584D80295CF2FB006DF6F5 /* SheetInteractionUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4584D7F295CF2FB006DF6F5 /* SheetInteractionUITests.swift */; };
 		E4584D82295CF2FB006DF6F5 /* SheetInteractionUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4584D81295CF2FB006DF6F5 /* SheetInteractionUITestsLaunchTests.swift */; };
 		E45E44852964FF9B00DE7058 /* SheetHierarchy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45E44842964FF9B00DE7058 /* SheetHierarchy.swift */; };
+		E45E44872965010D00DE7058 /* SheetStackInteraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45E44862965010D00DE7058 /* SheetStackInteraction.swift */; };
 		E4861248294D3DFE00E47E7D /* SheetInteraction_SPM.h in Headers */ = {isa = PBXBuildFile; fileRef = E4861247294D3DFE00E47E7D /* SheetInteraction_SPM.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E486125F294F969700E47E7D /* SheetInteraction+Change.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BD1439294730CB002C7617 /* SheetInteraction+Change.swift */; };
 		E4861260294F969700E47E7D /* SheetLayoutInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4169E292946E22400A80641 /* SheetLayoutInfo.swift */; };
@@ -85,6 +86,7 @@
 		E4584D7F295CF2FB006DF6F5 /* SheetInteractionUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetInteractionUITests.swift; sourceTree = "<group>"; };
 		E4584D81295CF2FB006DF6F5 /* SheetInteractionUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetInteractionUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		E45E44842964FF9B00DE7058 /* SheetHierarchy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetHierarchy.swift; sourceTree = "<group>"; };
+		E45E44862965010D00DE7058 /* SheetStackInteraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetStackInteraction.swift; sourceTree = "<group>"; };
 		E486123B294D3D4E00E47E7D /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		E4861245294D3DFE00E47E7D /* SheetInteraction_SPM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SheetInteraction_SPM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4861247294D3DFE00E47E7D /* SheetInteraction_SPM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SheetInteraction_SPM.h; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 				E4169E292946E22400A80641 /* SheetLayoutInfo.swift */,
 				E4BD1439294730CB002C7617 /* SheetInteraction+Change.swift */,
 				E422B26F294041CD009A0802 /* SheetInteraction.swift */,
+				E45E44862965010D00DE7058 /* SheetStackInteraction.swift */,
 				E45E44842964FF9B00DE7058 /* SheetHierarchy.swift */,
 				E41EBDA0292C79F800FB3402 /* Example */,
 			);
@@ -389,6 +392,7 @@
 				E486125F294F969700E47E7D /* SheetInteraction+Change.swift in Sources */,
 				E4861260294F969700E47E7D /* SheetLayoutInfo.swift in Sources */,
 				E4861263294F969700E47E7D /* PanDirection.swift in Sources */,
+				E45E44872965010D00DE7058 /* SheetStackInteraction.swift in Sources */,
 				E4861261294F969700E47E7D /* Detent.swift in Sources */,
 				E4861264294F969700E47E7D /* DetentResolutionContext.swift in Sources */,
 				E4861262294F969700E47E7D /* SheetInteraction.swift in Sources */,
