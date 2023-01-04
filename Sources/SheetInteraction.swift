@@ -179,7 +179,7 @@ public final class SheetInteraction: NSObject {
     private func handleSheetInteractionBegan() {
         let detentBegan = sheetController.identifierForSelectedDetent()
         originDetent = detentBegan
-        sheetStackBehavior.sheetInteractionBegan(originSheetInteraction: self, presentingSheetInteraction: self, at: detentBegan)
+        sheetStackBehavior.sheetInteractionBegan(originSheetInteraction: self, presentedSheetInteraction: self, at: detentBegan)
     }
     
     private func handleSheetInteractionChanged(pan: UIPanGestureRecognizer) {
@@ -276,7 +276,7 @@ public final class SheetInteraction: NSObject {
             percentageTotal: totalPercentageUsingOrigin,
             percentageApproaching: percentageApproaching,
             percentagePreceding: percentagePreceding)
-        delegate?.sheetInteractionChanged(sheetInteraction: self, interactionChange: changeInfo)
+        sheetStackBehavior.sheetInteractionChanged(originSheetInteraction: self, presentedSheetInteraction: self, interactionChange: changeInfo)
     }
     
     private func handleSheetInteractionWillEnd() {

@@ -163,6 +163,10 @@ class ViewController: UIViewController {
 
 extension ViewController: SheetInteractionDelegate {
     
+    func sheetInteractionBegan(sheetInteraction: SheetInteraction, at detent: DetentIdentifier) {
+        print(#function)
+    }
+    
     func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionChange: SheetInteraction.Change) {
         let value = {
             if interactionChange.percentageApproaching.isInfinite {

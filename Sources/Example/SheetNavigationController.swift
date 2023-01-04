@@ -41,6 +41,10 @@ extension SheetNavigationController: SheetStackInteractionBehaviorDelegate {
         /// Don't notify if not currently the top sheet.
         return isTopSheet()
     }
+    
+    func shouldHandleSheetInteraction() -> Bool {
+        return isTopSheet()
+    }
 }
 
 extension SheetNavigationController: SheetInteractionDelegate {
