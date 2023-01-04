@@ -14,12 +14,12 @@ public protocol SheetStackInteractionBehaviorDelegate: AnyObject {
     /// Root presenter is the non-modal view controller that originally presented a modal sheet stack.
     ///
     /// In a multi-sheet configuration, this value is only applicable to the top sheet (i.e. ignored for all other sheets).
-    func notifyRootPresenter() -> Bool
-    /// The view controller that presented this sheet.
-    func notifyPresenter() -> Bool
+    func shouldNotifyRootPresenter() -> Bool
 }
 
 /// Defines delegate callback behavior in a modal sheet stack. This behavior becomes important when there are multiple sheets in a stack.
+///
+/// Delegates calls are sent from top sheet to bottom sheet, in that order, until the root presenter is found (and, optionally, forwarded delegate calls). Sheets that opt-out are simply skipped over.
 public final class SheetStackInteractionBehavior {
     
     weak var delegate: SheetStackInteractionBehaviorDelegate?
@@ -50,7 +50,7 @@ public final class SheetStackInteractionBehavior {
                 notify.append(.presenting(sheetBelowSheetInteraction.sheetStackBehavior, sheetBelowSheetInteraction))
             } else {
                 SheetInteraction.logger.debug("This sheet's presentingViewController does not participate in modal sheet interaction, and is most likely the originating non-modal root view controller. If you wish to update this non-modal root view, make it conform to `SheetInteractionDelegate`.")
-                if originSheetInteraction.sheetStackBehavior.delegate?.notifyRootPresenter() == true {
+                if originSheetInteraction.sheetStackBehavior.delegate?.shouldNotifyRootPresenter() == true {
                     notify.append(.root(sheetBelow))
                 }
             }
@@ -65,7 +65,7 @@ public final class SheetStackInteractionBehavior {
                 notify.append(.presenting(sheetBelowSheetInteraction.sheetStackBehavior, sheetBelowSheetInteraction))
             } else {
                 SheetInteraction.logger.debug("Reached end of sheet stack while encountering one or more sheets that don't conform to `SheetInteractionDelegate`.")
-                if originSheetInteraction.sheetStackBehavior.delegate?.notifyRootPresenter() == true {
+                if originSheetInteraction.sheetStackBehavior.delegate?.shouldNotifyRootPresenter() == true {
                     SheetInteraction.logger.error("Can't notify sheet stack's non-modal root presenter because it doesn't conform to `SheetInteractionDelegate`.")
                 }
             }
