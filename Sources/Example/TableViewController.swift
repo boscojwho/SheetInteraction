@@ -36,7 +36,7 @@ class TableViewController: UIViewController {
     }
     
     @IBAction func dismiss(_ sender: Any) {
-        guard navigationController?.isRootModal() == false else {
+        guard navigationController?.isBottomSheet() == false else {
             return
         }
         presentingViewController?.dismiss(animated: true)
@@ -51,7 +51,7 @@ class TableViewController: UIViewController {
         }
         
         if let vcIndex = navigationController?.viewControllers.firstIndex(of: self) {
-            let ncIndex = navigationController?.levelInModalHierarchy() ?? 0
+            let ncIndex = navigationController?.levelInSheetHierarchy() ?? 0
             navigationItem.title = "Modal \(ncIndex).\(vcIndex)"
         }
         
@@ -196,7 +196,7 @@ extension TableViewController: UITableViewDelegate {
 extension TableViewController: UISheetPresentationControllerDelegate {
     
     func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
-        guard navigationController?.isRootModal() == false else {
+        guard navigationController?.isBottomSheet() == false else {
             return false
         }
         return true
