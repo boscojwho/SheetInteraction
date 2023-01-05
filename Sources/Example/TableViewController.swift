@@ -222,10 +222,6 @@ extension TableViewController: SheetStackInteractionForwardingBehavior {
 extension TableViewController: SheetInteractionDelegate {
     
     func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionChange: SheetInteraction.Change) {
-//        guard presentedViewController == nil else {
-//            return
-//        }
-        
         activeDetent = interactionChange.approaching.detentIdentifier
         
         /// Update/animate UI elements based on sheet's total percentage animated from smallest detent to largest detent, where 0 is the smallest detent.
@@ -245,10 +241,6 @@ extension TableViewController: SheetInteractionDelegate {
     }
     
     func sheetInteractionWillEnd(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, targetPercentageTotal: CGFloat, onTouchUpPercentageTotal: CGFloat) {
-//        guard presentedViewController == nil else {
-//            return
-//        }
-        
         activeDetent = targetDetentInfo.detentIdentifier
         
         detailsButton.alpha = targetPercentageTotal
@@ -272,10 +264,6 @@ extension TableViewController: SheetInteractionDelegate {
     }
     
     func sheetInteractionDidEnd(sheetInteraction: SheetInteraction, selectedDetentIdentifier: UISheetPresentationController.Detent.Identifier) {
-//        guard presentedViewController == nil else {
-//            return
-//        }
-        
         activeDetent = selectedDetentIdentifier
         
         detailsButton.alpha = sheetInteraction.totalPercentageAnimated()
