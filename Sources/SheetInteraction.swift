@@ -76,6 +76,9 @@ public final class SheetInteraction: NSObject {
     /// - NOTE: Sheet interaction auto-assigns its delegate as the forwarding delegate.
     public let interactionForwarding: SheetStackInteractionForwarding = .init()
     
+    /// Assign a navigation forwarding delegate on a sheet managed by a navigation controller.
+    public var navigationForwardingDelegate: SheetInteractionNavigationForwarding?
+    
     /// Controller managing a modal sheet stack.
     public let sheetController: UISheetPresentationController
     /// The root view associated with a sheet's `presentedViewController`. Be sure use the view that encompasses all subviews (e.g. navigation bars).

@@ -40,3 +40,13 @@ extension DetailViewController: SheetInteractionDelegate {
         navigationItem.title = selectedDetentIdentifier.rawValue
     }
 }
+
+extension DetailViewController: SheetStackInteractionForwardingBehavior {
+    
+    func shouldHandleSheetInteraction() -> Bool {
+        guard let navigationController else {
+            return true
+        }
+        return navigationController.topViewController == self
+    }
+}

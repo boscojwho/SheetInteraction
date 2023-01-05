@@ -14,7 +14,16 @@ public protocol SheetStackInteractionForwardingBehavior: AnyObject {
     /// Root presenter is the non-modal view controller that originally presented a modal sheet stack.
     ///
     /// In a multi-sheet configuration, this value is only applicable to the top sheet (i.e. ignored for all other sheets).
+    /// This value is not used when forwarding interaction calls on a navigation controller stack.
+    ///
+    /// Default: `true`.
     func shouldNotifyRootPresenter() -> Bool
+}
+
+public extension SheetStackInteractionForwardingBehavior {
+    func shouldNotifyRootPresenter() -> Bool {
+        return true
+    }
 }
 
 /// Defines delegate callback behavior in a modal sheet stack. This behavior becomes important when there are multiple sheets in a stack.
@@ -80,7 +89,11 @@ public final class SheetStackInteractionForwarding {
         notify.forEach {
             switch $0 {
             case .presented(let delegate):
-                delegate?.sheetInteractionBegan(sheetInteraction: originSheetInteraction, at: detentBegan)
+                if let navigationDelegate = delegate?.sheetInteraction()?.navigationForwardingDelegate {
+                    navigationDelegate.sheetInteractionBegan(sheetInteraction: originSheetInteraction, at: detentBegan)
+                } else {
+                    delegate?.sheetInteractionBegan(sheetInteraction: originSheetInteraction, at: detentBegan)
+                }
             case .presenting(let behavior, let interaction):
                 behavior.sheetInteractionBegan(originSheetInteraction: originSheetInteraction, presentedSheetInteraction: interaction, at: detentBegan)
             case .root(let delegate):
@@ -96,7 +109,11 @@ public final class SheetStackInteractionForwarding {
         notify.forEach {
             switch $0 {
             case .presented(let delegate):
-                delegate?.sheetInteractionChanged(sheetInteraction: originSheetInteraction, interactionChange: interactionChange)
+                if let navigationDelegate = delegate?.sheetInteraction()?.navigationForwardingDelegate {
+                    navigationDelegate.sheetInteractionChanged(sheetInteraction: originSheetInteraction, interactionChange: interactionChange)
+                } else {
+                    delegate?.sheetInteractionChanged(sheetInteraction: originSheetInteraction, interactionChange: interactionChange)
+                }
             case .presenting(let behavior, let interaction):
                 behavior.sheetInteractionChanged(originSheetInteraction: originSheetInteraction, presentedSheetInteraction: interaction, interactionChange: interactionChange)
             case .root(let delegate):

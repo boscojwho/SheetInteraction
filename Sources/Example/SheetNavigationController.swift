@@ -23,6 +23,7 @@ class SheetNavigationController: UINavigationController {
         /// Detent observer gesture doesn't need to be exclusive.
         _sheetInteraction.sheetInteractionGesture.delegate = self
         _sheetInteraction.delegate = self
+        _sheetInteraction.navigationForwardingDelegate = .init(navigationController: self)
     }
     
     override func viewDidAppear(_ animated: Bool) {

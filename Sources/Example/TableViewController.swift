@@ -211,6 +211,14 @@ extension TableViewController: UISheetPresentationControllerDelegate {
     }
 }
 
+// MARK: - SheetStackInteractionForwardingBehavior
+extension TableViewController: SheetStackInteractionForwardingBehavior {
+    func shouldHandleSheetInteraction() -> Bool {
+        return true
+    }
+}
+
+// MARK: - SheetInteractionDelegate
 extension TableViewController: SheetInteractionDelegate {
     
     func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionChange: SheetInteraction.Change) {
