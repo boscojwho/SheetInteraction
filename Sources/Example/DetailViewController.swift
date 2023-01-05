@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SheetInteraction_SPM
 
 class DetailViewController: UIViewController {
 
@@ -16,18 +17,26 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        navigationItem.title = {
+            guard let sheet = sheetPresentationController else {
+                return "Non-Sheet"
+            }
+            return sheet.identifierForSelectedDetent().rawValue
+        }()
+    }
+}
+
+extension DetailViewController: SheetInteractionDelegate {
+    
+    func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionChange: SheetInteraction.Change) {
+        navigationItem.title = interactionChange.approaching.detentIdentifier.rawValue
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func sheetInteractionWillEnd(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, targetPercentageTotal: CGFloat, onTouchUpPercentageTotal: CGFloat) {
+        navigationItem.title = targetDetentInfo.detentIdentifier.rawValue
     }
-    */
-
+    
+    func sheetInteractionDidEnd(sheetInteraction: SheetInteraction, selectedDetentIdentifier: UISheetPresentationController.Detent.Identifier) {
+        navigationItem.title = selectedDetentIdentifier.rawValue
+    }
 }
