@@ -222,9 +222,9 @@ extension TableViewController: SheetStackInteractionForwardingBehavior {
 extension TableViewController: SheetInteractionDelegate {
     
     func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionChange: SheetInteraction.Change) {
-        guard presentedViewController == nil else {
-            return
-        }
+//        guard presentedViewController == nil else {
+//            return
+//        }
         
         activeDetent = interactionChange.approaching.detentIdentifier
         
@@ -245,9 +245,9 @@ extension TableViewController: SheetInteractionDelegate {
     }
     
     func sheetInteractionWillEnd(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, targetPercentageTotal: CGFloat, onTouchUpPercentageTotal: CGFloat) {
-        guard presentedViewController == nil else {
-            return
-        }
+//        guard presentedViewController == nil else {
+//            return
+//        }
         
         activeDetent = targetDetentInfo.detentIdentifier
         
@@ -272,12 +272,8 @@ extension TableViewController: SheetInteractionDelegate {
     }
     
     func sheetInteractionDidEnd(sheetInteraction: SheetInteraction, selectedDetentIdentifier: UISheetPresentationController.Detent.Identifier) {
-        guard presentedViewController == nil else {
-            return
-        }
-        
-//        if let delegate = presentingViewController as? SheetInteractionDelegate {
-//            delegate.sheetInteractionDidEnd(sheetInteraction: sheetInteraction, selectedDetentIdentifier: selectedDetentIdentifier)
+//        guard presentedViewController == nil else {
+//            return
 //        }
         
         activeDetent = selectedDetentIdentifier
