@@ -225,10 +225,6 @@ extension TableViewController: SheetInteractionDelegate {
         guard presentedViewController == nil else {
             return
         }
-            
-        if let delegate = presentingViewController as? SheetInteractionDelegate {
-            delegate.sheetInteractionChanged(sheetInteraction: sheetInteraction, interactionChange: interactionChange)
-        }
         
         activeDetent = interactionChange.approaching.detentIdentifier
         
@@ -251,10 +247,6 @@ extension TableViewController: SheetInteractionDelegate {
     func sheetInteractionWillEnd(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, targetPercentageTotal: CGFloat, onTouchUpPercentageTotal: CGFloat) {
         guard presentedViewController == nil else {
             return
-        }
-        
-        if let delegate = presentingViewController as? SheetInteractionDelegate {
-            delegate.sheetInteractionWillEnd(sheetInteraction: sheetInteraction, targetDetentInfo: targetDetentInfo, targetPercentageTotal: targetPercentageTotal, onTouchUpPercentageTotal: onTouchUpPercentageTotal)
         }
         
         activeDetent = targetDetentInfo.detentIdentifier
@@ -284,9 +276,9 @@ extension TableViewController: SheetInteractionDelegate {
             return
         }
         
-        if let delegate = presentingViewController as? SheetInteractionDelegate {
-            delegate.sheetInteractionDidEnd(sheetInteraction: sheetInteraction, selectedDetentIdentifier: selectedDetentIdentifier)
-        }
+//        if let delegate = presentingViewController as? SheetInteractionDelegate {
+//            delegate.sheetInteractionDidEnd(sheetInteraction: sheetInteraction, selectedDetentIdentifier: selectedDetentIdentifier)
+//        }
         
         activeDetent = selectedDetentIdentifier
         

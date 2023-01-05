@@ -314,7 +314,7 @@ public final class SheetInteraction: NSObject {
         Self.logger.debug("total percentage [height]: \(totalPercentageUsingHeight), [yOrigin]: \(totalPercentageUsingOriginOnTouchUp) --> targetting: \(totalPercentageUsingOriginTargetting) (\(targetDetentIdentifier.rawValue))")
         
         isEnding = true
-        delegate?.sheetInteractionWillEnd(sheetInteraction: self, targetDetentInfo: .init(
+        interactionForwarding.sheetInteractionWillEnd(originSheetInteraction: self, presentedSheetInteraction: self, targetDetentInfo: .init(
             detentIdentifier: targetDetentIdentifier, distance: targetDistance), targetPercentageTotal: totalPercentageUsingOriginTargetting, onTouchUpPercentageTotal: totalPercentageUsingOriginOnTouchUp)
     }
     
@@ -326,7 +326,7 @@ public final class SheetInteraction: NSObject {
 #endif
         Self.logger.debug("percentage: \(self.totalPercentageAnimated())")
         isEnding = false
-        delegate?.sheetInteractionDidEnd(sheetInteraction: self, selectedDetentIdentifier: identifier)
+        interactionForwarding.sheetInteractionDidEnd(originSheetInteraction: self, presentedSheetInteraction: self, identifier: identifier)
     }
 }
 

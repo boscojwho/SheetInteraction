@@ -131,7 +131,11 @@ public final class SheetStackInteractionForwarding {
             case .presenting(let behavior, let interaction):
                 behavior.sheetInteractionWillEnd(originSheetInteraction: originSheetInteraction, presentedSheetInteraction: interaction, targetDetentInfo: targetDetentInfo, targetPercentageTotal: targetPercentageTotal, onTouchUpPercentageTotal: onTouchUpPercentageTotal)
             case .presented(let delegate):
-                delegate?.sheetInteractionWillEnd(sheetInteraction: originSheetInteraction, targetDetentInfo: targetDetentInfo, targetPercentageTotal: targetPercentageTotal, onTouchUpPercentageTotal: onTouchUpPercentageTotal)
+                if let navigationDelegate = delegate?.sheetInteraction()?.navigationForwardingDelegate {
+                    navigationDelegate.sheetInteractionWillEnd(sheetInteraction: originSheetInteraction, targetDetentInfo: targetDetentInfo, targetPercentageTotal: targetPercentageTotal, onTouchUpPercentageTotal: onTouchUpPercentageTotal)
+                } else {
+                    delegate?.sheetInteractionWillEnd(sheetInteraction: originSheetInteraction, targetDetentInfo: targetDetentInfo, targetPercentageTotal: targetPercentageTotal, onTouchUpPercentageTotal: onTouchUpPercentageTotal)
+                }
             case .root(let delegate):
                 delegate?.sheetInteractionWillEnd(sheetInteraction: originSheetInteraction, targetDetentInfo: targetDetentInfo, targetPercentageTotal: targetPercentageTotal, onTouchUpPercentageTotal: onTouchUpPercentageTotal)
             case .none:
@@ -147,7 +151,11 @@ public final class SheetStackInteractionForwarding {
             case .presenting(let behavior, let interaction):
                 behavior.sheetInteractionDidEnd(originSheetInteraction: originSheetInteraction, presentedSheetInteraction: interaction, identifier: identifier)
             case .presented(let delegate):
-                delegate?.sheetInteractionDidEnd(sheetInteraction: originSheetInteraction, selectedDetentIdentifier: identifier)
+                if let navigationDelegate = delegate?.sheetInteraction()?.navigationForwardingDelegate {
+                    navigationDelegate.sheetInteractionDidEnd(sheetInteraction: originSheetInteraction, selectedDetentIdentifier: identifier)
+                } else {
+                    delegate?.sheetInteractionDidEnd(sheetInteraction: originSheetInteraction, selectedDetentIdentifier: identifier)
+                }
             case .root(let delegate):
                 delegate?.sheetInteractionDidEnd(sheetInteraction: originSheetInteraction, selectedDetentIdentifier: identifier)
             case .none:
