@@ -86,7 +86,8 @@ public final class SheetInteraction: NSObject {
     public private(set) lazy var sheetWindow: UIWindow = sheetView.window!
     public private(set) lazy var sheetLayoutInfo: SheetLayoutInfo = .init(sheet: sheetController, sheetView: sheetView, window: sheetWindow)
         
-    public init(sheet: UISheetPresentationController, sheetView: UIView) {
+    /// - Parameter useDefaultNavigationForwardingDelegate: If `true`, a `navigationForwardingDelegate` will be initialized for you.
+    public init(sheet: UISheetPresentationController, sheetView: UIView, useDefaultNavigationForwardingDelegate: Bool = true) {
         self.sheetController = sheet
         self.sheetView = sheetView
         
@@ -94,6 +95,10 @@ public final class SheetInteraction: NSObject {
         
         sheetController.delegate = self
         sheetView.addGestureRecognizer(sheetInteractionGesture)
+        
+        if useDefaultNavigationForwardingDelegate == true, let navigationController = sheet.presentedViewController as? UINavigationController {
+            navigationForwardingDelegate = .init(navigationController: navigationController)
+        }
     }
     
     public var debugLabel: String = ""
