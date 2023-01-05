@@ -86,19 +86,26 @@ public final class SheetInteraction: NSObject {
     public private(set) lazy var sheetWindow: UIWindow = sheetView.window!
     public private(set) lazy var sheetLayoutInfo: SheetLayoutInfo = .init(sheet: sheetController, sheetView: sheetView, window: sheetWindow)
         
+    /// - Parameter isSheetPresentationControllerDelegate: If `true`, this `SheetInteraction` becomes the sheet's delegate. If `false`, your delegate **must** forward `sheetPresentationControllerDidChangeSelectedDetentIdentifier(...)` call to the corresponding `SheetInteraction` as early as possible.
     /// - Parameter useDefaultNavigationForwardingDelegate: If `true`, a `navigationForwardingDelegate` will be initialized for you.
-    public init(sheet: UISheetPresentationController, sheetView: UIView, useDefaultNavigationForwardingDelegate: Bool = true) {
-        self.sheetController = sheet
-        self.sheetView = sheetView
-        
-        super.init()
-        
-        sheetController.delegate = self
-        sheetView.addGestureRecognizer(sheetInteractionGesture)
-        
-        if useDefaultNavigationForwardingDelegate == true, let navigationController = sheet.presentedViewController as? UINavigationController {
-            navigationForwardingDelegate = .init(navigationController: navigationController)
-        }
+    public init(
+        sheet: UISheetPresentationController, sheetView: UIView,
+        isSheetPresentationControllerDelegate: Bool = true,
+        useDefaultNavigationForwardingDelegate: Bool = true) {
+            self.sheetController = sheet
+            self.sheetView = sheetView
+            
+            super.init()
+            
+            if isSheetPresentationControllerDelegate == true {
+                sheetController.delegate = self
+            }
+            
+            sheetView.addGestureRecognizer(sheetInteractionGesture)
+            
+            if useDefaultNavigationForwardingDelegate == true, let navigationController = sheet.presentedViewController as? UINavigationController {
+                navigationForwardingDelegate = .init(navigationController: navigationController)
+            }
     }
     
     public var debugLabel: String = ""
