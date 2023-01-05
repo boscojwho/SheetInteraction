@@ -199,6 +199,10 @@ public final class SheetInteraction: NSObject {
         }
         
         let sheetFrameInWindow = sheetLayoutInfo.sheetFrameInWindow
+        guard sheetFrameInWindow .origin != sheetFrameInWindowOnPreviousChange.origin else {
+            Self.logger.debug("Ignore sheet interaction gesture change because sheet frame hasn't acutally changed: User is likely interacting with a descendant scroll view.")
+            return
+        }
         sheetFrameInWindowOnPreviousChange = sheetFrameInWindow
         
         let detents = sheetController.detents
