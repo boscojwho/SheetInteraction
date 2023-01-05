@@ -27,6 +27,9 @@ public extension UIViewController {
         var presenting = presentingViewController
         while presenting != nil {
             presenting = presenting?.presentingViewController
+            if presenting == nil {
+                break
+            }
             level += 1
         }
         return level
