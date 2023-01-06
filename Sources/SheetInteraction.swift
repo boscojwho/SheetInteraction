@@ -328,6 +328,12 @@ public final class SheetInteraction: NSObject {
         isEnding = true
         interactionForwarding.sheetInteractionWillEnd(originSheetInteraction: self, presentedSheetInteraction: self, targetDetentInfo: .init(
             detentIdentifier: targetDetentIdentifier, distance: targetDistance), targetPercentageTotal: totalPercentageUsingOriginTargetting, onTouchUpPercentageTotal: totalPercentageUsingOriginOnTouchUp)
+        
+        /// UIKit won't notify `UISheetPresentationController` delegate because selected detent hasn't actually changed.
+        /// We emit this event because the delegate expects a `didEnd` callback. [2023.01]
+        if originDetent == targetDetentIdentifier, sheetController.identifierForSelectedDetent() == targetDetentIdentifier {
+            handleSheetInteractionDidEnd(identifier: targetDetentIdentifier)
+        }
     }
     
     private func handleSheetInteractionDidEnd(identifier: UISheetPresentationController.Detent.Identifier) {
