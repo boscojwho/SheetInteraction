@@ -48,6 +48,15 @@ if targetDetent.greaterThan(.mediumSmall(), in: sheetInteraction.sheetController
 }
 ```
 
+## Limitations
+- `SheetInteraction` cannot be used with UIKit system detents. You must create custom detents using `Detent.custom(...)`. If not, your sheet will crash on `_containerBounds`.
+- Do not set `UISheetPresentationController.prefersGrabberVisible = true`. UIKit's default grabber view steals touches from `SheetInteraction`.
+
+Handling keyboard events:
+- `UISheetPresentationController` does not update `selectedDetentIdentifier` when keyboard (dis)appears via user interaction or programmatic change. This is true when using system detents, custom detents, or a mix of both.
+- To properly respond to sheet detent changes triggered by keyboard (dis)appearance:
+1. ...... 
+
 ## Under-the-Hood
 SheetInteraction adds a pan gesture recognizer to the `sheetView` provided to it. That pan gesture is what enables SheetInteraction to determine when a user begins, changes, and ends interacting with a modal sheet. 
 
