@@ -19,6 +19,7 @@
 		E422B26C293EE0EA009A0802 /* SheetNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B26B293EE0EA009A0802 /* SheetNavigationController.swift */; };
 		E431DB5B294F9E6B0080C4B7 /* SheetInteraction_SPM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4861245294D3DFE00E47E7D /* SheetInteraction_SPM.framework */; };
 		E431DB5C294F9E6B0080C4B7 /* SheetInteraction_SPM.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E4861245294D3DFE00E47E7D /* SheetInteraction_SPM.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E44C484D2969967F009B461C /* SheetInteractionNavigationForwardingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44C484C2969967F009B461C /* SheetInteractionNavigationForwardingTests.swift */; };
 		E4584D80295CF2FB006DF6F5 /* SheetInteractionUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4584D7F295CF2FB006DF6F5 /* SheetInteractionUITests.swift */; };
 		E4584D82295CF2FB006DF6F5 /* SheetInteractionUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4584D81295CF2FB006DF6F5 /* SheetInteractionUITestsLaunchTests.swift */; };
 		E45E44852964FF9B00DE7058 /* SheetHierarchy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45E44842964FF9B00DE7058 /* SheetHierarchy.swift */; };
@@ -32,6 +33,8 @@
 		E4861264294F969700E47E7D /* DetentResolutionContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4169E2B2946F29F00A80641 /* DetentResolutionContext.swift */; };
 		E4861265294F969700E47E7D /* Sheet+LayoutInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BD143729472F42002C7617 /* Sheet+LayoutInfo.swift */; };
 		E4861266294F969700E47E7D /* Sheet+Detents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BD143529472F2B002C7617 /* Sheet+Detents.swift */; };
+		E4D026F52969844200D7401B /* UISheetPresentationControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4D026F42969844200D7401B /* UISheetPresentationControllerTests.swift */; };
+		E4D026F62969844200D7401B /* SheetInteraction_SPM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4861245294D3DFE00E47E7D /* SheetInteraction_SPM.framework */; };
 		E4FDC61B296684E6008996E1 /* SheetNavigationInteraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FDC61A296684E6008996E1 /* SheetNavigationInteraction.swift */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +52,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = E41EBD9D292C79F800FB3402;
 			remoteInfo = SheetInteraction;
+		};
+		E4D026F72969844200D7401B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E41EBD96292C79F800FB3402 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E4861244294D3DFE00E47E7D;
+			remoteInfo = "SheetInteraction-SPM";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -83,6 +93,7 @@
 		E422B26B293EE0EA009A0802 /* SheetNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetNavigationController.swift; sourceTree = "<group>"; };
 		E422B26D29402BE5009A0802 /* PanDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanDirection.swift; sourceTree = "<group>"; };
 		E422B26F294041CD009A0802 /* SheetInteraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetInteraction.swift; sourceTree = "<group>"; };
+		E44C484C2969967F009B461C /* SheetInteractionNavigationForwardingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetInteractionNavigationForwardingTests.swift; sourceTree = "<group>"; };
 		E4584D7D295CF2FB006DF6F5 /* SheetInteractionUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SheetInteractionUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4584D7F295CF2FB006DF6F5 /* SheetInteractionUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetInteractionUITests.swift; sourceTree = "<group>"; };
 		E4584D81295CF2FB006DF6F5 /* SheetInteractionUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetInteractionUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -91,11 +102,13 @@
 		E486123B294D3D4E00E47E7D /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		E4861245294D3DFE00E47E7D /* SheetInteraction_SPM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SheetInteraction_SPM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4861247294D3DFE00E47E7D /* SheetInteraction_SPM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SheetInteraction_SPM.h; sourceTree = "<group>"; };
-		E486124E294D3E4E00E47E7D /* TestSheetTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSheetTest.swift; sourceTree = "<group>"; };
+		E486124E294D3E4E00E47E7D /* SheetInteractionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetInteractionTests.swift; sourceTree = "<group>"; };
 		E4BD143329472EE6002C7617 /* Detent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detent.swift; sourceTree = "<group>"; };
 		E4BD143529472F2B002C7617 /* Sheet+Detents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sheet+Detents.swift"; sourceTree = "<group>"; };
 		E4BD143729472F42002C7617 /* Sheet+LayoutInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sheet+LayoutInfo.swift"; sourceTree = "<group>"; };
 		E4BD1439294730CB002C7617 /* SheetInteraction+Change.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SheetInteraction+Change.swift"; sourceTree = "<group>"; };
+		E4D026F22969844200D7401B /* SheetInteraction_SPMTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SheetInteraction_SPMTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4D026F42969844200D7401B /* UISheetPresentationControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISheetPresentationControllerTests.swift; sourceTree = "<group>"; };
 		E4FDC61A296684E6008996E1 /* SheetNavigationInteraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetNavigationInteraction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -122,6 +135,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E4D026EF2969844200D7401B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4D026F62969844200D7401B /* SheetInteraction_SPM.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -133,6 +154,7 @@
 				E486123D294D3D9100E47E7D /* Tests */,
 				E4861246294D3DFE00E47E7D /* SheetInteraction-SPM */,
 				E4584D7E295CF2FB006DF6F5 /* SheetInteractionUITests */,
+				E4D026F32969844200D7401B /* SheetInteraction_SPMTests */,
 				E41EBD9F292C79F800FB3402 /* Products */,
 				E431DB5A294F9E6B0080C4B7 /* Frameworks */,
 			);
@@ -144,6 +166,7 @@
 				E41EBD9E292C79F800FB3402 /* SheetInteraction.app */,
 				E4861245294D3DFE00E47E7D /* SheetInteraction_SPM.framework */,
 				E4584D7D295CF2FB006DF6F5 /* SheetInteractionUITests.xctest */,
+				E4D026F22969844200D7401B /* SheetInteraction_SPMTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -212,7 +235,7 @@
 		E486123F294D3DAE00E47E7D /* SheetInteractionTests */ = {
 			isa = PBXGroup;
 			children = (
-				E486124E294D3E4E00E47E7D /* TestSheetTest.swift */,
+				E486124E294D3E4E00E47E7D /* SheetInteractionTests.swift */,
 			);
 			path = SheetInteractionTests;
 			sourceTree = "<group>";
@@ -223,6 +246,15 @@
 				E4861247294D3DFE00E47E7D /* SheetInteraction_SPM.h */,
 			);
 			path = "SheetInteraction-SPM";
+			sourceTree = "<group>";
+		};
+		E4D026F32969844200D7401B /* SheetInteraction_SPMTests */ = {
+			isa = PBXGroup;
+			children = (
+				E44C484C2969967F009B461C /* SheetInteractionNavigationForwardingTests.swift */,
+				E4D026F42969844200D7401B /* UISheetPresentationControllerTests.swift */,
+			);
+			path = SheetInteraction_SPMTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -294,6 +326,24 @@
 			productReference = E4861245294D3DFE00E47E7D /* SheetInteraction_SPM.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		E4D026F12969844200D7401B /* SheetInteraction_SPMTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E4D026FB2969844200D7401B /* Build configuration list for PBXNativeTarget "SheetInteraction_SPMTests" */;
+			buildPhases = (
+				E4D026EE2969844200D7401B /* Sources */,
+				E4D026EF2969844200D7401B /* Frameworks */,
+				E4D026F02969844200D7401B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E4D026F82969844200D7401B /* PBXTargetDependency */,
+			);
+			name = SheetInteraction_SPMTests;
+			productName = SheetInteraction_SPMTests;
+			productReference = E4D026F22969844200D7401B /* SheetInteraction_SPMTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -302,7 +352,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1420;
-				LastUpgradeCheck = 1410;
+				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					E41EBD9D292C79F800FB3402 = {
 						CreatedOnToolsVersion = 14.1;
@@ -314,6 +364,9 @@
 					E4861244294D3DFE00E47E7D = {
 						CreatedOnToolsVersion = 14.2;
 						LastSwiftMigration = 1420;
+					};
+					E4D026F12969844200D7401B = {
+						CreatedOnToolsVersion = 14.2;
 					};
 				};
 			};
@@ -333,6 +386,7 @@
 				E41EBD9D292C79F800FB3402 /* SheetInteraction */,
 				E4861244294D3DFE00E47E7D /* SheetInteraction-SPM */,
 				E4584D7C295CF2FB006DF6F5 /* SheetInteractionUITests */,
+				E4D026F12969844200D7401B /* SheetInteraction_SPMTests */,
 			);
 		};
 /* End PBXProject section */
@@ -356,6 +410,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		E4861243294D3DFE00E47E7D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E4D026F02969844200D7401B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -406,6 +467,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E4D026EE2969844200D7401B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4D026F52969844200D7401B /* UISheetPresentationControllerTests.swift in Sources */,
+				E44C484D2969967F009B461C /* SheetInteractionNavigationForwardingTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -418,6 +488,11 @@
 			isa = PBXTargetDependency;
 			target = E41EBD9D292C79F800FB3402 /* SheetInteraction */;
 			targetProxy = E4584D83295CF2FB006DF6F5 /* PBXContainerItemProxy */;
+		};
+		E4D026F82969844200D7401B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E4861244294D3DFE00E47E7D /* SheetInteraction-SPM */;
+			targetProxy = E4D026F72969844200D7401B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -655,6 +730,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 4G96725NK5;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -694,6 +770,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 4G96725NK5;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -723,6 +800,46 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		E4D026F92969844200D7401B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4G96725NK5;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "boscoho.SheetInteraction-SPMTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E4D026FA2969844200D7401B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4G96725NK5;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "boscoho.SheetInteraction-SPMTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -761,6 +878,15 @@
 			buildConfigurations = (
 				E486124A294D3DFE00E47E7D /* Debug */,
 				E486124B294D3DFE00E47E7D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E4D026FB2969844200D7401B /* Build configuration list for PBXNativeTarget "SheetInteraction_SPMTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E4D026F92969844200D7401B /* Debug */,
+				E4D026FA2969844200D7401B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
