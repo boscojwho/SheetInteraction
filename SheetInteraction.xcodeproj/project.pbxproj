@@ -33,6 +33,7 @@
 		E4861264294F969700E47E7D /* DetentResolutionContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4169E2B2946F29F00A80641 /* DetentResolutionContext.swift */; };
 		E4861265294F969700E47E7D /* Sheet+LayoutInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BD143729472F42002C7617 /* Sheet+LayoutInfo.swift */; };
 		E4861266294F969700E47E7D /* Sheet+Detents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BD143529472F2B002C7617 /* Sheet+Detents.swift */; };
+		E4B4AC74296A2679007B39F8 /* SheetInteraction+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B4AC73296A2679007B39F8 /* SheetInteraction+Keyboard.swift */; };
 		E4D026F52969844200D7401B /* UISheetPresentationControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4D026F42969844200D7401B /* UISheetPresentationControllerTests.swift */; };
 		E4D026F62969844200D7401B /* SheetInteraction_SPM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4861245294D3DFE00E47E7D /* SheetInteraction_SPM.framework */; };
 		E4FDC61B296684E6008996E1 /* SheetNavigationInteraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FDC61A296684E6008996E1 /* SheetNavigationInteraction.swift */; };
@@ -103,6 +104,7 @@
 		E4861245294D3DFE00E47E7D /* SheetInteraction_SPM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SheetInteraction_SPM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4861247294D3DFE00E47E7D /* SheetInteraction_SPM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SheetInteraction_SPM.h; sourceTree = "<group>"; };
 		E486124E294D3E4E00E47E7D /* SheetInteractionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetInteractionTests.swift; sourceTree = "<group>"; };
+		E4B4AC73296A2679007B39F8 /* SheetInteraction+Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SheetInteraction+Keyboard.swift"; sourceTree = "<group>"; };
 		E4BD143329472EE6002C7617 /* Detent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detent.swift; sourceTree = "<group>"; };
 		E4BD143529472F2B002C7617 /* Sheet+Detents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sheet+Detents.swift"; sourceTree = "<group>"; };
 		E4BD143729472F42002C7617 /* Sheet+LayoutInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sheet+LayoutInfo.swift"; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 				E4169E292946E22400A80641 /* SheetLayoutInfo.swift */,
 				E4BD1439294730CB002C7617 /* SheetInteraction+Change.swift */,
 				E422B26F294041CD009A0802 /* SheetInteraction.swift */,
+				E4B4AC73296A2679007B39F8 /* SheetInteraction+Keyboard.swift */,
 				E45E44862965010D00DE7058 /* SheetStackInteraction.swift */,
 				E4FDC61A296684E6008996E1 /* SheetNavigationInteraction.swift */,
 				E45E44842964FF9B00DE7058 /* SheetHierarchy.swift */,
@@ -457,6 +460,7 @@
 				E4861260294F969700E47E7D /* SheetLayoutInfo.swift in Sources */,
 				E4861263294F969700E47E7D /* PanDirection.swift in Sources */,
 				E45E44872965010D00DE7058 /* SheetStackInteraction.swift in Sources */,
+				E4B4AC74296A2679007B39F8 /* SheetInteraction+Keyboard.swift in Sources */,
 				E4FDC61B296684E6008996E1 /* SheetNavigationInteraction.swift in Sources */,
 				E4861261294F969700E47E7D /* Detent.swift in Sources */,
 				E4861264294F969700E47E7D /* DetentResolutionContext.swift in Sources */,

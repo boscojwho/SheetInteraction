@@ -35,6 +35,22 @@ public protocol SheetInteractionDelegate: AnyObject {
     /// Use this event to finalize any user-interface state and/or appearance when sheet finishes animating to its selected detent.
     /// Called when `UISheetPresentationController` finishes (or is close to) animating to a new selected detent.
     func sheetInteractionDidEnd(sheetInteraction: SheetInteraction, selectedDetentIdentifier: UISheetPresentationController.Detent.Identifier)
+    
+    /**
+     Handling Keyboard Presentation/Dismissal
+     - On keyboard appearance, simply update user interface to match `.large` detent. Sheet will always rest at `.large` while keyboard is on-screen.
+     - On keyboard dismissal, if keyboard is dismissed using a button or other programmatic means (i.e. not via an interactive sheet interaction), make user interface changes in `keyboardWillHide` delegate call.
+     - On keyboard dismissal, if keyboard is dismissed via interactive sheet interaction (i.e. user swipes down), `SheetInteraction` will first call `keyboardWillHide`, then call `.willEnd` and `.didEnd` delegate functions.
+     - When keyboard is presented, sheet will move to `.large` detent, but this change won't be reflected in `UISheetPresentationController.selectedDetentIdentifier`. Instead, that value reflects the detent prior to keyboard appearing on-screen.
+     - After keyboard appears, setting `selectedDetentIdentifier` does not have any effect until keyboard is dismissed.
+     - On keyboard dismissal, sheet will revert to the detent specified in `selectedDetentIdentifier`, including any changes made while keyboard was on-screen.
+     */
+    
+    /// - Parameter fromDetent: The detent this sheet was at prior to keyboard appearing on this sheet
+    func sheetInteraction(sheetInteraction: SheetInteraction, keyboardWillShow fromDetent: UISheetPresentationController.Detent.Identifier)
+    
+    /// - Parameter toDetent: The detent this sheet will return to when keyboard is dismissed from this sheet.
+    func sheetInteraction(sheetInteraction: SheetInteraction, keyboardWillHide toDetent: UISheetPresentationController.Detent.Identifier)
 }
 
 public extension SheetInteractionDelegate {
@@ -49,6 +65,9 @@ public extension SheetInteractionDelegate {
     func sheetInteractionBegan(sheetInteraction: SheetInteraction, at detent: DetentIdentifier) {
         /// no-op.
     }
+    
+    func sheetInteraction(sheetInteraction: SheetInteraction, keyboardWillShow fromDetent: UISheetPresentationController.Detent.Identifier) {}
+    func sheetInteraction(sheetInteraction: SheetInteraction, keyboardWillHide priorDetent: UISheetPresentationController.Detent.Identifier) {}
 }
 
 /// - NOTE: Ensure *interactionGesture* recognizes simultaneously with all other gestures in `sheetView`.
@@ -79,6 +98,9 @@ public final class SheetInteraction: NSObject {
     /// Assign a navigation forwarding delegate on a sheet managed by a navigation controller.
     public var navigationForwardingDelegate: SheetInteractionNavigationForwarding?
     
+    /// Observes keyboard appearance events.
+    private let keyboardObserver: KeyboardObserver
+    
     /// Controller managing a modal sheet stack.
     public let sheetController: UISheetPresentationController
     /// The root view associated with a sheet's `presentedViewController`. Be sure use the view that encompasses all subviews (e.g. navigation bars).
@@ -94,8 +116,11 @@ public final class SheetInteraction: NSObject {
         useDefaultNavigationForwardingDelegate: Bool = true) {
             self.sheetController = sheet
             self.sheetView = sheetView
+            self.keyboardObserver = .init()
             
             super.init()
+            
+            keyboardObserver.delegate = self
             
             if isSheetPresentationControllerDelegate == true {
                 sheetController.delegate = self
@@ -478,5 +503,40 @@ extension SheetInteraction: UISheetPresentationControllerDelegate {
     
     public func presentationController(_ presentationController: UIPresentationController, willPresentWithAdaptiveStyle style: UIModalPresentationStyle, transitionCoordinator: UIViewControllerTransitionCoordinator?) {
         
+    }
+}
+
+extension SheetInteraction: SheetInteractionKeyboardObserving {
+    
+    func keyboardWillShow() {
+        Self.logger.debug(#function)
+        
+        if let navigationController = sheetController.presentedViewController as? UINavigationController {
+            if let delegate = navigationController.topViewController as? SheetInteractionDelegate {
+                delegate.sheetInteraction(sheetInteraction: self, keyboardWillShow: sheetController.identifierForSelectedDetent())
+            }
+        } else {
+            if let delegate = sheetController.presentedViewController as? SheetInteractionDelegate {
+                delegate.sheetInteraction(sheetInteraction: self, keyboardWillShow: sheetController.identifierForSelectedDetent())
+            }
+        }
+    }
+    
+    func keyboardDidShow() {
+        Self.logger.debug(#function)
+    }
+    
+    func keyboardWillHide() {
+        Self.logger.debug(#function)
+
+        if let navigationController = sheetController.presentedViewController as? UINavigationController {
+            if let delegate = navigationController.topViewController as? SheetInteractionDelegate {
+                delegate.sheetInteraction(sheetInteraction: self, keyboardWillHide: sheetController.identifierForSelectedDetent())
+            }
+        } else {
+            if let delegate = sheetController.presentedViewController as? SheetInteractionDelegate {
+                delegate.sheetInteraction(sheetInteraction: self, keyboardWillHide: sheetController.identifierForSelectedDetent())
+            }
+        }
     }
 }

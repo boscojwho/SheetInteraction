@@ -140,22 +140,38 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Info"/>
                                 <connections>
-                                    <action selector="showInfo:" destination="rup-mx-Xt3" eventType="touchUpInside" id="bsJ-80-Gzr"/>
+                                    <action selector="stopEditingTextField:" destination="rup-mx-Xt3" eventType="touchUpInside" id="JhI-Cl-CeG"/>
                                 </connections>
                             </button>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Show system keyboard..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PL7-U4-4tz">
+                                <rect key="frame" x="16" y="56" width="361" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="Qug-e7-AiE"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="1sh-Ur-RWV"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="1sh-Ur-RWV" firstAttribute="bottom" secondItem="PL7-U4-4tz" secondAttribute="bottom" constant="693" id="1Tk-Zb-LKp"/>
+                            <constraint firstItem="PL7-U4-4tz" firstAttribute="centerX" secondItem="1sh-Ur-RWV" secondAttribute="centerX" id="GvJ-CP-Lom"/>
                             <constraint firstItem="roH-tQ-hSd" firstAttribute="centerX" secondItem="1sh-Ur-RWV" secondAttribute="centerX" id="MGX-6D-y3K"/>
                             <constraint firstItem="roH-tQ-hSd" firstAttribute="centerY" secondItem="1sh-Ur-RWV" secondAttribute="centerY" id="Quq-Q6-gDA"/>
+                            <constraint firstItem="PL7-U4-4tz" firstAttribute="leading" secondItem="1sh-Ur-RWV" secondAttribute="leading" constant="16" id="Y6D-J2-1gv"/>
+                            <constraint firstItem="PL7-U4-4tz" firstAttribute="top" secondItem="1sh-Ur-RWV" secondAttribute="top" id="iuT-Uh-rsp"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Detail" id="IvL-bh-foI"/>
+                    <connections>
+                        <outlet property="editTextField" destination="roH-tQ-hSd" id="zl8-Uz-Ful"/>
+                        <outlet property="textField" destination="PL7-U4-4tz" id="wNG-Vq-3MH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kch-6Y-ou6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2961" y="25"/>
+            <point key="canvasLocation" x="2959.5419847328244" y="24.647887323943664"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="2OA-qb-4DW">

@@ -25,7 +25,7 @@ extension UIViewController {
                 ._small(), ._medSmall(), ._medium(), ._medLarge(), ._large(), ._full()
             ]
             /// Set undimmed to allow pass-through interaction on presenting view controller.
-            nc.sheetPresentationController?.largestUndimmedDetentIdentifier = .init(rawValue: "large")
+            nc.sheetPresentationController?.largestUndimmedDetentIdentifier = ._large
             nc.sheetPresentationController?.selectedDetentIdentifier = ._medSmall
             present(nc, animated: true, completion: completion)
         } else {
@@ -35,7 +35,7 @@ extension UIViewController {
             vc.sheetPresentationController?.detents = [
                 ._small(), ._medSmall(), ._medium(), ._medLarge(), ._large(), ._full()
             ]
-            vc.sheetPresentationController?.largestUndimmedDetentIdentifier = .init(rawValue: "large")
+            vc.sheetPresentationController?.largestUndimmedDetentIdentifier = ._large
             vc.sheetPresentationController?.selectedDetentIdentifier = ._medSmall
             vc.observesSheetInteraction = true
             present(vc, animated: true, completion: completion)

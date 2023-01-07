@@ -10,8 +10,11 @@ import SheetInteraction_SPM
 
 class DetailViewController: UIViewController {
 
-    @IBAction func showInfo(_ sender: Any) {
-        
+    @IBOutlet weak var textField: UITextField!
+    
+    @IBOutlet weak var editTextField: UIButton!
+    @IBAction func stopEditingTextField(_ sender: Any) {
+        textField.resignFirstResponder()
     }
 
     override func viewDidLoad() {
@@ -23,6 +26,8 @@ class DetailViewController: UIViewController {
             }
             return sheet.identifierForSelectedDetent().rawValue
         }()
+        
+        editTextField.alpha = textField.isFirstResponder ? 1 : 0
     }
 }
 
@@ -33,11 +38,23 @@ extension DetailViewController: SheetInteractionDelegate {
     }
     
     func sheetInteractionWillEnd(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, targetPercentageTotal: CGFloat, onTouchUpPercentageTotal: CGFloat) {
+        print(#function)
         navigationItem.title = targetDetentInfo.detentIdentifier.rawValue
     }
     
     func sheetInteractionDidEnd(sheetInteraction: SheetInteraction, selectedDetentIdentifier: UISheetPresentationController.Detent.Identifier) {
+        print(#function)
         navigationItem.title = selectedDetentIdentifier.rawValue
+    }
+    
+    func sheetInteraction(sheetInteraction: SheetInteraction, keyboardWillShow fromDetent: UISheetPresentationController.Detent.Identifier) {
+        navigationItem.title = fromDetent.rawValue
+        editTextField.alpha = 1
+    }
+    
+    func sheetInteraction(sheetInteraction: SheetInteraction, keyboardWillHide toDetent: UISheetPresentationController.Detent.Identifier) {
+        navigationItem.title = toDetent.rawValue
+        editTextField.alpha = 0
     }
 }
 
