@@ -17,12 +17,18 @@ public final class SheetInteractionNavigationForwarding {
     public init?(navigationController: UINavigationController?) {
         self.navigationController = navigationController
     }
+    
+    /// Forward sheet interaction to these view controllers, from first to last, in that order.
+    private func forwardingViewControllers() -> [UIViewController]? {
+        guard let navigationController else { return nil }
+        return (Array(navigationController.viewControllers.reversed()) + [navigationController])
+    }
 }
 
 extension SheetInteractionNavigationForwarding: SheetInteractionDelegate {
     
     public func sheetInteractionBegan(sheetInteraction: SheetInteraction, at detent: DetentIdentifier) {
-        navigationController?.viewControllers.reversed().forEach {
+        forwardingViewControllers()?.forEach {
             if let delegate = $0 as? SheetInteractionDelegate, let forwardingBehavior = delegate as? SheetStackInteractionForwardingBehavior, forwardingBehavior.shouldHandleSheetInteraction() == true {
                 delegate.sheetInteractionBegan(sheetInteraction: sheetInteraction, at: detent)
             }
@@ -30,7 +36,7 @@ extension SheetInteractionNavigationForwarding: SheetInteractionDelegate {
     }
     
     public func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionChange: SheetInteraction.Change) {
-        navigationController?.viewControllers.reversed().forEach {
+        forwardingViewControllers()?.forEach {
             if let delegate = $0 as? SheetInteractionDelegate, let forwardingBehavior = delegate as? SheetStackInteractionForwardingBehavior, forwardingBehavior.shouldHandleSheetInteraction() == true {
                 delegate.sheetInteractionChanged(sheetInteraction: sheetInteraction, interactionChange: interactionChange)
             }
@@ -38,7 +44,7 @@ extension SheetInteractionNavigationForwarding: SheetInteractionDelegate {
     }
     
     public func sheetInteractionWillEnd(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, targetPercentageTotal: CGFloat, onTouchUpPercentageTotal: CGFloat) {
-        navigationController?.viewControllers.reversed().forEach {
+        forwardingViewControllers()?.forEach {
             if let delegate = $0 as? SheetInteractionDelegate, let forwardingBehavior = delegate as? SheetStackInteractionForwardingBehavior, forwardingBehavior.shouldHandleSheetInteraction() == true {
                 delegate.sheetInteractionWillEnd(sheetInteraction: sheetInteraction, targetDetentInfo: targetDetentInfo, targetPercentageTotal: targetPercentageTotal, onTouchUpPercentageTotal: onTouchUpPercentageTotal)
             }
@@ -46,7 +52,7 @@ extension SheetInteractionNavigationForwarding: SheetInteractionDelegate {
     }
     
     public func sheetInteractionDidEnd(sheetInteraction: SheetInteraction, selectedDetentIdentifier: UISheetPresentationController.Detent.Identifier) {
-        navigationController?.viewControllers.reversed().forEach {
+        forwardingViewControllers()?.forEach {
             if let delegate = $0 as? SheetInteractionDelegate, let forwardingBehavior = delegate as? SheetStackInteractionForwardingBehavior, forwardingBehavior.shouldHandleSheetInteraction() == true {
                 delegate.sheetInteractionDidEnd(sheetInteraction: sheetInteraction, selectedDetentIdentifier: selectedDetentIdentifier)
             }
