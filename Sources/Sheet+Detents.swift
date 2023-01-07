@@ -37,4 +37,11 @@ public extension UISheetPresentationController {
         /// UIKit requires at least one active detent.
         return smallestActive!
     }
+    
+    func largestActiveDetent() -> Detent {
+        let context = Context(containerTraitCollection: traitCollection, maximumDetentValue: layoutInfo.maximumDetentValue())
+        let largestActive = detents.last { $0.resolvedValue(in: context) != nil }
+        /// UIKit requires at least one active detent.
+        return largestActive!
+    }
 }

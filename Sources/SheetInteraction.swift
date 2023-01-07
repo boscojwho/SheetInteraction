@@ -142,7 +142,8 @@ public final class SheetInteraction: NSObject {
         }
     }
     
-    public func totalPercentageAnimated() -> CGFloat {
+    /// - Parameter relativeToSafeArea: If `true`, this function returns `1` when top edge of sheet is at the top of its window's safe area. If sheet doesn't have a detent configured with `maximumDetentValue * 1`, then `1` will never be returned. Set to `false` to have `totalPercentage` be bounded by the smallest/largest active detents.
+    public func totalPercentageAnimated(relativeToSafeArea: Bool = false) -> CGFloat {
         totalPercentageWithOrigin(sheetLayoutInfo: sheetLayoutInfo, sheetFrame: sheetLayoutInfo.sheetFrameInWindow)
     }
     
@@ -385,7 +386,8 @@ private extension SheetInteraction {
     /// Positive values indicate overscrolling past the largest detent.
     /// - Parameter sheetLayoutInfo: Use the values in this layout info to calculate the total percentage.
     /// - Parameter sheetFrame: If `nil`, uses the current sheet frame from `sheetLayoutInfo`. Specify an alternate value to calculate a, for example, previous total percentage.
-    private func totalPercentageWithOrigin(sheetLayoutInfo: SheetLayoutInfo, sheetFrame: CGRect?) -> CGFloat {
+    /// - Parameter relativeToSafeArea: If `true`, this function returns `1` when top edge of sheet is at the top of its window's safe area. If sheet doesn't have a detent configured with `maximumDetentValue * 1`, then `1` will never be returned. Set to `false` to have `totalPercentage` be bounded by the smallest/largest active detents.
+    private func totalPercentageWithOrigin(sheetLayoutInfo: SheetLayoutInfo, sheetFrame: CGRect?, relativeToSafeArea: Bool = false) -> CGFloat {
         let context = Context(containerTraitCollection: sheetController.traitCollection, maximumDetentValue: sheetLayoutInfo.maximumDetentValue())
         guard let smallestDetentValue = sheetController.smallestActiveDetent().resolvedValue(in: context) else {
             #if DEBUG
@@ -394,9 +396,28 @@ private extension SheetInteraction {
             return 0
             #endif
         }
+        guard let largestDetentValue = sheetController.largestActiveDetent().resolvedValue(in: context) else {
+#if DEBUG
+            fatalError("Illegal state: An active detent cannot have a `resolvedValue == nil`.")
+#else
+            return 0
+#endif
+        }
         let sheetFrame = sheetFrame ?? sheetLayoutInfo.sheetFrameInWindow
-        let maxDetentValue = sheetLayoutInfo.maximumDetentValue()
-        let y = sheetFrame.origin.y - sheetLayoutInfo.topSheetInsets.top
+        let maxDetentValue = {
+            if relativeToSafeArea == true {
+                return sheetLayoutInfo.maximumDetentValue()
+            } else {
+                return largestDetentValue
+            }
+        }()
+        let y = {
+            if relativeToSafeArea == true {
+                return sheetFrame.origin.y - sheetLayoutInfo.topSheetInsets.top
+            } else {
+                return sheetFrame.origin.y - (sheetLayoutInfo.maximumDetentValue() - largestDetentValue) - sheetLayoutInfo.topSheetInsets.top
+            }
+        }()
         /// Subtract value of smallest detent so that we get a range between 0-1, where 0 corresponds to smallest, and 1 to largest detent.
         /// This method means the in-between values will not correspond to any multiples specified in a detent's resolver closure (e.g. context.maximumDetentValue `*` 0.5).
         let p = y/(maxDetentValue-smallestDetentValue)
