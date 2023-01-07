@@ -274,11 +274,22 @@ public final class SheetInteraction: NSObject {
             let precedingHeight = precedingDetent.resolvedValue(in: context)!
             let approachingDetent = sheetController.detent(withIdentifier: approaching.identifier)!
             let approachingHeight = approachingDetent.resolvedValue(in: context)!
+            guard precedingDetent.identifier != approachingDetent.identifier else {
+                #if DEBUG
+                Self.logger.debug("Overscrolling...")
+                #endif
+                return -1
+            }
             let d = abs(precedingHeight - approachingHeight)
             let percentage = 1 - (approachingDistance / d)
             return percentage
         }()
-        let percentagePreceding = 1 - percentageApproaching
+        let percentagePreceding: CGFloat = {
+            guard precedingDetent != approachingDetent else{
+                return -1
+            }
+            return 1 - percentageApproaching
+        }()
         Self.logger.debug("percentage: \(percentageApproaching)")
         
         let totalPercentageUsingHeight = sheetHeight/sheetLayoutInfo.maximumDetentValue()
@@ -289,6 +300,7 @@ public final class SheetInteraction: NSObject {
         
         let changeInfo = Change(
             isMinimizing: isMinimizing,
+            isOverscrolling: precedingDetent == approachingDetent,
             closest: .init(
                 detentIdentifier: closestDetent, distance: closestDistance),
             approaching: .init(

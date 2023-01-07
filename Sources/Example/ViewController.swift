@@ -169,13 +169,10 @@ extension ViewController: SheetInteractionDelegate {
     
     func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionChange: SheetInteraction.Change) {
         let value = {
-            if interactionChange.percentageApproaching.isInfinite {
+            guard interactionChange.isOverscrolling == false else {
                 return interactionChange.percentageTotal
-            } else if interactionChange.percentageApproaching.isNaN {
-                return interactionChange.percentageTotal
-            } else {
-                return interactionChange.percentageApproaching
             }
+            return interactionChange.percentageApproaching
         }()
         debugLabel.text = "Detent: \(interactionChange.approaching.detentIdentifier.rawValue), %: \(value)"
     }

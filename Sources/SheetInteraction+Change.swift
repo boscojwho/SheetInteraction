@@ -22,6 +22,9 @@ public extension SheetInteraction {
         /// Equivalent to swiping down on a sheet stack.
         public let isMinimizing: Bool
         
+        /// i.e. rubberbanding.
+        public let isOverscrolling: Bool
+        
         /// - Parameter closestDetent: The detent with the shortest vertical distance from the top edge of a sheet stack. Sheet may or may not be moving away from this detent.
         public let closest: Info
         /// - Parameter approachingDetent: This is `nil` if user interaction is stationary. Sheet may or may not end up resting at this detent, depending on sheet interaction velocity.
@@ -35,9 +38,13 @@ public extension SheetInteraction {
         /// - Warning: Currently, this value is not calculated relative to a sheet's `maximumDetentValue`. In other words, `detent.resolutionContext.maximumDetentValue * 0.5` does not equal `percentageTotal = 0.5`.
         public let percentageTotal: CGFloat
         /// Interactive animation progress from preceding detent to approaching detent.
+        ///
+        /// On overscroll, returns `-1`.
         public let percentageApproaching: CGFloat
         /// Interactive animation progress from preceding detent.
         /// This added to `percentageApproaching` equals `1`.
+        ///
+        /// On overscroll, returns `-1`.
         public let percentagePreceding: CGFloat
     }
 }
