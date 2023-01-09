@@ -14,10 +14,6 @@ class SheetNavigationController: UINavigationController {
         sheet: sheetPresentationController!,
         sheetView: view!)
     
-    private var sheetInteractionDelegate: SheetInteractionDelegate? {
-        topViewController as? SheetInteractionDelegate
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         /// Detent observer gesture doesn't need to be exclusive.
@@ -55,21 +51,14 @@ extension SheetNavigationController: SheetInteractionDelegate {
     }
     
     func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionChange: SheetInteraction.Change) {
-        AppDelegate.logger.debug("\(#function) - \n\tclosest: \(interactionChange.closest.detentIdentifier.rawValue), closestDistance: \(interactionChange.closest.distance) \n\tapproaching: \(interactionChange.approaching.detentIdentifier.rawValue), ...Distance: \(interactionChange.approaching.distance), ...Percentage: \(interactionChange.percentageApproaching) \n\tpreceding: \(interactionChange.preceding.detentIdentifier.rawValue), ...Distance: \(interactionChange.preceding.distance), ...Percentage: \(interactionChange.percentagePreceding) \n\tpercentageTotal: \(interactionChange.percentageTotal)")
-        AppDelegate.logger.debug("* * *")
-        
-//        sheetInteractionDelegate?.sheetInteractionChanged(sheetInteraction: sheetInteraction, interactionChange: interactionChange)
     }
     
     func sheetInteractionWillEnd(sheetInteraction: SheetInteraction, targetDetentInfo: SheetInteraction.Change.Info, targetPercentageTotal: CGFloat, onTouchUpPercentageTotal: CGFloat) {
-        AppDelegate.logger.debug("\(#function) - \n\ttarget: \(targetDetentInfo.detentIdentifier.rawValue) \n\tdistance: \(targetDetentInfo.distance)")
-        AppDelegate.logger.debug("* * *")
         
-//        sheetInteractionDelegate?.sheetInteractionWillEnd(sheetInteraction: sheetInteraction, targetDetentInfo: targetDetentInfo, targetPercentageTotal: targetPercentageTotal, onTouchUpPercentageTotal: onTouchUpPercentageTotal)
     }
     
     func sheetInteractionDidEnd(sheetInteraction: SheetInteraction_SPM.SheetInteraction, selectedDetentIdentifier: UISheetPresentationController.Detent.Identifier) {
-//        sheetInteractionDelegate?.sheetInteractionDidEnd(sheetInteraction: sheetInteraction, selectedDetentIdentifier: selectedDetentIdentifier)
+        
     }
 }
 

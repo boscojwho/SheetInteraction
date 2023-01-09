@@ -323,7 +323,7 @@ public final class SheetInteraction: NSObject {
         let totalPercentageUsingOrigin = totalPercentageWithOrigin(sheetLayoutInfo: sheetLayoutInfo, sheetFrame: sheetFrameInWindow)
         Self.logger.debug("total percentage [height]: \(totalPercentageUsingHeight), [yOrigin]: \(totalPercentageUsingOrigin)")
         
-        let changeInfo = Change(
+        let interactionChange = Change(
             isMinimizing: isMinimizing,
             isOverscrolling: precedingDetent == approachingDetent,
             closest: .init(
@@ -335,7 +335,11 @@ public final class SheetInteraction: NSObject {
             percentageTotal: totalPercentageUsingOrigin,
             percentageApproaching: percentageApproaching,
             percentagePreceding: percentagePreceding)
-        interactionForwarding.sheetInteractionChanged(originSheetInteraction: self, presentedSheetInteraction: self, interactionChange: changeInfo)
+        
+        Self.logger.debug("\(#function) - \n\tclosest: \(interactionChange.closest.detentIdentifier.rawValue), closestDistance: \(interactionChange.closest.distance) \n\tapproaching: \(interactionChange.approaching.detentIdentifier.rawValue), ...Distance: \(interactionChange.approaching.distance), ...Percentage: \(interactionChange.percentageApproaching) \n\tpreceding: \(interactionChange.preceding.detentIdentifier.rawValue), ...Distance: \(interactionChange.preceding.distance), ...Percentage: \(interactionChange.percentagePreceding) \n\tpercentageTotal: \(interactionChange.percentageTotal)")
+        Self.logger.debug("* * *")
+        
+        interactionForwarding.sheetInteractionChanged(originSheetInteraction: self, presentedSheetInteraction: self, interactionChange: interactionChange)
     }
     
     private func handleSheetInteractionWillEnd() {
@@ -364,8 +368,12 @@ public final class SheetInteraction: NSObject {
         Self.logger.debug("total percentage [height]: \(totalPercentageUsingHeight), [yOrigin]: \(totalPercentageUsingOriginOnTouchUp) --> targetting: \(totalPercentageUsingOriginTargetting) (\(targetDetentIdentifier.rawValue))")
         
         isEnding = true
-        interactionForwarding.sheetInteractionWillEnd(originSheetInteraction: self, presentedSheetInteraction: self, targetDetentInfo: .init(
-            detentIdentifier: targetDetentIdentifier, distance: targetDistance), targetPercentageTotal: totalPercentageUsingOriginTargetting, onTouchUpPercentageTotal: totalPercentageUsingOriginOnTouchUp)
+        let targetDetentInfo = Change.Info(
+            detentIdentifier: targetDetentIdentifier, distance: targetDistance)
+        interactionForwarding.sheetInteractionWillEnd(originSheetInteraction: self, presentedSheetInteraction: self, targetDetentInfo: targetDetentInfo, targetPercentageTotal: totalPercentageUsingOriginTargetting, onTouchUpPercentageTotal: totalPercentageUsingOriginOnTouchUp)
+        
+        Self.logger.debug("\(#function) - \n\ttarget: \(targetDetentInfo.detentIdentifier.rawValue) \n\tdistance: \(targetDetentInfo.distance)")
+        Self.logger.debug("* * *")
         
         /// UIKit won't notify `UISheetPresentationController` delegate because selected detent hasn't actually changed.
         /// We emit this event because the delegate expects a `didEnd` callback. [2023.01]
