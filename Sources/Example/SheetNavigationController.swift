@@ -50,6 +50,10 @@ extension SheetNavigationController: SheetInteractionDelegate {
         _sheetInteraction.interactionForwarding
     }
     
+    func sheetInteractionBegan(sheetInteraction: SheetInteraction, at detent: DetentIdentifier) {
+        
+    }
+    
     func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionChange: SheetInteraction.Change) {
     }
     

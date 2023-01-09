@@ -33,6 +33,10 @@ class DetailViewController: UIViewController {
 
 extension DetailViewController: SheetInteractionDelegate {
     
+    func sheetInteractionBegan(sheetInteraction: SheetInteraction, at detent: DetentIdentifier) {
+        
+    }
+    
     func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionChange: SheetInteraction.Change) {
         navigationItem.title = interactionChange.approaching.detentIdentifier.rawValue
     }

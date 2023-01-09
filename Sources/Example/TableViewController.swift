@@ -214,6 +214,10 @@ extension TableViewController: SheetStackInteractionForwardingBehavior {
 // MARK: - SheetInteractionDelegate
 extension TableViewController: SheetInteractionDelegate {
     
+    func sheetInteractionBegan(sheetInteraction: SheetInteraction, at detent: DetentIdentifier) {
+        
+    }
+    
     func sheetInteractionChanged(sheetInteraction: SheetInteraction, interactionChange: SheetInteraction.Change) {
         activeDetent = interactionChange.approaching.detentIdentifier
         

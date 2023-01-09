@@ -14,9 +14,11 @@ public typealias DetentIdentifier = UISheetPresentationController.Detent.Identif
 /// Emit sheet interaction events.
 public protocol SheetInteractionDelegate: AnyObject {
     /// Observe events for this sheet interaction.
+    /// Only need to return non-nil from delegate that owns a sheet interaction object.
     func sheetInteraction() -> SheetInteraction?
     
     /// Defines the delegate callback behavior for this sheet stack.
+    /// Only need to return non-nil from delegate that owns a sheet interaction object.
     func sheetStackDelegate() -> SheetStackInteractionForwarding?
     
     // MARK: - Interaction Events
@@ -62,18 +64,10 @@ public protocol SheetInteractionDelegate: AnyObject {
 }
 
 public extension SheetInteractionDelegate {
-    func sheetInteraction() -> SheetInteraction? {
-        nil
-    }
+    func sheetInteraction() -> SheetInteraction? { nil }
+    func sheetStackDelegate() -> SheetStackInteractionForwarding? { nil }
     
-    func sheetStackDelegate() -> SheetStackInteractionForwarding? {
-        nil
-    }
-    
-    func sheetInteractionBegan(sheetInteraction: SheetInteraction, at detent: DetentIdentifier) {
-        /// no-op.
-    }
-    
+    // MARK: Keyboard Events
     func sheetInteraction(sheetInteraction: SheetInteraction, keyboardWillShow fromDetent: UISheetPresentationController.Detent.Identifier) {}
     func sheetInteraction(sheetInteraction: SheetInteraction, keyboardWillHide priorDetent: UISheetPresentationController.Detent.Identifier) {}
 }
