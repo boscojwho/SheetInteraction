@@ -195,13 +195,6 @@ extension TableViewController: UITableViewDelegate {
 
 extension TableViewController: UISheetPresentationControllerDelegate {
     
-    func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
-        guard navigationController?.isBottomSheet() == false else {
-            return false
-        }
-        return true
-    }
-    
     func presentationController(_ presentationController: UIPresentationController, prepare adaptivePresentationController: UIPresentationController) {
         AppDelegate.logger.debug(#function)
     }
@@ -283,6 +276,10 @@ extension TableViewController: SheetInteractionDelegate {
                 segmentedControl.alpha = 0
             }
         }
+    }
+    
+    func sheetInteractionShouldDismiss(sheetInteraction: SheetInteraction) -> Bool {
+        return sheetInteraction.shouldDismiss()
     }
 }
 

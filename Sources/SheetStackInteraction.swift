@@ -163,4 +163,33 @@ public final class SheetStackInteractionForwarding {
             }
         }
     }
+    
+    func sheetInteractionShouldDismiss(originSheetInteraction: SheetInteraction, presentedSheetInteraction: SheetInteraction) -> Bool {
+        if let navigationController = originSheetInteraction.sheetController.presentedViewController as? UINavigationController {
+            /// In a navigation stack:
+            /// `topViewController` should repsond.
+            if let delegate = navigationController.topViewController as? SheetInteractionDelegate {
+                return delegate.sheetInteractionShouldDismiss(sheetInteraction: originSheetInteraction)
+            }
+            SheetInteraction.logger.warning("\(navigationController).topViewController should be configured to respond to `sheetInteractionShouldDismiss()`.")
+            if let delegate = navigationController as? SheetInteractionDelegate {
+                return delegate.sheetInteractionShouldDismiss(sheetInteraction: originSheetInteraction)
+            }
+            SheetInteraction.logger.warning("\(navigationController) should be configured to respond to `sheetInteractionShouldDismiss()`.")
+            if let delegate = originSheetInteraction.delegate {
+                return delegate.sheetInteractionShouldDismiss(sheetInteraction: originSheetInteraction)
+            }
+            SheetInteraction.logger.warning("\(originSheetInteraction) does not have a delegate it can ask whether the current sheet should be dismissed: Fallback to default behaviour...")
+            return originSheetInteraction.shouldDismiss()
+
+        } else {
+            /// Not in a navigation stack:
+            /// Going to asssume `presentedViewController` is the currently visible/interactive sheet.
+            guard let delegate = originSheetInteraction.sheetController.presentedViewController as? SheetInteractionDelegate else {
+                SheetInteraction.logger.warning("\(originSheetInteraction)'s presented sheet does not have a delegate it can ask whether the current sheet should be dismissed: Fallback to default behaviour...")
+                return originSheetInteraction.shouldDismiss()
+            }
+            return delegate.sheetInteractionShouldDismiss(sheetInteraction: originSheetInteraction)
+        }
+    }
 }

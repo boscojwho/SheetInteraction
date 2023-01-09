@@ -58,4 +58,8 @@ extension SheetInteractionNavigationForwarding: SheetInteractionDelegate {
             }
         }
     }
+    
+    public func sheetInteractionShouldDismiss(sheetInteraction: SheetInteraction) -> Bool {
+        return sheetInteraction.shouldDismiss()
+    }
 }

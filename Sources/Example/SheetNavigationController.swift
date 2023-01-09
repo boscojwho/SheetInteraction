@@ -60,12 +60,9 @@ extension SheetNavigationController: SheetInteractionDelegate {
     func sheetInteractionDidEnd(sheetInteraction: SheetInteraction_SPM.SheetInteraction, selectedDetentIdentifier: UISheetPresentationController.Detent.Identifier) {
         
     }
-}
-
-extension SheetNavigationController: UISheetPresentationControllerDelegate {
     
-    func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
-        (topViewController as? UISheetPresentationControllerDelegate)?.presentationControllerShouldDismiss?(presentationController) ?? true
+    func sheetInteractionShouldDismiss(sheetInteraction: SheetInteraction) -> Bool {
+        return sheetInteraction.shouldDismiss()
     }
 }
 

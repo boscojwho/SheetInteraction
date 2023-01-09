@@ -16,9 +16,10 @@ public protocol SheetInteractionDelegate: AnyObject {
     /// Observe events for this sheet interaction.
     func sheetInteraction() -> SheetInteraction?
     
-    /// Return the delegate behavior for this sheet.
+    /// Defines the delegate callback behavior for this sheet stack.
     func sheetStackDelegate() -> SheetStackInteractionForwarding?
     
+    // MARK: - Interaction Events
     /// Optional: Default implementation is no-op.
     func sheetInteractionBegan(sheetInteraction: SheetInteraction, at detent: DetentIdentifier)
     
@@ -36,6 +37,13 @@ public protocol SheetInteractionDelegate: AnyObject {
     /// Called when `UISheetPresentationController` finishes (or is close to) animating to a new selected detent.
     func sheetInteractionDidEnd(sheetInteraction: SheetInteraction, selectedDetentIdentifier: UISheetPresentationController.Detent.Identifier)
     
+    // MARK: - Sheeet Dismissal
+    /// Return `true` to allow sheet to dismiss.
+    ///
+    /// If delegate is a `UIViewController`,  defaults to `false` if delegate is the only sheet in sheet stack.
+    func sheetInteractionShouldDismiss(sheetInteraction: SheetInteraction) -> Bool
+    
+    // MARK: - Keyboard
     /**
      Handling Keyboard Presentation/Dismissal
      - On keyboard appearance, simply update user interface to match `.large` detent. Sheet will always rest at `.large` while keyboard is on-screen.
@@ -394,6 +402,17 @@ public final class SheetInteraction: NSObject {
     }
 }
 
+// MARK: - Sheet Dismissal
+public extension SheetInteraction {
+    /// Provides default sheet dismissal behaviour.
+    ///
+    /// Call this function from `SheetInteractionDelegate.sheetInteractionShouldDismiss()`, if needed.
+    func shouldDismiss() -> Bool {
+        /// Allow dismissal unless sheet is the only one remaining in sheet stack.
+        sheetController.presentedViewController.isSingleSheet() == false
+    }
+}
+
 // MARK: - Layout Info (Detents)
 private extension SheetInteraction {
     
@@ -486,7 +505,7 @@ extension SheetInteraction: UISheetPresentationControllerDelegate {
             Self.logger.debug("presenting: \(sheet.presentingViewController) -> \(sheet.presentingViewController.sheetPresentationController!.identifierForSelectedDetent().rawValue)")
             Self.logger.debug("presented: \(sheet.presentedViewController) -> \(sheet.identifierForSelectedDetent().rawValue)")
         }
-        return (delegate as? UISheetPresentationControllerDelegate)?.presentationControllerShouldDismiss?(presentationController) ?? true
+        return interactionForwarding.sheetInteractionShouldDismiss(originSheetInteraction: self, presentedSheetInteraction: self)
     }
     
     public func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {

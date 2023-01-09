@@ -56,6 +56,13 @@ extension DetailViewController: SheetInteractionDelegate {
         navigationItem.title = toDetent.rawValue
         editTextField.alpha = 0
     }
+    
+    func sheetInteractionShouldDismiss(sheetInteraction: SheetInteraction) -> Bool {
+        if textField.isEditing || textField.isFirstResponder {
+            return false
+        }
+        return sheetInteraction.shouldDismiss()
+    }
 }
 
 extension DetailViewController: SheetStackInteractionForwardingBehavior {

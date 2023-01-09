@@ -184,4 +184,9 @@ extension ViewController: SheetInteractionDelegate {
     func sheetInteractionDidEnd(sheetInteraction: SheetInteraction, selectedDetentIdentifier: UISheetPresentationController.Detent.Identifier) {
         debugLabel.text = "Detent: \(selectedDetentIdentifier.rawValue), %: \(sheetInteraction.totalPercentageAnimated())"
     }
+    
+    func sheetInteractionShouldDismiss(sheetInteraction: SheetInteraction) -> Bool {
+        /// Not part of a sheet stack.
+        return false
+    }
 }
