@@ -182,6 +182,7 @@ public final class SheetInteraction: NSObject {
         return gesture
     }()
     
+    private var sheetFrameInWindowOnBegan: CGRect? = nil
     /// Keep track of previous sheet height so we can use it on sheet interaction end.
     private lazy var sheetFrameInWindowOnPreviousChange: CGRect = sheetLayoutInfo.sheetFrameInWindow
     /// Keep track of previous sheet height so we can use it on sheet interaction end.
@@ -224,6 +225,7 @@ public final class SheetInteraction: NSObject {
     private func handleSheetInteractionBegan() {
         let detentBegan = sheetController.identifierForSelectedDetent()
         originDetent = detentBegan
+        sheetFrameInWindowOnBegan = sheetLayoutInfo.sheetFrameInWindow
         interactionForwarding.sheetInteractionBegan(originSheetInteraction: self, presentedSheetInteraction: self, at: detentBegan)
     }
     
@@ -239,7 +241,13 @@ public final class SheetInteraction: NSObject {
         }
         
         let sheetFrameInWindow = sheetLayoutInfo.sheetFrameInWindow
-        guard sheetFrameInWindow .origin != sheetFrameInWindowOnPreviousChange.origin else {
+        guard sheetFrameInWindow.origin != sheetFrameInWindowOnBegan?.origin else {
+            Self.logger.debug("Ignore sheet interaction gesture change because sheet frame hasn't acutally changed from began state.")
+            return
+        }
+        sheetFrameInWindowOnBegan = nil
+        
+        guard sheetFrameInWindow.origin != sheetFrameInWindowOnPreviousChange.origin else {
             Self.logger.debug("Ignore sheet interaction gesture change because sheet frame hasn't acutally changed: User is likely interacting with a descendant scroll view.")
             return
         }
