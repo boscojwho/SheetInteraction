@@ -189,4 +189,12 @@ extension ViewController: SheetInteractionDelegate {
         /// Not part of a sheet stack.
         return false
     }
+    
+    func sheetInteractionWillDismiss(sheetInteraction: SheetInteraction) {
+        print(#function)
+    }
+    
+    func sheetInteractionDidDismiss(sheetInteraction: SheetInteraction) {
+        print(#function)
+    }
 }

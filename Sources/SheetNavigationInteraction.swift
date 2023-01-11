@@ -62,4 +62,28 @@ extension SheetInteractionNavigationForwarding: SheetInteractionDelegate {
     public func sheetInteractionShouldDismiss(sheetInteraction: SheetInteraction) -> Bool {
         return sheetInteraction.shouldDismiss()
     }
+    
+    public func sheetInteractionWillDismiss(sheetInteraction: SheetInteraction) {
+        forwardingViewControllers()?.forEach {
+            if let delegate = $0 as? SheetInteractionDelegate, let forwardingBehavior = delegate as? SheetStackInteractionForwardingBehavior, forwardingBehavior.shouldHandleSheetInteraction() == true {
+                delegate.sheetInteractionWillDismiss(sheetInteraction: sheetInteraction)
+            }
+        }
+    }
+    
+    public func sheetInteractionDidDismiss(sheetInteraction: SheetInteraction) {
+        forwardingViewControllers()?.forEach {
+            if let delegate = $0 as? SheetInteractionDelegate, let forwardingBehavior = delegate as? SheetStackInteractionForwardingBehavior, forwardingBehavior.shouldHandleSheetInteraction() == true {
+                delegate.sheetInteractionDidDismiss(sheetInteraction: sheetInteraction)
+            }
+        }
+    }
+    
+    public func sheetInteractionDidAttemptToDismiss(sheetInteraction: SheetInteraction) {
+        forwardingViewControllers()?.forEach {
+            if let delegate = $0 as? SheetInteractionDelegate, let forwardingBehavior = delegate as? SheetStackInteractionForwardingBehavior, forwardingBehavior.shouldHandleSheetInteraction() == true {
+                delegate.sheetInteractionDidAttemptToDismiss(sheetInteraction: sheetInteraction)
+            }
+        }
+    }
 }

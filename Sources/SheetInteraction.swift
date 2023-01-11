@@ -45,6 +45,10 @@ public protocol SheetInteractionDelegate: AnyObject {
     /// If delegate is a `UIViewController`,  defaults to `false` if delegate is the only sheet in sheet stack.
     func sheetInteractionShouldDismiss(sheetInteraction: SheetInteraction) -> Bool
     
+    func sheetInteractionWillDismiss(sheetInteraction: SheetInteraction)
+    func sheetInteractionDidDismiss(sheetInteraction: SheetInteraction)
+    func sheetInteractionDidAttemptToDismiss(sheetInteraction: SheetInteraction)
+    
     // MARK: - Keyboard
     /**
      Handling Keyboard Presentation/Dismissal
@@ -70,6 +74,11 @@ public extension SheetInteractionDelegate {
     // MARK: Keyboard Events
     func sheetInteraction(sheetInteraction: SheetInteraction, keyboardWillShow fromDetent: UISheetPresentationController.Detent.Identifier) {}
     func sheetInteraction(sheetInteraction: SheetInteraction, keyboardWillHide priorDetent: UISheetPresentationController.Detent.Identifier) {}
+    
+    // MARK: Sheet Dismissal
+    func sheetInteractionWillDismiss(sheetInteraction: SheetInteraction) {}
+    func sheetInteractionDidDismiss(sheetInteraction: SheetInteraction) {}
+    func sheetInteractionDidAttemptToDismiss(sheetInteraction: SheetInteraction) {}
 }
 
 /// - NOTE: Ensure *interactionGesture* recognizes simultaneously with all other gestures in `sheetView`.
@@ -515,6 +524,7 @@ extension SheetInteraction: UISheetPresentationControllerDelegate {
             Self.logger.debug("presenting: \(sheet.presentingViewController) -> \(sheet.presentingViewController.sheetPresentationController!.identifierForSelectedDetent().rawValue)")
             Self.logger.debug("presented: \(sheet.presentedViewController) -> \(sheet.identifierForSelectedDetent().rawValue)")
         }
+        interactionForwarding.sheetInteractionWillDismiss(originSheetInteraction: self, presentedSheetInteraction: self)
     }
     
     public func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
@@ -522,12 +532,14 @@ extension SheetInteraction: UISheetPresentationControllerDelegate {
             Self.logger.debug("presenting: \(sheet.presentedViewController) -> \(sheet.presentingViewController.sheetPresentationController!.identifierForSelectedDetent().rawValue)")
             Self.logger.debug("presented: \(sheet.presentedViewController) -> \(sheet.identifierForSelectedDetent().rawValue)")
         }
+        interactionForwarding.sheetInteractionDidDismiss(originSheetInteraction: self, presentedSheetInteraction: self)
     }
     
     public func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
         if let sheet = presentationController as? UISheetPresentationController {
             Self.logger.debug("\(sheet.presentedViewController) -> \(sheet.identifierForSelectedDetent().rawValue)")
         }
+        interactionForwarding.sheetInteractionDidAttemptToDismiss(originSheetInteraction: self, presentedSheetInteraction: self)
     }
     
     public func presentationController(_ presentationController: UIPresentationController, willPresentWithAdaptiveStyle style: UIModalPresentationStyle, transitionCoordinator: UIViewControllerTransitionCoordinator?) {

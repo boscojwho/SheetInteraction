@@ -192,4 +192,64 @@ public final class SheetStackInteractionForwarding {
             return delegate.sheetInteractionShouldDismiss(sheetInteraction: originSheetInteraction)
         }
     }
+    
+    func sheetInteractionWillDismiss(originSheetInteraction: SheetInteraction, presentedSheetInteraction: SheetInteraction) {
+        let notify = handleSheetInteraction(originSheetInteraction: originSheetInteraction, presentedSheetInteraction: presentedSheetInteraction)
+        notify.forEach {
+            switch $0 {
+            case .presenting(let behavior, let interaction):
+                behavior.sheetInteractionWillDismiss(originSheetInteraction: originSheetInteraction, presentedSheetInteraction: interaction)
+            case .presented(let delegate):
+                if let navigationDelegate = delegate?.sheetInteraction()?.navigationForwardingDelegate {
+                    navigationDelegate.sheetInteractionWillDismiss(sheetInteraction: originSheetInteraction)
+                } else {
+                    delegate?.sheetInteractionWillDismiss(sheetInteraction: originSheetInteraction)
+                }
+            case .root(let delegate):
+                delegate?.sheetInteractionWillDismiss(sheetInteraction: originSheetInteraction)
+            case .none:
+                break
+            }
+        }
+    }
+    
+    func sheetInteractionDidDismiss(originSheetInteraction: SheetInteraction, presentedSheetInteraction: SheetInteraction) {
+        let notify = handleSheetInteraction(originSheetInteraction: originSheetInteraction, presentedSheetInteraction: presentedSheetInteraction)
+        notify.forEach {
+            switch $0 {
+            case .presenting(let behavior, let interaction):
+                behavior.sheetInteractionDidDismiss(originSheetInteraction: originSheetInteraction, presentedSheetInteraction: interaction)
+            case .presented(let delegate):
+                if let navigationDelegate = delegate?.sheetInteraction()?.navigationForwardingDelegate {
+                    navigationDelegate.sheetInteractionDidDismiss(sheetInteraction: originSheetInteraction)
+                } else {
+                    delegate?.sheetInteractionDidDismiss(sheetInteraction: originSheetInteraction)
+                }
+            case .root(let delegate):
+                delegate?.sheetInteractionDidDismiss(sheetInteraction: originSheetInteraction)
+            case .none:
+                break
+            }
+        }
+    }
+    
+    func sheetInteractionDidAttemptToDismiss(originSheetInteraction: SheetInteraction, presentedSheetInteraction: SheetInteraction) {
+        let notify = handleSheetInteraction(originSheetInteraction: originSheetInteraction, presentedSheetInteraction: presentedSheetInteraction)
+        notify.forEach {
+            switch $0 {
+            case .presenting(let behavior, let interaction):
+                behavior.sheetInteractionDidAttemptToDismiss(originSheetInteraction: originSheetInteraction, presentedSheetInteraction: interaction)
+            case .presented(let delegate):
+                if let navigationDelegate = delegate?.sheetInteraction()?.navigationForwardingDelegate {
+                    navigationDelegate.sheetInteractionDidAttemptToDismiss(sheetInteraction: originSheetInteraction)
+                } else {
+                    delegate?.sheetInteractionDidAttemptToDismiss(sheetInteraction: originSheetInteraction)
+                }
+            case .root(let delegate):
+                delegate?.sheetInteractionDidAttemptToDismiss(sheetInteraction: originSheetInteraction)
+            case .none:
+                break
+            }
+        }
+    }
 }
