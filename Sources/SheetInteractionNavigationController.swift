@@ -65,7 +65,7 @@ extension SheetInteractionNavigationController: SheetInteractionDelegate {
         
     }
     
-    public func sheetInteractionDidEnd(sheetInteraction: SheetInteraction_SPM.SheetInteraction, selectedDetentIdentifier: UISheetPresentationController.Detent.Identifier) {
+    public func sheetInteractionDidEnd(sheetInteraction: SheetInteraction, selectedDetentIdentifier: UISheetPresentationController.Detent.Identifier) {
         
     }
     
