@@ -16,7 +16,7 @@
 		E41EBDAE292C79F900FB3402 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E41EBDAC292C79F900FB3402 /* LaunchScreen.storyboard */; };
 		E422B268293AFE48009A0802 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B267293AFE48009A0802 /* TableViewController.swift */; };
 		E422B26A293D8F35009A0802 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B269293D8F35009A0802 /* DetailViewController.swift */; };
-		E422B26C293EE0EA009A0802 /* SheetNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B26B293EE0EA009A0802 /* SheetNavigationController.swift */; };
+		E42AD1A929CA95010049990C /* SheetInteractionNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E422B26B293EE0EA009A0802 /* SheetInteractionNavigationController.swift */; };
 		E431DB5B294F9E6B0080C4B7 /* SheetInteraction_SPM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4861245294D3DFE00E47E7D /* SheetInteraction_SPM.framework */; };
 		E431DB5C294F9E6B0080C4B7 /* SheetInteraction_SPM.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E4861245294D3DFE00E47E7D /* SheetInteraction_SPM.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E44C484D2969967F009B461C /* SheetInteractionNavigationForwardingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44C484C2969967F009B461C /* SheetInteractionNavigationForwardingTests.swift */; };
@@ -91,7 +91,7 @@
 		E41EBDAF292C79FA00FB3402 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E422B267293AFE48009A0802 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		E422B269293D8F35009A0802 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		E422B26B293EE0EA009A0802 /* SheetNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetNavigationController.swift; sourceTree = "<group>"; };
+		E422B26B293EE0EA009A0802 /* SheetInteractionNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetInteractionNavigationController.swift; sourceTree = "<group>"; };
 		E422B26D29402BE5009A0802 /* PanDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanDirection.swift; sourceTree = "<group>"; };
 		E422B26F294041CD009A0802 /* SheetInteraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetInteraction.swift; sourceTree = "<group>"; };
 		E44C484C2969967F009B461C /* SheetInteractionNavigationForwardingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetInteractionNavigationForwardingTests.swift; sourceTree = "<group>"; };
@@ -180,7 +180,6 @@
 				E41EBDA3292C79F800FB3402 /* SceneDelegate.swift */,
 				E41273A12940AD1200AE1D4A /* Detents.swift */,
 				E41EBDA5292C79F800FB3402 /* ViewController.swift */,
-				E422B26B293EE0EA009A0802 /* SheetNavigationController.swift */,
 				E422B267293AFE48009A0802 /* TableViewController.swift */,
 				E422B269293D8F35009A0802 /* DetailViewController.swift */,
 				E41EBDA7292C79F800FB3402 /* Main.storyboard */,
@@ -230,6 +229,7 @@
 				E45E44862965010D00DE7058 /* SheetStackInteraction.swift */,
 				E4FDC61A296684E6008996E1 /* SheetNavigationInteraction.swift */,
 				E45E44842964FF9B00DE7058 /* SheetHierarchy.swift */,
+				E422B26B293EE0EA009A0802 /* SheetInteractionNavigationController.swift */,
 				E41EBDA0292C79F800FB3402 /* Example */,
 			);
 			path = Sources;
@@ -435,7 +435,6 @@
 			files = (
 				E41273A22940AD1200AE1D4A /* Detents.swift in Sources */,
 				E41EBDA6292C79F800FB3402 /* ViewController.swift in Sources */,
-				E422B26C293EE0EA009A0802 /* SheetNavigationController.swift in Sources */,
 				E41EBDA2292C79F800FB3402 /* AppDelegate.swift in Sources */,
 				E422B26A293D8F35009A0802 /* DetailViewController.swift in Sources */,
 				E41EBDA4292C79F800FB3402 /* SceneDelegate.swift in Sources */,
@@ -466,6 +465,7 @@
 				E4861264294F969700E47E7D /* DetentResolutionContext.swift in Sources */,
 				E4861262294F969700E47E7D /* SheetInteraction.swift in Sources */,
 				E4861266294F969700E47E7D /* Sheet+Detents.swift in Sources */,
+				E42AD1A929CA95010049990C /* SheetInteractionNavigationController.swift in Sources */,
 				E4861265294F969700E47E7D /* Sheet+LayoutInfo.swift in Sources */,
 				E45E44852964FF9B00DE7058 /* SheetHierarchy.swift in Sources */,
 			);

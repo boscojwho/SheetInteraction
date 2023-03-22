@@ -14,7 +14,7 @@ extension UIViewController {
         let vc = storyboard!.instantiateViewController(withIdentifier: "TableViewController") as! TableViewController
         
         if embeddedInNavigationController == true {
-            let nc = SheetNavigationController(rootViewController: vc)
+            let nc = SheetInteractionNavigationController(rootViewController: vc)
             
             nc.modalPresentationStyle = .pageSheet
             /// Use delegate to prevent interactive dismissal while also allowing user interaction outside view controller bounds. [2022.12]
